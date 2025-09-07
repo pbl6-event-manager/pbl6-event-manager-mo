@@ -1,6 +1,6 @@
-import 'package:attendee/utils/constants/app_string_constants.dart';
-import 'package:attendee/utils/extensions/context_extension.dart';
-import 'package:flutter/material.dart';
+import "package:attendee/utils/constants/app_string_constants.dart";
+import "package:attendee/utils/extensions/context_extension.dart";
+import "package:flutter/material.dart";
 
 /// Submit button with loading indicator
 class SubmitButtonWidget extends StatelessWidget {

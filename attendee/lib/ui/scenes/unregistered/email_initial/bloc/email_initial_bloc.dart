@@ -1,10 +1,10 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:attendee/utils/enums/view_status_enum.dart';
-import 'package:attendee/utils/validation_utils.dart';
-import 'package:bloc/bloc.dart';
-import 'package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_event.dart';
-import 'package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart';
+import "package:attendee/utils/enums/view_status_enum.dart";
+import "package:attendee/utils/validation_utils.dart";
+import "package:bloc/bloc.dart";
+import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_event.dart";
+import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart";
 
 class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
   EmailInitialBloc() : super(const EmailInitialState()) {
@@ -62,7 +62,7 @@ class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
       emit(
         state.copyWith(
           status: ViewStatusEnum.failure,
-          errorMessage: 'An error occurred. Please try again.',
+          errorMessage: "An error occurred. Please try again.",
         ),
       );
     }

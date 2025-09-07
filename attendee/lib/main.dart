@@ -1,8 +1,8 @@
-import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart';
-import 'package:attendee/ui/themes/app_theme.dart';
-import 'package:attendee/ui/themes/color_palette.dart';
-import 'package:attendee/ui/themes/text_palette.dart';
-import 'package:flutter/material.dart';
+import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart";
+import "package:attendee/ui/themes/app_theme.dart";
+import "package:attendee/ui/themes/color_palette.dart";
+import "package:attendee/ui/themes/text_palette.dart";
+import "package:flutter/material.dart";
 
 void main() {
   runApp(const MyApp());

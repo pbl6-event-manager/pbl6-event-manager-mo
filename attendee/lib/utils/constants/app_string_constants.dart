@@ -11,22 +11,22 @@ abstract class AppStringConstants {
 final class EmailInitialAppStrings {
   const EmailInitialAppStrings._();
 
-  String get title => 'Sign in or sign up';
+  String get title => "Sign in or sign up";
 
   String get bannerMessage =>
-      'Use the same email address you used to buy your tickets';
+      "Use the same email address you used to buy your tickets";
 }
 
 final class ButtonAppStrings {
   const ButtonAppStrings._();
 
-  String get nextLabel => 'Next';
+  String get nextLabel => "Next";
 }
 
 final class TextFieldAppStrings {
   const TextFieldAppStrings._();
 
-  String get emailPlaceholder => 'Email address';
+  String get emailPlaceholder => "Email address";
 
-  String get emailValidationError => 'Please enter a valid email address';
+  String get emailValidationError => "Please enter a valid email address";
 }
