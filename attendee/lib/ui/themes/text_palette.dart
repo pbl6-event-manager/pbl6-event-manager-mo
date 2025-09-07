@@ -69,7 +69,7 @@ class TextPalette extends ThemeExtension<TextPalette> {
 
     bodyLarge: TextConstants.textLG,
     bodyMedium: TextConstants.textBase,
-    bodySmall: TextConstants.textXS,
+    bodySmall: TextConstants.textSM,
 
     labelLarge: TextConstants.textLGBold,
     labelMedium: TextConstants.textBaseBold,
@@ -80,8 +80,8 @@ class TextPalette extends ThemeExtension<TextPalette> {
       height: 0,
       fontWeight: FontWeight.bold,
     ),
-    caption: TextConstants.textXS,
-    overline: TextConstants.textXS.copyWith(
+    caption: TextConstants.textSM,
+    overline: TextConstants.textSM.copyWith(
       letterSpacing: 1.5,
       textBaseline: TextBaseline.alphabetic,
     ),

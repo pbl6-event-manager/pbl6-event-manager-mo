@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/validation_utils.dart';
 import 'package:bloc/bloc.dart';
@@ -36,9 +37,7 @@ class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
     final emailError = ValidationUtils.validateEmail(state.email.trim());
 
     if (emailError != null && emailError.isNotEmpty) {
-      emit(
-        state.copyWith(emailError: ValidationUtils.validateEmail(state.email)),
-      );
+      emit(state.copyWith(emailError: emailError));
       return;
     }
 
@@ -62,7 +61,7 @@ class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
       emit(
         state.copyWith(
           status: ViewStatusEnum.failure,
-          errorMessage: 'An error occurred. Please try again.',
+          errorMessage: AppStringConstants.genericErrors.tryAgainMessage,
         ),
       );
     }

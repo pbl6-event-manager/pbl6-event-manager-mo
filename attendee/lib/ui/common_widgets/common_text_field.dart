@@ -15,15 +15,24 @@ class CommonTextField extends StatelessWidget {
 
     this.errorText,
     this.onCompleted,
-    this.enabled = true,
+    this.isEnabled = true,
+    this.isSecured = false,
+    this.trailingIcon,
+    this.onTrailingTapped,
   });
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
 
   final String? errorText;
+
+  /// Called when user tapped "Done" on keyboard
   final VoidCallback? onCompleted;
-  final bool enabled;
+  final bool isEnabled;
+  final bool isSecured;
+
+  final Widget? trailingIcon;
+  final VoidCallback? onTrailingTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -54,26 +63,38 @@ class CommonTextField extends StatelessWidget {
     );
   }
 
-  FormField<Object?> _buildTextField(BuildContext context) {
-    return TextFormField(
-      enabled: enabled,
-      onEditingComplete: () {
-        if (onCompleted != null) {
-          onCompleted!();
-        }
-        FocusScope.of(context).unfocus();
-      },
-      keyboardType: keyboardType,
+  Widget _buildTextField(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            obscureText: isSecured,
+            enabled: isEnabled,
+            onEditingComplete: () {
+              if (onCompleted != null) {
+                onCompleted!();
+              }
+              FocusScope.of(context).unfocus();
+            },
+            keyboardType: keyboardType,
 
-      onTapUpOutside: (_) => FocusScope.of(context).unfocus(),
-      controller: controller,
-      decoration: InputDecoration.collapsed(
-        hintText: hintText,
-        hintStyle: context.textPalette.bodyLarge.copyWith(
-          color: context.colorPalette.textPlaceholder,
+            onTapUpOutside: (_) => FocusScope.of(context).unfocus(),
+            controller: controller,
+            decoration: InputDecoration.collapsed(
+              hintText: hintText,
+              hintStyle: context.textPalette.bodyLarge.copyWith(
+                color: context.colorPalette.textPlaceholder,
+              ),
+            ),
+            style: context.textPalette.labelLarge,
+          ),
         ),
-      ),
-      style: context.textPalette.labelLarge,
+        if (trailingIcon != null)
+          GestureDetector(
+            onTap: isEnabled ? onTrailingTapped : null,
+            child: trailingIcon,
+          ),
+      ],
     );
   }
 

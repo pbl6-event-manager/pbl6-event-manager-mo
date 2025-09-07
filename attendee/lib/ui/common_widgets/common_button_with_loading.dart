@@ -1,18 +1,19 @@
-import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 /// Submit button with loading indicator
-class SubmitButtonWidget extends StatelessWidget {
-  const SubmitButtonWidget({
+class CommonButtonWithLoading extends StatelessWidget {
+  const CommonButtonWithLoading({
     super.key,
-    required this.isEnabled,
-    required this.isLoading,
+    this.isEnabled = true,
+    this.isLoading = false,
     required this.onPressed,
+    required this.label,
   });
 
   final bool isEnabled;
   final bool isLoading;
+  final String label;
 
   final VoidCallback onPressed;
 
@@ -29,7 +30,7 @@ class SubmitButtonWidget extends StatelessWidget {
                 color: context.colorPalette.onPrimary,
               ),
             )
-          : Text(AppStringConstants.buttons.nextLabel),
+          : Text(label),
     );
   }
 }

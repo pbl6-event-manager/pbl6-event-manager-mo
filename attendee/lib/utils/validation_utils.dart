@@ -12,4 +12,8 @@ abstract class ValidationUtils {
 
     return null;
   }
+
+  static String? validateGeneralField(String? text) {
+    return (text == null || text.trim().isEmpty) ? AppStringConstants.textFields.fieldIsRequiredValidationError : null;
+  }
 }

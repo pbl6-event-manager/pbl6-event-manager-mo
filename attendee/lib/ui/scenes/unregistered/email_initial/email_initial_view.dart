@@ -1,5 +1,5 @@
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
-import 'package:attendee/ui/scenes/unregistered/email_initial/widgets/submit_button_widget.dart';
+import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
 import 'package:attendee/ui/scenes/unregistered/email_initial/widgets/email_address_banner_widget.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
@@ -98,7 +98,8 @@ class _EmailInitialViewState extends State<EmailInitialView> {
             ),
             BlocBuilder<EmailInitialBloc, EmailInitialState>(
               builder: (context, state) {
-                return SubmitButtonWidget(
+                return CommonButtonWithLoading(
+                  label: AppStringConstants.buttons.nextLabel,
                   isEnabled: state.isButtonEnabled,
                   isLoading: state.isLoading,
                   onPressed: () => bloc.add(EmailSubmitted()),
