@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 
 class ColorPalette extends ThemeExtension<ColorPalette> {
   final Color primary;
+  final Color onPrimary;
   final Color secondary;
   final Color territory;
   final Color branding;
+
+  final Color disabled;
 
   final Color text;
   final Color disabledText;
@@ -30,9 +33,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
 
   const ColorPalette({
     required this.primary,
+    required this.onPrimary,
     required this.secondary,
     required this.territory,
     required this.branding,
+    required this.disabled,
     required this.text,
     required this.disabledText,
     required this.invertedText,
@@ -50,11 +55,13 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
 
   factory ColorPalette.light() => ColorPalette(
     primary: ColorConstants.black,
+    onPrimary: ColorConstants.white,
     secondary: ColorConstants.brandingBlue,
     territory: ColorConstants.brandingBlue,
     branding: ColorConstants.brandingColor,
+    disabled: ColorConstants.grey600,
     text: ColorConstants.black,
-    disabledText: ColorConstants.grey600,
+    disabledText: ColorConstants.white,
     invertedText: ColorConstants.white,
     invertedDisabledText: ColorConstants.grey200,
     textPlaceholder: ColorConstants.grey700,
@@ -79,9 +86,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
 
     return ColorPalette(
       primary: Color.lerp(primary, other.primary, t)!,
+      onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       territory: Color.lerp(territory, other.territory, t)!,
       branding: Color.lerp(branding, other.branding, t)!,
+      disabled: Color.lerp(disabled, other.disabled, t)!,
       text: Color.lerp(text, other.text, t)!,
       disabledText: Color.lerp(disabledText, other.disabledText, t)!,
       invertedText: Color.lerp(invertedText, other.invertedText, t)!,
@@ -109,9 +118,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
   @override
   ColorPalette copyWith({
     Color? primary,
+    Color? onPrimary,
     Color? secondary,
     Color? territory,
     Color? branding,
+    Color? disabled,
     Color? text,
     Color? disabledText,
     Color? invertedText,
@@ -128,9 +139,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
   }) {
     return ColorPalette(
       primary: primary ?? this.primary,
+      onPrimary: onPrimary ?? this.onPrimary,
       secondary: secondary ?? this.secondary,
       territory: territory ?? this.territory,
       branding: branding ?? this.branding,
+      disabled: disabled ?? this.disabled,
       text: text ?? this.text,
       disabledText: disabledText ?? this.disabledText,
       invertedText: invertedText ?? this.invertedText,

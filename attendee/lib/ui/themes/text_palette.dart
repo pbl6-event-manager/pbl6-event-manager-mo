@@ -63,26 +63,23 @@ class TextPalette extends ThemeExtension<TextPalette> {
     headlineMedium: TextConstants.displayLG,
     headlineSmall: TextConstants.displayMD,
 
-    titleLarge: TextConstants.displayMD.copyWith(
-      fontWeight: FontWeight.w700, // Bold
-    ),
-    titleMedium: TextConstants.textBase.copyWith(
-      fontWeight: FontWeight.w600, // SemiBold
-    ),
-    titleSmall: TextConstants.textSM.copyWith(
-      fontWeight: FontWeight.w600, // SemiBold
-    ),
+    titleLarge: TextConstants.displayMD.copyWith(fontWeight: FontWeight.w700),
+    titleMedium: TextConstants.textLG.copyWith(fontWeight: FontWeight.w600),
+    titleSmall: TextConstants.textBase.copyWith(fontWeight: FontWeight.w600),
 
-    bodyLarge: TextConstants.textBase,
-    bodyMedium: TextConstants.textSM,
+    bodyLarge: TextConstants.textLG,
+    bodyMedium: TextConstants.textBase,
     bodySmall: TextConstants.textXS,
 
-    labelLarge: TextConstants.textBaseBold,
-    labelMedium: TextConstants.textSMBold,
-    labelSmall: TextConstants.textXSBold,
+    labelLarge: TextConstants.textLGBold,
+    labelMedium: TextConstants.textBaseBold,
+    labelSmall: TextConstants.textSMBold,
 
     // Additional semantic styles
-    button: TextConstants.textSMSemiBold,
+    button: TextConstants.displayLG.copyWith(
+      height: 0,
+      fontWeight: FontWeight.bold,
+    ),
     caption: TextConstants.textXS,
     overline: TextConstants.textXS.copyWith(
       letterSpacing: 1.5,
@@ -92,6 +89,7 @@ class TextPalette extends ThemeExtension<TextPalette> {
     // Supplementary styles (smaller than body)
     subtitleLarge: TextStyle(
       fontFamily: TextConstants.fontFamilyText,
+      color: colorPalette.textPlaceholder,
       fontSize: 11,
       fontWeight: FontWeight.w400,
       height: 1.4,

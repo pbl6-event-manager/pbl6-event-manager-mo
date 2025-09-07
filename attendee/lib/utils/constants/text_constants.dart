@@ -4,34 +4,34 @@ class TextConstants {
   static const String fontFamilyText = 'Lato';
   static const TextStyle display4XL = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 19,
-    fontWeight: FontWeight.w800,
+    fontSize: 24,
+    fontWeight: FontWeight.w900,
     height: 1.1,
-    letterSpacing: -0.02,
+    letterSpacing: 24 * 0.02,
   );
 
   static const TextStyle display3XL = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 18,
-    fontWeight: FontWeight.w800,
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
     height: 1.1,
-    letterSpacing: -0.02,
+    letterSpacing: 20 * 0.02,
   );
 
   static const TextStyle display2XL = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 17,
-    fontWeight: FontWeight.w700,
+    fontSize: 18,
+    fontWeight: FontWeight.w900,
     height: 1.2,
-    letterSpacing: -0.01,
+    letterSpacing: 18 * 0.01,
   );
 
   static const TextStyle displayXL = TextStyle(
     fontFamily: fontFamilyText,
     fontSize: 16,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     height: 1.2,
-    letterSpacing: -0.01,
+    letterSpacing: 16 * 0.01,
   );
 
   static const TextStyle displayLG = TextStyle(
@@ -48,30 +48,37 @@ class TextConstants {
     height: 1.3,
   );
 
-  static const TextStyle textBase = TextStyle(
+  static const TextStyle textLG = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 13.0,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
-  static const TextStyle textSM = TextStyle(
+  static const TextStyle textBase = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
   static const TextStyle textXS = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: FontWeight.w400,
+    height: 1.5,
+  );
+
+  static const TextStyle textLGBold = TextStyle(
+    fontFamily: fontFamilyText,
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
     height: 1.5,
   );
 
   static const TextStyle textBaseBold = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 13.0,
+    fontSize: 13,
     fontWeight: FontWeight.w700,
     height: 1.5,
   );
@@ -83,16 +90,16 @@ class TextConstants {
     height: 1.5,
   );
 
-  static const TextStyle textXSBold = TextStyle(
+  static const TextStyle textLGLight = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 11,
-    fontWeight: FontWeight.w700,
+    fontSize: 14,
+    fontWeight: FontWeight.w300,
     height: 1.5,
   );
 
   static const TextStyle textBaseLight = TextStyle(
     fontFamily: fontFamilyText,
-    fontSize: 13.0,
+    fontSize: 13,
     fontWeight: FontWeight.w300,
     height: 1.5,
   );
@@ -101,34 +108,6 @@ class TextConstants {
     fontFamily: fontFamilyText,
     fontSize: 12,
     fontWeight: FontWeight.w300,
-    height: 1.5,
-  );
-
-  static const TextStyle textXSLight = TextStyle(
-    fontFamily: fontFamilyText,
-    fontSize: 11,
-    fontWeight: FontWeight.w300,
-    height: 1.5,
-  );
-
-  static const TextStyle textBaseSemiBold = TextStyle(
-    fontFamily: fontFamilyText,
-    fontSize: 13.0,
-    fontWeight: FontWeight.w600,
-    height: 1.5,
-  );
-
-  static const TextStyle textSMSemiBold = TextStyle(
-    fontFamily: fontFamilyText,
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    height: 1.5,
-  );
-
-  static const TextStyle textXSSemiBold = TextStyle(
-    fontFamily: fontFamilyText,
-    fontSize: 11,
-    fontWeight: FontWeight.w600,
     height: 1.5,
   );
 }
