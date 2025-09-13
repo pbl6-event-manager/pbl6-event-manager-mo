@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
@@ -8,7 +9,9 @@ import 'package:attendee/utils/validation_utils.dart';
 import 'package:bloc/bloc.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc() : super(const SignInState.initial()) {
+  final AuthBloc authBloc;
+
+  SignInBloc({required this.authBloc}) : super(const SignInState.initial()) {
     on<PasswordChanged>(_onPasswordChanged);
     on<PasswordCompleted>(_onPasswordCompleted);
     on<PasswordSubmitted>(_onPasswordSubmitted);
@@ -55,6 +58,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       // TODO: Simulate API call - replace with actual authentication logic
       await Future.delayed(const Duration(seconds: 2));
+
+      // Simulate successful authentication with a mock token
+      const mockToken = 'mock_auth_token_sign_in_success';
+      authBloc.add(AuthTokenAdded(mockToken));
 
       emit(state.copyWith(status: ViewStatusEnum.success));
     } catch (e) {

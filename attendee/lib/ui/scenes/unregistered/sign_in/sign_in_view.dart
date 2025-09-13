@@ -1,3 +1,4 @@
+import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
 import 'package:attendee/ui/common_widgets/circular_avatar.dart';
@@ -18,7 +19,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInBloc(),
+      create: (context) => SignInBloc(authBloc: context.read<AuthBloc>()),
 
       // TODO: Call API to get image here
       child: SignInView(email: email, imageUrl: "null"),

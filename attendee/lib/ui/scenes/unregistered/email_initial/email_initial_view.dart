@@ -128,7 +128,7 @@ class _EmailInitialViewState extends State<EmailInitialView> {
 
   void _blocListener(BuildContext context, EmailInitialState state) {
     if (state.status == ViewStatusEnum.success) {
-      context.read<EmailInitialNavigatorImplementation>().goToSignUp(
+      context.read<EmailInitialNavigatorImplementation>().goToSignIn(
         email: emailController.text,
       );
     }
