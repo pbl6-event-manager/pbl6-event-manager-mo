@@ -67,9 +67,9 @@ class TextPalette extends ThemeExtension<TextPalette> {
     titleMedium: TextConstants.textLG.copyWith(fontWeight: FontWeight.w600),
     titleSmall: TextConstants.textBase.copyWith(fontWeight: FontWeight.w600),
 
-    bodyLarge: TextConstants.textLG,
-    bodyMedium: TextConstants.textBase,
-    bodySmall: TextConstants.textSM,
+    bodyLarge: TextConstants.textLG.copyWith(color: colorPalette.text),
+    bodyMedium: TextConstants.textBase.copyWith(color: colorPalette.text),
+    bodySmall: TextConstants.textSM.copyWith(color: colorPalette.text),
 
     labelLarge: TextConstants.textLGBold,
     labelMedium: TextConstants.textBaseBold,

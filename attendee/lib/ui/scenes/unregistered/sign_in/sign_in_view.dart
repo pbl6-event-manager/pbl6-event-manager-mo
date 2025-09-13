@@ -11,10 +11,10 @@ import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SingInPage extends StatelessWidget {
+class SignInPage extends StatelessWidget {
   final String email;
   final String? imageUrl;
-  const SingInPage({super.key, required this.email, required this.imageUrl});
+  const SignInPage({super.key, required this.email, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
