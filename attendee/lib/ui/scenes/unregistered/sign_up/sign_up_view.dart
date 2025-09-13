@@ -1,3 +1,4 @@
+import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/ui/common_widgets/mix_text.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_up/bloc/sign_up_bloc.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_field_list.dart';
@@ -19,7 +20,8 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignUpBloc(email),
+      create: (context) =>
+          SignUpBloc(originalEmail: email, authBloc: context.read<AuthBloc>()),
       child: SignUpView(email: email),
     );
   }

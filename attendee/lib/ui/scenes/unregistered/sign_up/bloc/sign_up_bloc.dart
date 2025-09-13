@@ -1,3 +1,4 @@
+import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/utils/validation_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -9,13 +10,15 @@ part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final String originalEmail;
+  final AuthBloc authBloc;
 
   String? _confirmEmailError;
   String? _firstNameError;
   String? _lastNameError;
   String? _passwordError;
 
-  SignUpBloc(this.originalEmail) : super(SignUpState.initial()) {
+  SignUpBloc({required this.originalEmail, required this.authBloc})
+    : super(SignUpState.initial()) {
     on<FieldChanged>(_onFieldChanged);
     on<FieldCompleted>(_onFieldCompleted);
     on<SubmitButtonTapped>(_onSubmitButtonTapped);
@@ -66,11 +69,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     Emitter<SignUpState> emit,
   ) async {
     emit(state.copyWith(status: ViewStatusEnum.loading));
-    // TODO: Implement actual sign up logic
 
-    await Future.delayed(Duration(seconds: 5));
+    try {
+      // TODO: Implement actual sign up logic
+      await Future.delayed(const Duration(seconds: 3));
 
-    emit(state.copyWith(status: ViewStatusEnum.success));
+      // Simulate successful registration with a mock token
+      const mockToken = 'mock_auth_token_sign_up_success';
+      authBloc.add(AuthTokenAdded(mockToken));
+
+      emit(state.copyWith(status: ViewStatusEnum.success));
+    } catch (e) {
+      emit(state.copyWith(status: ViewStatusEnum.failure));
+    }
   }
 
   void _onPasswordSecuredButtonTapped(
