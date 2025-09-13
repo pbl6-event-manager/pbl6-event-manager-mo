@@ -63,28 +63,25 @@ class TextPalette extends ThemeExtension<TextPalette> {
     headlineMedium: TextConstants.displayLG,
     headlineSmall: TextConstants.displayMD,
 
-    titleLarge: TextConstants.displayMD.copyWith(
-      fontWeight: FontWeight.w700, // Bold
-    ),
-    titleMedium: TextConstants.textBase.copyWith(
-      fontWeight: FontWeight.w600, // SemiBold
-    ),
-    titleSmall: TextConstants.textSM.copyWith(
-      fontWeight: FontWeight.w600, // SemiBold
-    ),
+    titleLarge: TextConstants.displayMD.copyWith(fontWeight: FontWeight.w700),
+    titleMedium: TextConstants.textLG.copyWith(fontWeight: FontWeight.w600),
+    titleSmall: TextConstants.textBase.copyWith(fontWeight: FontWeight.w600),
 
-    bodyLarge: TextConstants.textBase,
-    bodyMedium: TextConstants.textSM,
-    bodySmall: TextConstants.textXS,
+    bodyLarge: TextConstants.textLG.copyWith(color: colorPalette.text),
+    bodyMedium: TextConstants.textBase.copyWith(color: colorPalette.text),
+    bodySmall: TextConstants.textSM.copyWith(color: colorPalette.text),
 
-    labelLarge: TextConstants.textBaseBold,
-    labelMedium: TextConstants.textSMBold,
-    labelSmall: TextConstants.textXSBold,
+    labelLarge: TextConstants.textLGBold,
+    labelMedium: TextConstants.textBaseBold,
+    labelSmall: TextConstants.textSMBold,
 
     // Additional semantic styles
-    button: TextConstants.textSMSemiBold,
-    caption: TextConstants.textXS,
-    overline: TextConstants.textXS.copyWith(
+    button: TextConstants.displayLG.copyWith(
+      height: 0,
+      fontWeight: FontWeight.bold,
+    ),
+    caption: TextConstants.textSM,
+    overline: TextConstants.textSM.copyWith(
       letterSpacing: 1.5,
       textBaseline: TextBaseline.alphabetic,
     ),
@@ -92,6 +89,7 @@ class TextPalette extends ThemeExtension<TextPalette> {
     // Supplementary styles (smaller than body)
     subtitleLarge: TextStyle(
       fontFamily: TextConstants.fontFamilyText,
+      color: colorPalette.textPlaceholder,
       fontSize: 11,
       fontWeight: FontWeight.w400,
       height: 1.4,
