@@ -1,4 +1,4 @@
-import 'package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart';
+import 'package:attendee/application/app_router.dart';
 import 'package:attendee/ui/themes/app_theme.dart';
 import 'package:attendee/ui/themes/color_palette.dart';
 import 'package:attendee/ui/themes/text_palette.dart';
@@ -13,12 +13,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: AppRouter().router,
       theme: AppTheme(
         colorPalette: ColorPalette.light(),
         textPalette: TextPalette.fromPalette(ColorPalette.light()),
       ).themeData,
-      home: SignUpPage(email: "email"),
     );
   }
 }
