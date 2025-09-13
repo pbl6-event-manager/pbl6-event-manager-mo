@@ -12,15 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({super.key, required this.email});
   final String email;
-  final String? imageUrl;
-  const SignInPage({super.key, required this.email, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignInBloc(),
-      child: SignInView(email: email, imageUrl: imageUrl),
+
+      // TODO: Call API to get image here
+      child: SignInView(email: email, imageUrl: "null"),
     );
   }
 }
