@@ -33,14 +33,26 @@ final class AppTheme {
 
         colorScheme: ColorScheme(
           brightness: Brightness.light,
-          primary: colorPalette.branding,
-          onPrimary: colorPalette.invertedText,
+          primary: colorPalette.secondary,
+          onPrimary: colorPalette.onPrimary,
           secondary: colorPalette.secondary,
           onSecondary: colorPalette.invertedText,
           error: colorPalette.error,
           onError: colorPalette.onError,
           surface: colorPalette.surface,
           onSurface: colorPalette.text,
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            disabledBackgroundColor: colorPalette.disabled,
+            disabledForegroundColor: colorPalette.disabledText,
+            textStyle: textPalette.button,
+            backgroundColor: colorPalette.primary,
+            foregroundColor: colorPalette.onPrimary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
         ),
       );
 }

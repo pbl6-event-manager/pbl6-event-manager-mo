@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-abstract class ColorConstants {
+abstract class ColorConstant {
   static const Color brandingColor = Color(0xfff05537);
   static const Color brandingGreen = Color(0xffcefe58);
-  static const Color brandingBlue = Color(0xff3d64ff);
+  static const Color brandingBlue = Color(0xff2263F2);
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff191919);
   static const Color grey100 = Color(0xfff7f6f3);
