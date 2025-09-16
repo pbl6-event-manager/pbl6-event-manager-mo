@@ -36,6 +36,8 @@ class CommonTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       textInputAction: textInputAction,
       style: context.textPalette.bodyLarge,
       validator: validator,

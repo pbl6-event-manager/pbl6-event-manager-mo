@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/application/bloc/auth_bloc.dart';
 import 'package:organizer/ui/common_widgets/common_text_field.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/bloc/sign_in_bloc.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/widgets/error_banner.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/widgets/sign_in_button.dart';
 import 'package:organizer/utils/constants/asset_constant.dart';
 import 'package:organizer/utils/constants/app_string_constant.dart';
-import 'package:organizer/utils/enums/view_status_enum.dart';
+import 'package:organizer/utils/enums/view_status.dart';
 import 'package:organizer/utils/extensions/context_extension.dart';
 import 'package:organizer/utils/validation_util.dart';
 
@@ -16,7 +19,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInBloc(),
+      create: (context) => SignInBloc(authBloc: context.read<AuthBloc>()),
       child: const SignInView(),
     );
   }
@@ -30,7 +33,6 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
-  final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
@@ -42,6 +44,9 @@ class _SignInViewState extends State<SignInView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+
+    _emailController.addListener(() => _onFormChanged());
+    _passwordController.addListener(() => _onFormChanged());
   }
 
   @override
@@ -69,46 +74,44 @@ class _SignInViewState extends State<SignInView> {
                     ErrorBanner(message: state.errorMessage ?? ''),
                     SizedBox(height: 16),
                   ],
-                  Form(
-                    onChanged: _onFormChanged,
-                    autovalidateMode: AutovalidateMode.onUnfocus,
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        CommonTextField(
-                          controller: _emailController,
-                          validator: ValidationUtils.validateEmail,
-                          hintText: AppStringConstant.signIn.emailHint,
-                          label: AppStringConstant.signIn.emailLabel,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        SizedBox(height: 16),
-                        CommonTextField(
-                          controller: _passwordController,
-                          validator: ValidationUtils.validateGeneralField,
-                          hintText: AppStringConstant.signIn.passwordHint,
-                          label: AppStringConstant.signIn.passwordLabel,
-                          isSecured: _isSecured,
-                          onSuffixTapped: _onPasswordSecuredTapped,
+                  Column(
+                    children: [
+                      CommonTextField(
+                        controller: _emailController,
+                        validator: ValidationUtils.validateEmail,
+                        hintText: AppStringConstant.signIn.emailHint,
+                        label: AppStringConstant.signIn.emailLabel,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(height: 16),
+                      CommonTextField(
+                        controller: _passwordController,
+                        validator: ValidationUtils.validateGeneralField,
+                        hintText: AppStringConstant.signIn.passwordHint,
+                        label: AppStringConstant.signIn.passwordLabel,
+                        isSecured: _isSecured,
+                        onSuffixTapped: _onPasswordSecuredTapped,
 
-                          suffixAction: Text(
-                            _isSecured
-                                ? AppStringConstant.signIn.passwordToggleShow
-                                : AppStringConstant.signIn.passwordToggleHide,
-                            style: context.textPalette.labelLarge.copyWith(
-                              color: context.colorPalette.secondary,
-                            ),
+                        suffixAction: Text(
+                          _isSecured
+                              ? AppStringConstant.signIn.passwordToggleShow
+                              : AppStringConstant.signIn.passwordToggleHide,
+                          style: context.textPalette.labelLarge.copyWith(
+                            color: context.colorPalette.secondary,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
 
                   SizedBox(height: 32),
                   SignInButton(
-                    isLoading: state.status == ViewStatusEnum.loading,
-                    onTapped: _isSubmitEnabled ? _onSubmitTapped : null,
+                    isLoading: state.status == ViewStatus.loading,
+                    onTapped:
+                        _isSubmitEnabled && state.status != ViewStatus.loading
+                        ? _onSubmitTapped
+                        : null,
                   ),
 
                   SizedBox(height: 46),
@@ -123,8 +126,13 @@ class _SignInViewState extends State<SignInView> {
 
   void _onFormChanged() {
     setState(() {
-      _isSubmitEnabled = _formKey.currentState!.validate();
+      _isSubmitEnabled =
+          ValidationUtils.validateEmail(_emailController.text) == null &&
+          ValidationUtils.validateGeneralField(_passwordController.text) ==
+              null;
     });
+
+    log(_isSubmitEnabled.toString());
   }
 
   void _onPasswordSecuredTapped() {
