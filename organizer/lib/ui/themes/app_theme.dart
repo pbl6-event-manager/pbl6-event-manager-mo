@@ -9,6 +9,10 @@ final class AppTheme {
 
   AppTheme({required this.colorPalette, required this.textPalette})
     : themeData = ThemeData(
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          color: colorPalette.branding,
+          strokeCap: StrokeCap.round,
+        ),
         extensions: [colorPalette, textPalette],
         scaffoldBackgroundColor: colorPalette.surface,
         dividerColor: colorPalette.divider,

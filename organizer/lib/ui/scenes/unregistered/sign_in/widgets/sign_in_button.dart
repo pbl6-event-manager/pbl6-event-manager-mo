@@ -14,7 +14,7 @@ class SignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isEnabled = onTapped != null;
+    final bool isEnabled = (onTapped != null && isLoading == false);
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
@@ -31,14 +31,20 @@ class SignInButton extends StatelessWidget {
           ),
         ),
         onPressed: onTapped,
-        child: Text(
-          "Sign in",
-          style: context.textPalette.button.copyWith(
-            color: isEnabled
-                ? context.colorPalette.onPrimary
-                : context.colorPalette.disabledText,
-          ),
-        ),
+        child: isLoading
+            ? SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(),
+              )
+            : Text(
+                "Sign in",
+                style: context.textPalette.button.copyWith(
+                  color: isEnabled
+                      ? context.colorPalette.onPrimary
+                      : context.colorPalette.disabledText,
+                ),
+              ),
       ),
     );
   }

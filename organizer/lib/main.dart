@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorPalette: ColorPalette.light(),
         textPalette: TextPalette.fromPalette(ColorPalette.light()),
       ).themeData,
-      home: const SignInView(),
+      home: const SignInPage(),
     );
   }
 }
