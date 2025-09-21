@@ -42,6 +42,15 @@ final class AppTheme {
           surface: colorPalette.surface,
           onSurface: colorPalette.text,
         ),
+        iconButtonTheme: IconButtonThemeData(
+          style: IconButton.styleFrom(
+            padding: EdgeInsets.zero,
+            visualDensity: VisualDensity(
+              vertical: VisualDensity.minimumDensity,
+              horizontal: VisualDensity.minimumDensity,
+            ),
+          ),
+        ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
             disabledBackgroundColor: colorPalette.disabled,

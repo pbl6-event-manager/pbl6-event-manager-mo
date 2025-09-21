@@ -1,4 +1,6 @@
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/ui/common_widgets/event_big_widget.dart";
+import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -31,28 +33,14 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Welcome to Event Manager!",
-              style: context.textPalette.headlineLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              "You are successfully authenticated.",
-              style: context.textPalette.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(const AuthTokenRemoved());
-              },
-              child: const Text("Logout"),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: UIConstants.horizontalPadding,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [EventBigWidget()],
+          ),
         ),
       ),
     );

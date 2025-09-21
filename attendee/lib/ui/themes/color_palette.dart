@@ -57,7 +57,7 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
     primary: ColorConstants.black,
     onPrimary: ColorConstants.white,
     secondary: ColorConstants.brandingBlue,
-    territory: ColorConstants.brandingBlue,
+    territory: ColorConstants.brandingGreen,
     branding: ColorConstants.brandingColor,
     disabled: ColorConstants.grey600,
     text: ColorConstants.black,

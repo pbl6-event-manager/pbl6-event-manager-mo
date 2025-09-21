@@ -5,6 +5,8 @@ abstract class AppStringConstants {
   static GenericErrorAppStrings get genericErrors => GenericErrorAppStrings._();
   static SignInAppStrings get signIn => SignInAppStrings._();
   static SignUpAppStrings get signUp => SignUpAppStrings._();
+
+  static EventAppStrings get event => EventAppStrings._();
 }
 
 final class EmailInitialAppStrings {
@@ -66,4 +68,10 @@ final class SignUpAppStrings {
 
   String get policiesAndTermsLabel =>
       "By signing up or signing in, I accept the <u>Eventbrite Terms of Service</u> and have read the <u>Privacy Policy</u>";
+}
+
+final class EventAppStrings {
+  const EventAppStrings._();
+  String get fewTicketsLeftTag => "FEW TICKETS LEFT";
+  String get freePricing => "Free";
 }
