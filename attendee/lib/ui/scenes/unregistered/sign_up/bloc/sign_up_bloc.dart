@@ -1,12 +1,12 @@
-import 'package:attendee/application/bloc/auth_bloc.dart';
-import 'package:attendee/utils/validation_utils.dart';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/utils/validation_utils.dart";
+import "package:bloc/bloc.dart";
+import "package:equatable/equatable.dart";
 
-import 'package:attendee/utils/enums/view_status_enum.dart';
+import "package:attendee/utils/enums/view_status_enum.dart";
 
-part 'sign_up_event.dart';
-part 'sign_up_state.dart';
+part "sign_up_event.dart";
+part "sign_up_state.dart";
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final String originalEmail;
@@ -75,7 +75,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       await Future.delayed(const Duration(seconds: 3));
 
       // Simulate successful registration with a mock token
-      const mockToken = 'mock_auth_token_sign_up_success';
+      const mockToken = "mock_auth_token_sign_up_success";
       authBloc.add(AuthTokenAdded(mockToken));
 
       emit(state.copyWith(status: ViewStatusEnum.success));

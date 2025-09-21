@@ -1,5 +1,5 @@
-import 'package:attendee/utils/extensions/context_extension.dart';
-import 'package:flutter/material.dart';
+import "package:attendee/utils/extensions/context_extension.dart";
+import "package:flutter/material.dart";
 
 /// A widget takes in a string formatted in HTML style and output the styles accordingly
 ///
@@ -39,7 +39,7 @@ class MixText extends StatelessWidget {
 
 List<TextSpan> _parseText(String text, {required TextStyle underlineStyle}) {
   final spans = <TextSpan>[];
-  final regex = RegExp(r'<u>(.*?)</u>');
+  final regex = RegExp(r"<u>(.*?)</u>");
   int lastEnd = 0;
 
   for (final match in regex.allMatches(text)) {

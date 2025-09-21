@@ -1,7 +1,7 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:attendee/ui/themes/color_palette.dart';
-import 'package:flutter/material.dart';
+import "package:attendee/ui/themes/color_palette.dart";
+import "package:flutter/material.dart";
 
 enum PasswordStrengthEnum {
   none(indicatorValue: 0, label: ""),

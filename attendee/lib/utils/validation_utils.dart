@@ -28,7 +28,7 @@ abstract class ValidationUtils {
     }
 
     if (text != originalText) {
-      return AppStringConstants.textFields.fieldsDoNotMatch('Emails');
+      return AppStringConstants.textFields.fieldsDoNotMatch("Emails");
     }
     return null;
   }
@@ -44,17 +44,17 @@ abstract class ValidationUtils {
     }
 
     // Check for uppercase letters
-    if (!password.contains(RegExp(r'[A-Z]'))) {
+    if (!password.contains(RegExp(r"[A-Z]"))) {
       return AppStringConstants.textFields.passwordValidationError;
     }
 
     // Check for lowercase letters
-    if (!password.contains(RegExp(r'[a-z]'))) {
+    if (!password.contains(RegExp(r"[a-z]"))) {
       return AppStringConstants.textFields.passwordValidationError;
     }
 
     // Check for numbers
-    if (!password.contains(RegExp(r'[0-9]'))) {
+    if (!password.contains(RegExp(r"[0-9]"))) {
       return AppStringConstants.textFields.passwordValidationError;
     }
 
