@@ -51,6 +51,7 @@ class TextConstants {
   static const TextStyle textLG = TextStyle(
     fontFamily: fontFamilyText,
     fontSize: 14,
+    letterSpacing: 0.2,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
@@ -58,13 +59,15 @@ class TextConstants {
   static const TextStyle textBase = TextStyle(
     fontFamily: fontFamilyText,
     fontSize: 13,
+    letterSpacing: 0.2,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
-  static const TextStyle textXS = TextStyle(
+  static const TextStyle textSM = TextStyle(
     fontFamily: fontFamilyText,
     fontSize: 12,
+    letterSpacing: 0.2,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );

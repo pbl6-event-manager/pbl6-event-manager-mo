@@ -1,13 +1,14 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
-import 'package:organizer/utils/constants/color_constants.dart';
+import 'package:organizer/utils/constants/color_constant.dart';
 
 class ColorPalette extends ThemeExtension<ColorPalette> {
   final Color primary;
+  final Color onPrimary;
   final Color secondary;
   final Color territory;
   final Color branding;
+
+  final Color disabled;
 
   final Color text;
   final Color disabledText;
@@ -31,9 +32,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
 
   const ColorPalette({
     required this.primary,
+    required this.onPrimary,
     required this.secondary,
     required this.territory,
     required this.branding,
+    required this.disabled,
     required this.text,
     required this.disabledText,
     required this.invertedText,
@@ -50,23 +53,25 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
   });
 
   factory ColorPalette.light() => ColorPalette(
-    primary: ColorConstants.black,
-    secondary: ColorConstants.brandingBlue,
-    territory: ColorConstants.brandingBlue,
-    branding: ColorConstants.brandingColor,
-    text: ColorConstants.black,
-    disabledText: ColorConstants.grey600,
-    invertedText: ColorConstants.white,
-    invertedDisabledText: ColorConstants.grey200,
-    textPlaceholder: ColorConstants.grey700,
-    border: ColorConstants.grey400,
-    divider: ColorConstants.grey200,
-    surface: ColorConstants.grey100,
-    surfaceContainer: ColorConstants.white,
-    error: ColorConstants.semanticRed,
-    onError: ColorConstants.white,
-    success: ColorConstants.semanticGreen,
-    onSuccess: ColorConstants.white,
+    primary: ColorConstant.black,
+    onPrimary: ColorConstant.white,
+    secondary: ColorConstant.brandingBlue,
+    territory: ColorConstant.brandingBlue,
+    branding: ColorConstant.brandingColor,
+    disabled: ColorConstant.grey200,
+    text: ColorConstant.black,
+    disabledText: ColorConstant.white,
+    invertedText: ColorConstant.white,
+    invertedDisabledText: ColorConstant.grey200,
+    textPlaceholder: ColorConstant.grey700,
+    border: ColorConstant.grey400,
+    divider: ColorConstant.grey200,
+    surface: ColorConstant.grey100,
+    surfaceContainer: ColorConstant.white,
+    error: ColorConstant.semanticRed,
+    onError: ColorConstant.white,
+    success: ColorConstant.semanticGreen,
+    onSuccess: ColorConstant.white,
   );
 
   @override
@@ -80,9 +85,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
 
     return ColorPalette(
       primary: Color.lerp(primary, other.primary, t)!,
+      onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       territory: Color.lerp(territory, other.territory, t)!,
       branding: Color.lerp(branding, other.branding, t)!,
+      disabled: Color.lerp(disabled, other.disabled, t)!,
       text: Color.lerp(text, other.text, t)!,
       disabledText: Color.lerp(disabledText, other.disabledText, t)!,
       invertedText: Color.lerp(invertedText, other.invertedText, t)!,
@@ -110,9 +117,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
   @override
   ColorPalette copyWith({
     Color? primary,
+    Color? onPrimary,
     Color? secondary,
     Color? territory,
     Color? branding,
+    Color? disabled,
     Color? text,
     Color? disabledText,
     Color? invertedText,
@@ -129,9 +138,11 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
   }) {
     return ColorPalette(
       primary: primary ?? this.primary,
+      onPrimary: onPrimary ?? this.onPrimary,
       secondary: secondary ?? this.secondary,
       territory: territory ?? this.territory,
       branding: branding ?? this.branding,
+      disabled: disabled ?? this.disabled,
       text: text ?? this.text,
       disabledText: disabledText ?? this.disabledText,
       invertedText: invertedText ?? this.invertedText,

@@ -36,9 +36,7 @@ class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
     final emailError = ValidationUtils.validateEmail(state.email.trim());
 
     if (emailError != null && emailError.isNotEmpty) {
-      emit(
-        state.copyWith(emailError: ValidationUtils.validateEmail(state.email)),
-      );
+      emit(state.copyWith(emailError: emailError));
       return;
     }
 
