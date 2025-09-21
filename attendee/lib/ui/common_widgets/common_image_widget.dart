@@ -14,7 +14,10 @@ class CommonImageWidget extends StatelessWidget {
     this.cornerRadius = UIConstants.cornerRadiusBase,
 
     this.topRightTag,
-  });
+  }) : assert(
+         !(width != null && height != null),
+         "Set either width or height, not both",
+       );
 
   final String imageUrl;
   final double aspectRatio;
@@ -32,15 +35,19 @@ class CommonImageWidget extends StatelessWidget {
         if (topRightTag != null)
           Positioned(top: 12, right: 12, child: topRightTag!),
         SizedBox(
+          width: width,
           height: height,
           child: AspectRatio(
             aspectRatio: aspectRatio,
             child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(cornerRadius),
+              borderRadius: BorderRadius.circular(cornerRadius),
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) =>
+                    ColoredBox(color: context.colorPalette.surfaceContainer),
+
+                placeholder: (context, url) =>
                     ColoredBox(color: context.colorPalette.surfaceContainer),
               ),
             ),

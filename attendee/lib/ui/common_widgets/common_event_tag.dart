@@ -22,12 +22,16 @@ class CommonEventTag extends StatelessWidget {
         children: [
           Icon(Icons.local_fire_department, size: 18),
           SizedBox(width: 4),
-          Text(
-            AppStringConstants.event.fewTicketsLeftTag,
-            style: context.textPalette.labelSmall.copyWith(
-              fontWeight: FontWeight.w900,
-              fontSize: 10,
-              height: 1,
+          Flexible(
+            child: Text(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              AppStringConstants.event.fewTicketsLeftTag,
+              style: context.textPalette.labelSmall.copyWith(
+                fontWeight: FontWeight.w900,
+                fontSize: 10,
+                height: 1,
+              ),
             ),
           ),
         ],

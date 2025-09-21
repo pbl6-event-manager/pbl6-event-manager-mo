@@ -1,5 +1,4 @@
-// ignore: prefer_double_quotes
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 abstract class ColorConstants {
   static const Color brandingColor = Color(0xfff05537);

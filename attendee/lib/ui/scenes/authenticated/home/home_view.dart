@@ -1,5 +1,5 @@
 import "package:attendee/application/bloc/auth_bloc.dart";
-import "package:attendee/ui/common_widgets/event_big_widget.dart";
+import "package:attendee/ui/common_widgets/event_widget.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
@@ -37,9 +37,12 @@ class HomeView extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: UIConstants.horizontalPadding,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [EventBigWidget()],
+          child: ListView(
+            children: [
+              EventWidget(),
+              SizedBox(height: 40),
+              EventWidget.compact(),
+            ],
           ),
         ),
       ),
