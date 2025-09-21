@@ -63,8 +63,8 @@ class _SignInViewState extends State<SignInView> {
       appBar: AppBar(),
       body: Padding(
         padding: EdgeInsets.only(
-          left: UIConstants.safeAreaHorizontal,
-          right: UIConstants.safeAreaHorizontal,
+          left: UIConstants.horizontalPadding,
+          right: UIConstants.horizontalPadding,
           bottom: 16,
         ),
         child: Column(
