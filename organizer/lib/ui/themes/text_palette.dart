@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:organizer/ui/themes/color_palette.dart';
-import 'package:organizer/utils/constants/text_constants.dart';
+import 'package:organizer/utils/constants/text_constant.dart';
 
 class TextPalette extends ThemeExtension<TextPalette> {
   final TextStyle displayLarge;
@@ -55,55 +55,53 @@ class TextPalette extends ThemeExtension<TextPalette> {
   });
 
   factory TextPalette.fromPalette(ColorPalette colorPalette) => TextPalette(
-    displayLarge: TextConstants.display4XL,
-    displayMedium: TextConstants.display3XL,
-    displaySmall: TextConstants.display2XL,
+    displayLarge: TextConstant.display4XL,
+    displayMedium: TextConstant.display3XL,
+    displaySmall: TextConstant.display2XL,
 
-    headlineLarge: TextConstants.displayXL,
-    headlineMedium: TextConstants.displayLG,
-    headlineSmall: TextConstants.displayMD,
+    headlineLarge: TextConstant.displayXL,
+    headlineMedium: TextConstant.displayLG,
+    headlineSmall: TextConstant.displayMD,
 
-    titleLarge: TextConstants.displayMD.copyWith(
-      fontWeight: FontWeight.w700, // Bold
-    ),
-    titleMedium: TextConstants.textBase.copyWith(
-      fontWeight: FontWeight.w600, // SemiBold
-    ),
-    titleSmall: TextConstants.textSM.copyWith(
-      fontWeight: FontWeight.w600, // SemiBold
-    ),
+    titleLarge: TextConstant.displayMD.copyWith(fontWeight: FontWeight.w700),
+    titleMedium: TextConstant.textLG.copyWith(fontWeight: FontWeight.w600),
+    titleSmall: TextConstant.textBase.copyWith(fontWeight: FontWeight.w600),
 
-    bodyLarge: TextConstants.textBase,
-    bodyMedium: TextConstants.textSM,
-    bodySmall: TextConstants.textXS,
+    bodyLarge: TextConstant.textLG.copyWith(color: colorPalette.text),
+    bodyMedium: TextConstant.textBase.copyWith(color: colorPalette.text),
+    bodySmall: TextConstant.textSM.copyWith(color: colorPalette.text),
 
-    labelLarge: TextConstants.textBaseBold,
-    labelMedium: TextConstants.textSMBold,
-    labelSmall: TextConstants.textXSBold,
+    labelLarge: TextConstant.textLGBold,
+    labelMedium: TextConstant.textBaseBold,
+    labelSmall: TextConstant.textSMBold,
 
     // Additional semantic styles
-    button: TextConstants.textSMSemiBold,
-    caption: TextConstants.textXS,
-    overline: TextConstants.textXS.copyWith(
+    button: TextConstant.displayLG.copyWith(
+      height: 0,
+      fontWeight: FontWeight.bold,
+    ),
+    caption: TextConstant.textSM,
+    overline: TextConstant.textSM.copyWith(
       letterSpacing: 1.5,
       textBaseline: TextBaseline.alphabetic,
     ),
 
     // Supplementary styles (smaller than body)
     subtitleLarge: TextStyle(
-      fontFamily: TextConstants.fontFamilyText,
+      fontFamily: TextConstant.fontFamilyText,
+      color: colorPalette.textPlaceholder,
       fontSize: 11,
       fontWeight: FontWeight.w400,
       height: 1.4,
     ),
     subtitleMedium: TextStyle(
-      fontFamily: TextConstants.fontFamilyText,
+      fontFamily: TextConstant.fontFamilyText,
       fontSize: 10,
       fontWeight: FontWeight.w400,
       height: 1.4,
     ),
     subtitleSmall: TextStyle(
-      fontFamily: TextConstants.fontFamilyText,
+      fontFamily: TextConstant.fontFamilyText,
       fontSize: 9,
       fontWeight: FontWeight.w400,
       height: 1.4,

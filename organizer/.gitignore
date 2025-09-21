@@ -1,5 +1,10 @@
 ### https://raw.github.com/github/gitignore/80a8803b004013d17291196825a327b9e871f009/Android.gitignore
 
+.flutter-plugins-dependencies
+
+.dart_tool/
+build/
+
 # Built application files
 *.apk
 *.ap_
@@ -252,3 +257,4 @@ google-services.json
 .flutter-plugins
 # FVM Version Cache
 .fvm/
+
