@@ -1,5 +1,4 @@
-// ignore: prefer_double_quotes
-import 'package:go_router/go_router.dart';
+import "package:go_router/go_router.dart";
 
 /// A base for all navigator, with demand of providing an instance of goRouter
 mixin BaseNavigator {

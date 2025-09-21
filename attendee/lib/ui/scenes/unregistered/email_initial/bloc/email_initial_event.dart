@@ -1,5 +1,4 @@
-// ignore: prefer_double_quotes
-import 'package:equatable/equatable.dart';
+import "package:equatable/equatable.dart";
 
 abstract class EmailInitalEvent extends Equatable {
   const EmailInitalEvent();

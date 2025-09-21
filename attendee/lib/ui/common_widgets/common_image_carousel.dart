@@ -5,7 +5,7 @@ import "package:flutter/material.dart";
 
 /// A image carousel with page indicator
 ///
-/// Show dot indicator for a few images, or a couter if there are many
+/// Show dot indicator for a few images, or a counter if there are many
 ///
 /// A complex version of [CommonImageWidget]
 class CommonImageCarousel extends StatefulWidget {
@@ -92,6 +92,9 @@ class _CommonImageCarouselState extends State<CommonImageCarousel> {
                     imageUrl: images[index],
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) => ColoredBox(
+                      color: context.colorPalette.surfaceContainer,
+                    ),
+                    placeholder: (context, url) => ColoredBox(
                       color: context.colorPalette.surfaceContainer,
                     ),
                   );
