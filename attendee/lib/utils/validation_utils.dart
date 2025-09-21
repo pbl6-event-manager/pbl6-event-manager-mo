@@ -1,12 +1,12 @@
-import 'package:attendee/utils/constants/app_string_constants.dart';
+import "package:attendee/utils/constants/app_string_constants.dart";
 
 abstract class ValidationUtils {
   static String? validateEmail(String? email) {
     final emailRegex = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
     );
 
-    if (!emailRegex.hasMatch(email ?? '')) {
+    if (!emailRegex.hasMatch(email ?? "")) {
       return AppStringConstants.textFields.emailValidationError;
     }
 
@@ -28,7 +28,7 @@ abstract class ValidationUtils {
     }
 
     if (text != originalText) {
-      return AppStringConstants.textFields.fieldsDoNotMatch('Emails');
+      return AppStringConstants.textFields.fieldsDoNotMatch("Emails");
     }
     return null;
   }
@@ -44,17 +44,17 @@ abstract class ValidationUtils {
     }
 
     // Check for uppercase letters
-    if (!password.contains(RegExp(r'[A-Z]'))) {
+    if (!password.contains(RegExp(r"[A-Z]"))) {
       return AppStringConstants.textFields.passwordValidationError;
     }
 
     // Check for lowercase letters
-    if (!password.contains(RegExp(r'[a-z]'))) {
+    if (!password.contains(RegExp(r"[a-z]"))) {
       return AppStringConstants.textFields.passwordValidationError;
     }
 
     // Check for numbers
-    if (!password.contains(RegExp(r'[0-9]'))) {
+    if (!password.contains(RegExp(r"[0-9]"))) {
       return AppStringConstants.textFields.passwordValidationError;
     }
 

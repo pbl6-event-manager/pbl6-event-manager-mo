@@ -1,6 +1,6 @@
-import 'package:attendee/ui/themes/color_palette.dart';
-import 'package:attendee/ui/themes/text_palette.dart';
-import 'package:flutter/material.dart';
+import "package:attendee/ui/themes/color_palette.dart";
+import "package:attendee/ui/themes/text_palette.dart";
+import "package:flutter/material.dart";
 
 final class AppTheme {
   final ColorPalette colorPalette;

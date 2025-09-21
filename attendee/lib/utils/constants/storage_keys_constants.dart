@@ -1,4 +1,4 @@
 final class StorageKeysConstants {
   const StorageKeysConstants._();
-  static const String tokenKey = 'auth_token';
+  static const String tokenKey = "auth_token";
 }

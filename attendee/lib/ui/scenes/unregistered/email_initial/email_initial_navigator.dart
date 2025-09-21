@@ -1,7 +1,7 @@
-import 'package:attendee/application/base_navigator.dart';
-import 'package:attendee/utils/enums/app_route_enum.dart';
-import 'package:bloc/bloc.dart';
-import 'package:go_router/go_router.dart';
+import "package:attendee/application/base_navigator.dart";
+import "package:attendee/utils/enums/app_route_enum.dart";
+import "package:bloc/bloc.dart";
+import "package:go_router/go_router.dart";
 
 mixin EmailInitialNavigator on BaseNavigator {
   void goToSignIn({required String email});

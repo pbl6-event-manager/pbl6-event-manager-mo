@@ -1,14 +1,14 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:attendee/application/bloc/auth_bloc.dart';
-import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
-import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart';
-import 'package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart';
-import 'package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart';
-import 'package:attendee/utils/enums/app_route_enum.dart';
-import 'package:attendee/utils/enums/auth_status_enum.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
+import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
+import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart";
+import "package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart";
+import "package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart";
+import "package:attendee/utils/enums/app_route_enum.dart";
+import "package:attendee/utils/enums/auth_status_enum.dart";
+import "package:flutter/widgets.dart";
+import "package:go_router/go_router.dart";
 
 /// Centralized routing hub for the whole app
 ///
@@ -37,7 +37,7 @@ final class AppRouter {
     path: AppRouteEnum.signIn.path,
     name: AppRouteEnum.signIn.name,
     builder: (context, state) {
-      final String? email = state.uri.queryParameters['email'];
+      final String? email = state.uri.queryParameters["email"];
       return email != null ? SignInPage(email: email) : Placeholder();
     },
   );
@@ -46,7 +46,7 @@ final class AppRouter {
     path: AppRouteEnum.signUp.path,
     name: AppRouteEnum.signUp.name,
     builder: (context, state) {
-      final String? email = state.uri.queryParameters['email'];
+      final String? email = state.uri.queryParameters["email"];
       return email != null ? SignUpPage(email: email) : Placeholder();
     },
   );

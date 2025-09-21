@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-part of 'sign_up_bloc.dart';
+part of "sign_up_bloc.dart";
 
 enum SignUpFields { confirmEmail, firstName, lastName, password }
 
@@ -38,13 +38,13 @@ class SignUpState extends Equatable {
 
   const SignUpState.initial({
     this.isFormValid = false,
-    this.confirmEmail = '',
+    this.confirmEmail = "",
     this.confirmEmailError,
-    this.firstName = '',
+    this.firstName = "",
     this.firstNameError,
-    this.lastName = '',
+    this.lastName = "",
     this.lastNameError,
-    this.password = '',
+    this.password = "",
     this.passwordError,
     this.status = ViewStatusEnum.initial,
     this.errorMessage,

@@ -1,5 +1,5 @@
-import 'package:attendee/utils/enums/view_status_enum.dart';
-import 'package:equatable/equatable.dart';
+import "package:attendee/utils/enums/view_status_enum.dart";
+import "package:equatable/equatable.dart";
 
 class EmailInitialState extends Equatable {
   final String email;
@@ -11,7 +11,7 @@ class EmailInitialState extends Equatable {
   bool get isLoading => status == ViewStatusEnum.loading;
 
   const EmailInitialState({
-    this.email = '',
+    this.email = "",
     this.emailError,
     this.status = ViewStatusEnum.initial,
     this.errorMessage,

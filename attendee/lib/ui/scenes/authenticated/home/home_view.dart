@@ -1,7 +1,7 @@
-import 'package:attendee/application/bloc/auth_bloc.dart';
-import 'package:attendee/utils/extensions/context_extension.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/utils/extensions/context_extension.dart";
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,7 +19,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home', style: context.textPalette.titleLarge),
+        title: Text("Home", style: context.textPalette.titleLarge),
         actions: [
           IconButton(
             onPressed: () {
@@ -35,13 +35,13 @@ class HomeView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Welcome to Event Manager!',
+              "Welcome to Event Manager!",
               style: context.textPalette.headlineLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Text(
-              'You are successfully authenticated.',
+              "You are successfully authenticated.",
               style: context.textPalette.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
               onPressed: () {
                 context.read<AuthBloc>().add(const AuthTokenRemoved());
               },
-              child: const Text('Logout'),
+              child: const Text("Logout"),
             ),
           ],
         ),
