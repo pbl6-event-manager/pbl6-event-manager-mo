@@ -63,5 +63,6 @@ final class AppTheme {
             ),
           ),
         ),
+        dividerTheme: DividerThemeData(color: colorPalette.divider),
       );
 }

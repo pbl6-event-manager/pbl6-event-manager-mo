@@ -6,6 +6,7 @@ import "package:attendee/ui/themes/color_palette.dart";
 import "package:attendee/ui/themes/text_palette.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:get_it/get_it.dart";
 
 void main() async {
   // Initialize service locator
@@ -19,13 +20,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(),
-      child: Builder(
-        builder: (context) {
-          final authBloc = context.read<AuthBloc>();
+    final AuthBloc authBloc = GetIt.instance<AuthBloc>();
+    final AppRouter appRouter = GetIt.instance<AppRouter>();
+    return BlocProvider.value(
+      value: authBloc,
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
           return MaterialApp.router(
-            routerConfig: AppRouter(authBloc).router,
+            routerConfig: appRouter.router,
             theme: AppTheme(
               colorPalette: ColorPalette.light(),
               textPalette: TextPalette.fromPalette(ColorPalette.light()),

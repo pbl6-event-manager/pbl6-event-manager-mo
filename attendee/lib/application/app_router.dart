@@ -18,7 +18,7 @@ final class AppRouter {
 
   AppRouter(this.authBloc);
 
-  GoRouter get router => GoRouter(
+  late final GoRouter router = GoRouter(
     routes: [_homeRoute, _authRoute],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),

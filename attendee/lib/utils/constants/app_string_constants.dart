@@ -5,8 +5,9 @@ abstract class AppStringConstants {
   static GenericErrorAppStrings get genericErrors => GenericErrorAppStrings._();
   static SignInAppStrings get signIn => SignInAppStrings._();
   static SignUpAppStrings get signUp => SignUpAppStrings._();
-
   static EventAppStrings get event => EventAppStrings._();
+
+  static HomeAppStrings get home => HomeAppStrings._();
 }
 
 final class EmailInitialAppStrings {
@@ -74,4 +75,12 @@ final class EventAppStrings {
   const EventAppStrings._();
   String get fewTicketsLeftTag => "FEW TICKETS LEFT";
   String get freePricing => "Free";
+}
+
+final class HomeAppStrings {
+  const HomeAppStrings._();
+
+  String get searchAppBarLabel => "Find things to do";
+
+  String searchAppBarTitle(String location) => "In $location";
 }
