@@ -2,6 +2,7 @@ import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:skeletonizer/skeletonizer.dart";
 
 /// A image carousel with page indicator
 ///
@@ -107,21 +108,24 @@ class _CommonImageCarouselState extends State<CommonImageCarousel> {
               left: 0,
               right: 0,
               bottom: 12,
-
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.colorPalette.primary.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(
-                      UIConstants.cornerRadiusBase,
+              child: Skeleton.ignore(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 6,
                     ),
+                    decoration: BoxDecoration(
+                      color: context.colorPalette.primary.withValues(
+                        alpha: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        UIConstants.cornerRadiusBase,
+                      ),
+                    ),
+                    child: _buildIndicators(context, images.length),
                   ),
-                  child: _buildIndicators(context, images.length),
                 ),
               ),
             ),

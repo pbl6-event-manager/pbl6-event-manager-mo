@@ -1,3 +1,5 @@
+import "package:attendee/application/app_router.dart";
+import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
 import "package:get_it/get_it.dart";
 
@@ -15,6 +17,15 @@ class ServiceLocator {
           accessibility: KeychainAccessibility.first_unlock_this_device,
         ),
       ),
+    );
+
+    _getIt.registerLazySingleton<AuthBloc>(
+      () => AuthBloc(),
+      dispose: (bloc) => bloc.close(),
+    );
+
+    _getIt.registerLazySingleton<AppRouter>(
+      () => AppRouter(_getIt<AuthBloc>()),
     );
   }
 }

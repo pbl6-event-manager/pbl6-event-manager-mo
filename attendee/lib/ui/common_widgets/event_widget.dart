@@ -14,17 +14,21 @@ import "package:flutter/material.dart";
 /// - Normal: Big image with share button: [EventWidget]
 /// - Compact: Small image without share button and single image only (first image of the list) [EventWidget.compact]
 class EventWidget extends StatelessWidget {
-  const EventWidget({super.key}) : _isCompact = false;
+  const EventWidget({super.key, this.isLoading = false}) : _isCompact = false;
 
-  const EventWidget.compact({super.key}) : _isCompact = true;
+  const EventWidget.compact({super.key, this.isLoading = false})
+    : _isCompact = true;
 
   final bool _isCompact;
+  final bool isLoading;
 
   // TODO: Apply model later
 
-  String get title => "FREE Gaming and Bartending ";
+  String get title =>
+      isLoading ? "Loading Event Title Here" : "FREE Gaming and Bartending ";
   DateTime get startTime => DateTime.now();
-  String get location => "This is a location";
+  String get location =>
+      isLoading ? "Loading location here" : "This is a location";
   bool get isFree => false;
   int get pricing => 90;
   List<String> get imageUrls => [
