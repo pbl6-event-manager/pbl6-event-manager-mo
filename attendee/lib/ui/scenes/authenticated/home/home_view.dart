@@ -1,11 +1,14 @@
+import "package:attendee/application/app_router.dart";
 import "package:attendee/ui/scenes/authenticated/home/bloc/home_bloc.dart";
+import "package:attendee/ui/scenes/authenticated/home/home_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/home/widgets/home_event_section.dart";
-import "package:attendee/ui/scenes/authenticated/home/widgets/home_search_appbar.dart";
+import "package:attendee/ui/scenes/authenticated/home/widgets/home_appbar.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:get_it/get_it.dart";
 import "package:skeletonizer/skeletonizer.dart";
 
 class HomePage extends StatelessWidget {
@@ -13,8 +16,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc()..add(HomeLoad()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc()..add(HomeLoad()),
+        ),
+        RepositoryProvider<HomeNavigator>(
+          create: (context) => HomeNavigatorImplementation(
+            goRouter: GetIt.instance<AppRouter>().router,
+          ),
+        ),
+      ],
       child: HomeView(),
     );
   }
@@ -36,57 +48,68 @@ class HomeView extends StatelessWidget {
               },
               child: CustomScrollView(
                 slivers: [
-                  SliverAppBar(
-                    titleSpacing: 0,
-                    title: HomeSearchAppbar(
-                      currentLocation: state.currentLocation,
-                      onFilterTapped: () {},
-                      chipData: state.chipData,
-                      onChipTapped: (id) =>
-                          context.read<HomeBloc>().add(HomeChipSelected(id)),
-                      selectedChipId: state.selectedChipId,
-                    ),
-
-                    toolbarHeight: 148,
-                    pinned: true,
-                    elevation: 0,
-                    shadowColor: context.colorPalette.primary,
-                    surfaceTintColor: Colors.transparent,
-                  ),
-
-                  SliverSkeletonizer(
-                    enabled: isLoading,
-                    child: SliverPadding(
-                      padding: EdgeInsetsGeometry.symmetric(
-                        horizontal: UIConstants.horizontalPadding,
-                      ),
-                      sliver: SliverMainAxisGroup(
-                        slivers: [
-                          ..._buildListSectionWithTitle(
-                            context,
-                            title: "Popular in Los Angeles",
-                            contentWidget: HomeEventSection.compact(
-                              isLoading: isLoading,
-                            ),
-                          ),
-                          const SliverToBoxAdapter(
-                            child: Divider(height: 26 * 2),
-                          ),
-                          HomeEventSection(isLoading: isLoading),
-                          const SliverToBoxAdapter(
-                            child: Divider(height: 26 * 2),
-                          ),
-                          HomeEventSection(isLoading: isLoading),
-                        ],
-                      ),
-                    ),
-                  ),
+                  _buildAppBar(context, state),
+                  _buildBody(isLoading, context),
                 ],
               ),
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildBody(bool isLoading, BuildContext context) {
+    return SliverSkeletonizer(
+      enabled: isLoading,
+      child: SliverPadding(
+        padding: EdgeInsetsGeometry.symmetric(
+          horizontal: UIConstants.horizontalPadding,
+        ),
+        sliver: SliverMainAxisGroup(
+          slivers: [
+            ..._buildListSectionWithTitle(
+              context,
+              title: "Popular in Los Angeles",
+              contentWidget: HomeEventSection.compact(isLoading: isLoading),
+            ),
+            const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
+            HomeEventSection(isLoading: isLoading),
+            const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
+            HomeEventSection(isLoading: isLoading),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context, HomeState state) {
+    return SliverAppBar(
+      titleSpacing: 0,
+      title: HomeAppbar(
+        onEventSearchCleared: () => _onEventSearchCleared(context),
+        onSearchTapped: () => _onSearchTapped(
+          context,
+          currentEventSearchQuery: state.currentSearchQuery,
+          currentLocationLabel: state.currentLocation,
+          onSearchSubmitted: (data) => context.read<HomeBloc>().add(
+            HomeReturnedFromSearch(searchData: data),
+          ),
+        ),
+        currentEventSearchQuery: state.currentSearchQuery,
+        currentLocation: state.currentLocation,
+        onFilterTapped: () {},
+        chipData: state.chipData,
+        onChipTapped: (id) =>
+            context.read<HomeBloc>().add(HomeChipSelected(id)),
+        selectedChipId: state.selectedChipId,
+      ),
+
+      toolbarHeight: 148,
+      pinned: true,
+      elevation: 0,
+      shadowColor: context.colorPalette.primary,
+      surfaceTintColor: Colors.transparent,
     );
   }
 
@@ -102,4 +125,22 @@ class HomeView extends StatelessWidget {
 
     contentWidget,
   ];
+
+  void _onSearchTapped(
+    BuildContext context, {
+    required String? currentEventSearchQuery,
+    required String currentLocationLabel,
+
+    required Function((String?, String?)) onSearchSubmitted,
+  }) {
+    context.read<HomeNavigator>().goToSearch(
+      currentEventSearchQuery: currentEventSearchQuery,
+      currentLocationLabel: currentLocationLabel,
+      onSearchSubmitted: onSearchSubmitted,
+    );
+  }
+
+  void _onEventSearchCleared(BuildContext context) {
+    context.read<HomeBloc>().add(HomeEventSearchCleared());
+  }
 }

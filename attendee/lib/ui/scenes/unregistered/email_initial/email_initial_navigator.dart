@@ -1,18 +1,17 @@
 import "package:attendee/application/base_navigator.dart";
 import "package:attendee/utils/enums/app_route_enum.dart";
-import "package:bloc/bloc.dart";
+
 import "package:go_router/go_router.dart";
 
-mixin EmailInitialNavigator on BaseNavigator {
+abstract class EmailInitialNavigator extends BaseNavigator {
   void goToSignIn({required String email});
   void goToSignUp({required String email});
 }
 
-class EmailInitialNavigatorImplementation extends Cubit<void>
-    implements EmailInitialNavigator {
+class EmailInitialNavigatorImplementation implements EmailInitialNavigator {
   @override
   final GoRouter goRouter;
-  EmailInitialNavigatorImplementation({required this.goRouter}) : super(null);
+  const EmailInitialNavigatorImplementation({required this.goRouter});
 
   @override
   void goToSignIn({required String email}) {

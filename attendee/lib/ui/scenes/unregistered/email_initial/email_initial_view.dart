@@ -1,3 +1,4 @@
+import "package:attendee/application/app_router.dart";
 import "package:attendee/ui/common_widgets/common_text_field.dart";
 import "package:attendee/ui/common_widgets/common_button_with_loading.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_navigator.dart";
@@ -12,7 +13,7 @@ import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:go_router/go_router.dart";
+import "package:get_it/get_it.dart";
 
 class EmailInitialPage extends StatelessWidget {
   const EmailInitialPage({super.key});
@@ -22,9 +23,9 @@ class EmailInitialPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => EmailInitialBloc()),
-        BlocProvider(
+        RepositoryProvider<EmailInitialNavigator>(
           create: (context) => EmailInitialNavigatorImplementation(
-            goRouter: GoRouter.of(context),
+            goRouter: GetIt.instance<AppRouter>().router,
           ),
         ),
       ],
@@ -128,7 +129,7 @@ class _EmailInitialViewState extends State<EmailInitialView> {
 
   void _blocListener(BuildContext context, EmailInitialState state) {
     if (state.status == ViewStatusEnum.success) {
-      context.read<EmailInitialNavigatorImplementation>().goToSignIn(
+      context.read<EmailInitialNavigator>().goToSignIn(
         email: emailController.text,
       );
     }
