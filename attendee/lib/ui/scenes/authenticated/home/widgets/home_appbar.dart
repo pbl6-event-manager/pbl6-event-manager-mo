@@ -3,22 +3,32 @@ import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
 
-class HomeSearchAppbar extends StatelessWidget {
-  const HomeSearchAppbar({
+class HomeAppbar extends StatelessWidget {
+  const HomeAppbar({
     super.key,
     this.onFilterTapped,
     required this.onChipTapped,
+    required this.onSearchTapped,
+    required this.onEventSearchCleared,
     required this.selectedChipId,
     required this.chipData,
     required this.currentLocation,
+    required this.currentEventSearchQuery,
   });
 
   final VoidCallback? onFilterTapped;
+  final VoidCallback? onSearchTapped;
+
+  /// Only clear event search, location search remains the same
+  final VoidCallback? onEventSearchCleared;
   final ValueChanged<int> onChipTapped;
   final int? selectedChipId;
   final List<(int, String)> chipData;
 
-  final String? currentLocation;
+  final String currentLocation;
+  final String? currentEventSearchQuery;
+
+  bool get hasSearchQuery => currentEventSearchQuery != null;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +39,10 @@ class HomeSearchAppbar extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: UIConstants.horizontalPadding,
           ),
-          child: _buildSearchButton(context),
+          child: InkWell(
+            onTap: onSearchTapped,
+            child: _buildSearchButton(context),
+          ),
         ),
         SizedBox(height: 20),
         _buildScrollableChips(context),
@@ -49,32 +62,47 @@ class HomeSearchAppbar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.search, size: 28),
+          // If contains search query => back button
+          // Else => show search button
+          IconButton(
+            padding: EdgeInsets.zero,
+            visualDensity: VisualDensity(
+              horizontal: VisualDensity.minimumDensity,
+              vertical: VisualDensity.minimumDensity,
+            ),
+            onPressed: hasSearchQuery ? onEventSearchCleared : onSearchTapped,
+            icon: Icon(
+              hasSearchQuery ? Icons.arrow_back : Icons.search,
+              size: 28,
+            ),
+          ),
+
           SizedBox(width: 20),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (currentLocation != null)
-                  Text(
-                    AppStringConstants.home.searchAppBarLabel,
-                    style: context.textPalette.subtitleLarge,
-                  ),
+                Text(
+                  currentEventSearchQuery ??
+                      AppStringConstants.home.searchAppBarLabel,
+                  style: hasSearchQuery
+                      ? context.textPalette.labelLarge
+                      : context.textPalette.subtitleLarge,
+                ),
 
                 Text(
-                  currentLocation != null
-                      ? AppStringConstants.home.searchAppBarTitle(
-                          currentLocation!,
-                        )
-                      : AppStringConstants.home.searchAppBarLabel,
-                  style: context.textPalette.labelLarge,
+                  AppStringConstants.home.searchAppBarTitle(currentLocation),
+
+                  style: hasSearchQuery
+                      ? context.textPalette.subtitleLarge
+                      : context.textPalette.labelLarge,
                 ),
               ],
             ),
           ),
 
           // Filter
-          InkWell(
+          GestureDetector(
             onTap: onFilterTapped,
             child: Container(
               padding: EdgeInsets.all(4),

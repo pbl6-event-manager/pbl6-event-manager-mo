@@ -5,7 +5,8 @@ final class HomeState extends Equatable {
   final String? errorMessage;
   final int? selectedChipId;
   final List<(int, String)> chipData;
-  final String? currentLocation;
+  final String currentLocation;
+  final String? currentSearchQuery;
 
   const HomeState({
     required this.status,
@@ -13,13 +14,15 @@ final class HomeState extends Equatable {
     required this.selectedChipId,
     required this.chipData,
     required this.currentLocation,
+    required this.currentSearchQuery,
   });
 
   const HomeState.initial()
     : status = ViewStatusEnum.initial,
       errorMessage = null,
       selectedChipId = null,
-      currentLocation = null,
+      currentLocation = "Hanoi",
+      currentSearchQuery = null,
       chipData = const [];
 
   HomeState copyWith({
@@ -28,8 +31,12 @@ final class HomeState extends Equatable {
     int? selectedChipId,
     List<(int, String)>? chipData,
     String? currentLocation,
+    Nullable<String>? currentSearchQuery,
   }) {
     return HomeState(
+      currentSearchQuery: currentSearchQuery != null
+          ? currentSearchQuery.value
+          : this.currentSearchQuery,
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedChipId: selectedChipId ?? this.selectedChipId,
@@ -45,5 +52,6 @@ final class HomeState extends Equatable {
     selectedChipId,
     chipData,
     currentLocation,
+    currentSearchQuery,
   ];
 }

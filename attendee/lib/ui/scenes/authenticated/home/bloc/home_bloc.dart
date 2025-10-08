@@ -1,4 +1,5 @@
 import "package:attendee/utils/enums/view_status_enum.dart";
+import "package:attendee/utils/helpers/nullable.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
 
@@ -10,6 +11,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeLoad>(_onHomeLoad);
     on<HomeReload>(_onHomeReload);
     on<HomeChipSelected>(_onHomeChipSelected);
+    on<HomeReturnedFromSearch>(_onHomeReturnedFromSearch);
+    on<HomeEventSearchCleared>(_onHomeEventSearchCleared);
   }
 
   Future<void> _onHomeLoad(HomeLoad event, Emitter<HomeState> emit) async {
@@ -33,7 +36,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ],
 
           selectedChipId: 1,
-          currentLocation: "Dummy location",
         ),
       );
     } catch (error) {
@@ -80,6 +82,74 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await Future.delayed(const Duration(seconds: 1));
 
       emit(state.copyWith(status: ViewStatusEnum.success, errorMessage: null));
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: ViewStatusEnum.failure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onHomeReturnedFromSearch(
+    HomeReturnedFromSearch event,
+    Emitter<HomeState> emit,
+  ) async {
+    if (event.searchData == null) {
+      return;
+    }
+
+    final String? eventSearchQuery =
+        event.searchData?.$1 != state.currentSearchQuery
+        ? event.searchData?.$1
+        : null;
+    final String? locationSearchQuery =
+        event.searchData?.$2 != state.currentLocation
+        ? event.searchData?.$2
+        : null;
+
+    if (eventSearchQuery == null && locationSearchQuery == null) {
+      return;
+    }
+    emit(
+      state.copyWith(
+        status: ViewStatusEnum.loading,
+        currentSearchQuery: Nullable(eventSearchQuery),
+        currentLocation: locationSearchQuery,
+      ),
+    );
+
+    try {
+      // Simulate API call
+      await Future.delayed(const Duration(seconds: 2));
+      emit(state.copyWith(status: ViewStatusEnum.success));
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: ViewStatusEnum.failure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onHomeEventSearchCleared(
+    HomeEventSearchCleared event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        status: ViewStatusEnum.loading,
+        currentSearchQuery: Nullable(null),
+        currentLocation: null,
+      ),
+    );
+
+    try {
+      // Simulate API call
+      await Future.delayed(const Duration(seconds: 2));
+      emit(state.copyWith(status: ViewStatusEnum.success));
     } catch (error) {
       emit(
         state.copyWith(

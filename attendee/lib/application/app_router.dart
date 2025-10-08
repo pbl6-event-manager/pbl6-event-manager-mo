@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
+import "package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart";
 import "package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart";
 import "package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart";
@@ -53,9 +54,24 @@ final class AppRouter {
 
   /// Home route for authenticated users
   GoRoute get _homeRoute => GoRoute(
+    routes: [_homeSearchRoute],
     path: AppRouteEnum.home.path,
     name: AppRouteEnum.home.name,
     builder: (context, state) => const HomePage(),
+  );
+
+  GoRoute get _homeSearchRoute => GoRoute(
+    path: AppRouteEnum.homeSearch.path,
+    name: AppRouteEnum.homeSearch.name,
+    builder: (context, state) {
+      final String? location = state.uri.queryParameters["location"];
+      final String? event = state.uri.queryParameters["event"];
+
+      return HomeSearchPage(
+        currentLocationQuery: location,
+        currentEventQuery: event,
+      );
+    },
   );
 
   /// REDIRECT
