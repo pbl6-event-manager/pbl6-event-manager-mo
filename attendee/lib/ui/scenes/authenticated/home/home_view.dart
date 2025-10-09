@@ -141,7 +141,17 @@ class HomeView extends StatelessWidget {
   }
 
   void _onFilterTapped(BuildContext context) {
-    context.read<HomeNavigator>().goToFilter();
+    final state = context.read<HomeBloc>().state;
+    context.read<HomeNavigator>().goToFilter(
+      startDateFilter: state.filterStartDate,
+      endDateFilter: state.filterEndDate,
+      selectedCategories: state.selectedCategories,
+      onFilterApplied: (filterData) {
+        context.read<HomeBloc>().add(
+          HomeReturnedFromFilter(filterData: filterData),
+        );
+      },
+    );
   }
 
   void _onEventSearchCleared(BuildContext context) {

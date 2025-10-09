@@ -7,6 +7,9 @@ final class HomeState extends Equatable {
   final List<(int, String)> chipData;
   final String currentLocation;
   final String? currentSearchQuery;
+  final DateTime? filterStartDate;
+  final DateTime? filterEndDate;
+  final Set<int> selectedCategories;
 
   const HomeState({
     required this.status,
@@ -15,6 +18,9 @@ final class HomeState extends Equatable {
     required this.chipData,
     required this.currentLocation,
     required this.currentSearchQuery,
+    required this.filterStartDate,
+    required this.filterEndDate,
+    required this.selectedCategories,
   });
 
   const HomeState.initial()
@@ -23,7 +29,10 @@ final class HomeState extends Equatable {
       selectedChipId = null,
       currentLocation = "Hanoi",
       currentSearchQuery = null,
-      chipData = const [];
+      chipData = const [],
+      filterStartDate = null,
+      filterEndDate = null,
+      selectedCategories = const {};
 
   HomeState copyWith({
     ViewStatusEnum? status,
@@ -32,6 +41,9 @@ final class HomeState extends Equatable {
     List<(int, String)>? chipData,
     String? currentLocation,
     Nullable<String>? currentSearchQuery,
+    Nullable<DateTime>? filterStartDate,
+    Nullable<DateTime>? filterEndDate,
+    Set<int>? selectedCategories,
   }) {
     return HomeState(
       currentSearchQuery: currentSearchQuery != null
@@ -42,6 +54,13 @@ final class HomeState extends Equatable {
       selectedChipId: selectedChipId ?? this.selectedChipId,
       chipData: chipData ?? this.chipData,
       currentLocation: currentLocation ?? this.currentLocation,
+      filterStartDate: filterStartDate != null
+          ? filterStartDate.value
+          : this.filterStartDate,
+      filterEndDate: filterEndDate != null
+          ? filterEndDate.value
+          : this.filterEndDate,
+      selectedCategories: selectedCategories ?? this.selectedCategories,
     );
   }
 
@@ -53,5 +72,8 @@ final class HomeState extends Equatable {
     chipData,
     currentLocation,
     currentSearchQuery,
+    filterStartDate,
+    filterEndDate,
+    selectedCategories,
   ];
 }

@@ -103,6 +103,8 @@ final class HomeFilterAppStrings {
   String get dateFilterAnyDate => "Any date";
   String get dateFilterToday => "Today";
   String get dateFilterTomorrow => "Tomorrow";
+  String get dateFilterWeekdays => "Week days";
+  String get dateFilterWeekends => "Weekends";
   String get dateFilterCustomDate => "Custom date";
 
   // Category filter

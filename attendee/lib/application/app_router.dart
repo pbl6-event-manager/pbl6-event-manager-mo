@@ -79,17 +79,22 @@ final class AppRouter {
     path: AppRouteEnum.homeFilter.path,
     name: AppRouteEnum.homeFilter.name,
     builder: (context, state) {
-      final String? startDateRawString = state.uri.queryParameters["startDate"];
-      final String? endDateRawString = state.uri.queryParameters["endDate"];
+      DateTime? startDate;
+      DateTime? endDate;
+      Set<int>? selectedCategories;
 
-      final DateTime? startDate = DateTime.tryParse(startDateRawString ?? "");
-      final DateTime? endDate = DateTime.tryParse(endDateRawString ?? "");
+      if (state.extra is Map<String, dynamic>) {
+        final extra = state.extra as Map<String, dynamic>;
+        startDate = extra["startDate"] as DateTime?;
+        endDate = extra["endDate"] as DateTime?;
+        selectedCategories = extra["selectedCategories"] as Set<int>?;
+      }
 
-      final List<String>? selectedCategories = state.extra is List<String>
-          ? state.extra as List<String>
-          : null;
-
-      return HomeFilterPage();
+      return HomeFilterPage(
+        initialStartDate: startDate,
+        initialEndDate: endDate,
+        initialSelectedCategories: selectedCategories,
+      );
     },
   );
 

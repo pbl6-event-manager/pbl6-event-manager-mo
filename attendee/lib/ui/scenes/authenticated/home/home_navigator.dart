@@ -13,7 +13,8 @@ abstract class HomeNavigator extends BaseNavigator {
   Future<void> goToFilter({
     DateTime? startDateFilter,
     DateTime? endDateFilter,
-    List<String> selectedCategories = const [],
+    Set<int> selectedCategories = const {},
+    required void Function((DateTime?, DateTime?, Set<int>)?) onFilterApplied,
   });
 }
 
@@ -46,16 +47,20 @@ class HomeNavigatorImplementation implements HomeNavigator {
   Future<void> goToFilter({
     DateTime? startDateFilter,
     DateTime? endDateFilter,
-    List<String> selectedCategories = const [],
+    Set<int> selectedCategories = const {},
+    required void Function((DateTime?, DateTime?, Set<int>)?) onFilterApplied,
   }) async {
-    final Map<String, String> queryParameters = {
-      "startDate": startDateFilter.toString(),
-      "endDate": endDateFilter.toString(),
-    };
-    await goRouter.pushNamed(
+    final filterData = await goRouter.pushNamed(
       AppRouteEnum.homeFilter.name,
-      queryParameters: queryParameters,
-      extra: selectedCategories,
+      extra: {
+        "startDate": startDateFilter,
+        "endDate": endDateFilter,
+        "selectedCategories": selectedCategories,
+      },
     );
+
+    if (filterData != null && filterData is (DateTime?, DateTime?, Set<int>)) {
+      onFilterApplied(filterData);
+    }
   }
 }

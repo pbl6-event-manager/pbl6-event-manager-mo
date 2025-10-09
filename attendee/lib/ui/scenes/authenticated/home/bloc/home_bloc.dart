@@ -13,6 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeChipSelected>(_onHomeChipSelected);
     on<HomeReturnedFromSearch>(_onHomeReturnedFromSearch);
     on<HomeEventSearchCleared>(_onHomeEventSearchCleared);
+    on<HomeReturnedFromFilter>(_onHomeReturnedFromFilter);
   }
 
   Future<void> _onHomeLoad(HomeLoad event, Emitter<HomeState> emit) async {
@@ -148,6 +149,40 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     try {
       // Simulate API call
+      await Future.delayed(const Duration(seconds: 2));
+      emit(state.copyWith(status: ViewStatusEnum.success));
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: ViewStatusEnum.failure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onHomeReturnedFromFilter(
+    HomeReturnedFromFilter event,
+    Emitter<HomeState> emit,
+  ) async {
+    if (event.filterData == null) {
+      return;
+    }
+
+    final (DateTime? startDate, DateTime? endDate, Set<int> categories) =
+        event.filterData!;
+
+    emit(
+      state.copyWith(
+        status: ViewStatusEnum.loading,
+        filterStartDate: Nullable(startDate),
+        filterEndDate: Nullable(endDate),
+        selectedCategories: categories,
+      ),
+    );
+
+    try {
+      // Simulate API call with filter parameters
       await Future.delayed(const Duration(seconds: 2));
       emit(state.copyWith(status: ViewStatusEnum.success));
     } catch (error) {
