@@ -51,6 +51,7 @@ final class AppTheme {
             ),
           ),
         ),
+
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
             disabledBackgroundColor: colorPalette.disabled,

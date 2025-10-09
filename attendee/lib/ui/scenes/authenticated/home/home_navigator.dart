@@ -9,6 +9,12 @@ abstract class HomeNavigator extends BaseNavigator {
     required String currentLocationLabel,
     required void Function((String?, String?)) onSearchSubmitted,
   });
+
+  Future<void> goToFilter({
+    DateTime? startDateFilter,
+    DateTime? endDateFilter,
+    List<String> selectedCategories = const [],
+  });
 }
 
 class HomeNavigatorImplementation implements HomeNavigator {
@@ -34,5 +40,22 @@ class HomeNavigatorImplementation implements HomeNavigator {
     if (searchValues != null && searchValues is (String?, String?)) {
       onSearchSubmitted(searchValues);
     }
+  }
+
+  @override
+  Future<void> goToFilter({
+    DateTime? startDateFilter,
+    DateTime? endDateFilter,
+    List<String> selectedCategories = const [],
+  }) async {
+    final Map<String, String> queryParameters = {
+      "startDate": startDateFilter.toString(),
+      "endDate": endDateFilter.toString(),
+    };
+    await goRouter.pushNamed(
+      AppRouteEnum.homeFilter.name,
+      queryParameters: queryParameters,
+      extra: selectedCategories,
+    );
   }
 }

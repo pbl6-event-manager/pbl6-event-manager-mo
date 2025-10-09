@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
+import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart";
 import "package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart";
@@ -54,7 +55,7 @@ final class AppRouter {
 
   /// Home route for authenticated users
   GoRoute get _homeRoute => GoRoute(
-    routes: [_homeSearchRoute],
+    routes: [_homeSearchRoute, _homeFilterRoute],
     path: AppRouteEnum.home.path,
     name: AppRouteEnum.home.name,
     builder: (context, state) => const HomePage(),
@@ -71,6 +72,24 @@ final class AppRouter {
         currentLocationQuery: location,
         currentEventQuery: event,
       );
+    },
+  );
+
+  GoRoute get _homeFilterRoute => GoRoute(
+    path: AppRouteEnum.homeFilter.path,
+    name: AppRouteEnum.homeFilter.name,
+    builder: (context, state) {
+      final String? startDateRawString = state.uri.queryParameters["startDate"];
+      final String? endDateRawString = state.uri.queryParameters["endDate"];
+
+      final DateTime? startDate = DateTime.tryParse(startDateRawString ?? "");
+      final DateTime? endDate = DateTime.tryParse(endDateRawString ?? "");
+
+      final List<String>? selectedCategories = state.extra is List<String>
+          ? state.extra as List<String>
+          : null;
+
+      return HomeFilterPage();
     },
   );
 
