@@ -1,5 +1,8 @@
 import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/network/config/dio_config.dart";
+import "package:attendee/utils/constants/storage_keys_constants.dart";
+import "package:dio/dio.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
 import "package:get_it/get_it.dart";
 
@@ -16,6 +19,13 @@ class ServiceLocator {
         iOptions: IOSOptions(
           accessibility: KeychainAccessibility.first_unlock_this_device,
         ),
+      ),
+    );
+
+    _getIt.registerLazySingleton<Dio>(
+      () => DioConfig.getConfiguredDio(
+        secureStorage: _getIt<FlutterSecureStorage>(),
+        securedStorageAccessTokenKey: StorageKeysConstants.tokenKey,
       ),
     );
 

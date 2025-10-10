@@ -33,7 +33,7 @@ class FocusAwareTextFieldState extends State<FocusAwareTextField> {
       setState(() {});
       widget.onFocusChanged?.call(_focusNode.hasFocus);
     });
-    _controller = TextEditingController(text: widget.initialValue ?? '');
+    _controller = TextEditingController(text: widget.initialValue ?? "");
   }
 
   @override
@@ -46,7 +46,7 @@ class FocusAwareTextFieldState extends State<FocusAwareTextField> {
   @override
   void didUpdateWidget(covariant FocusAwareTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final String newText = widget.initialValue ?? '';
+    final String newText = widget.initialValue ?? "";
     if (_controller.text != newText) {
       _controller.value = TextEditingValue(
         text: newText,
