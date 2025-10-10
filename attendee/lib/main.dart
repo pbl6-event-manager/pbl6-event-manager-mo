@@ -6,11 +6,13 @@ import "package:attendee/ui/themes/color_palette.dart";
 import "package:attendee/ui/themes/text_palette.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 import "package:get_it/get_it.dart";
 
 void main() async {
   // Initialize service locator
   ServiceLocator.setupDependencies();
+  await dotenv.load(fileName: ".env");
 
   runApp(const MyApp());
 }

@@ -11,7 +11,6 @@ import "package:attendee/utils/extensions/context_extension.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_bloc.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_event.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart";
-import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
