@@ -36,3 +36,12 @@ final class HomeReturnedFromSearch extends HomeEvent {
 final class HomeEventSearchCleared extends HomeEvent {
   const HomeEventSearchCleared();
 }
+
+final class HomeReturnedFromFilter extends HomeEvent {
+  const HomeReturnedFromFilter({this.filterData});
+
+  final (DateTime?, DateTime?, Set<int>)? filterData;
+
+  @override
+  List<Object?> get props => [filterData];
+}

@@ -9,6 +9,13 @@ abstract class HomeNavigator extends BaseNavigator {
     required String currentLocationLabel,
     required void Function((String?, String?)) onSearchSubmitted,
   });
+
+  Future<void> goToFilter({
+    DateTime? startDateFilter,
+    DateTime? endDateFilter,
+    Set<int> selectedCategories = const {},
+    required void Function((DateTime?, DateTime?, Set<int>)?) onFilterApplied,
+  });
 }
 
 class HomeNavigatorImplementation implements HomeNavigator {
@@ -33,6 +40,27 @@ class HomeNavigatorImplementation implements HomeNavigator {
 
     if (searchValues != null && searchValues is (String?, String?)) {
       onSearchSubmitted(searchValues);
+    }
+  }
+
+  @override
+  Future<void> goToFilter({
+    DateTime? startDateFilter,
+    DateTime? endDateFilter,
+    Set<int> selectedCategories = const {},
+    required void Function((DateTime?, DateTime?, Set<int>)?) onFilterApplied,
+  }) async {
+    final filterData = await goRouter.pushNamed(
+      AppRouteEnum.homeFilter.name,
+      extra: {
+        "startDate": startDateFilter,
+        "endDate": endDateFilter,
+        "selectedCategories": selectedCategories,
+      },
+    );
+
+    if (filterData != null && filterData is (DateTime?, DateTime?, Set<int>)) {
+      onFilterApplied(filterData);
     }
   }
 }

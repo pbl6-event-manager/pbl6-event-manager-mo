@@ -98,7 +98,7 @@ class HomeView extends StatelessWidget {
         ),
         currentEventSearchQuery: state.currentSearchQuery,
         currentLocation: state.currentLocation,
-        onFilterTapped: () {},
+        onFilterTapped: () => _onFilterTapped(context),
         chipData: state.chipData,
         onChipTapped: (id) =>
             context.read<HomeBloc>().add(HomeChipSelected(id)),
@@ -137,6 +137,20 @@ class HomeView extends StatelessWidget {
       currentEventSearchQuery: currentEventSearchQuery,
       currentLocationLabel: currentLocationLabel,
       onSearchSubmitted: onSearchSubmitted,
+    );
+  }
+
+  void _onFilterTapped(BuildContext context) {
+    final state = context.read<HomeBloc>().state;
+    context.read<HomeNavigator>().goToFilter(
+      startDateFilter: state.filterStartDate,
+      endDateFilter: state.filterEndDate,
+      selectedCategories: state.selectedCategories,
+      onFilterApplied: (filterData) {
+        context.read<HomeBloc>().add(
+          HomeReturnedFromFilter(filterData: filterData),
+        );
+      },
     );
   }
 

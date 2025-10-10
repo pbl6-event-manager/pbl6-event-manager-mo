@@ -102,7 +102,7 @@ class HomeAppbar extends StatelessWidget {
           ),
 
           // Filter
-          GestureDetector(
+          InkWell(
             onTap: onFilterTapped,
             child: Container(
               padding: EdgeInsets.all(4),

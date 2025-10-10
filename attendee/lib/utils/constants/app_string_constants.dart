@@ -8,6 +8,8 @@ abstract class AppStringConstants {
   static EventAppStrings get event => EventAppStrings._();
 
   static HomeAppStrings get home => HomeAppStrings._();
+  static HomeSearchAppStrings get homeSearch => HomeSearchAppStrings._();
+  static HomeFilterAppStrings get homeFilter => HomeFilterAppStrings._();
 }
 
 final class EmailInitialAppStrings {
@@ -83,4 +85,30 @@ final class HomeAppStrings {
   String get searchAppBarLabel => "Find things to do";
 
   String searchAppBarTitle(String location) => "In $location";
+}
+
+final class HomeSearchAppStrings {
+  const HomeSearchAppStrings._();
+
+  String get appBarTitle => "Search";
+}
+
+final class HomeFilterAppStrings {
+  String get appBarTitle => "Filter";
+
+  const HomeFilterAppStrings._();
+
+  // Date filter
+  String get dateFilter => "Date";
+  String get dateFilterAnyDate => "Any date";
+  String get dateFilterToday => "Today";
+  String get dateFilterTomorrow => "Tomorrow";
+  String get dateFilterWeekdays => "Week days";
+  String get dateFilterWeekends => "Weekends";
+  String get dateFilterCustomDate => "Custom date";
+
+  // Category filter
+  String get categoryFilter => "Category";
+
+  // Reset button
 }

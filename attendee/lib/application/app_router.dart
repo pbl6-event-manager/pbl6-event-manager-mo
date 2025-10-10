@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
+import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart";
 import "package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart";
@@ -54,7 +55,7 @@ final class AppRouter {
 
   /// Home route for authenticated users
   GoRoute get _homeRoute => GoRoute(
-    routes: [_homeSearchRoute],
+    routes: [_homeSearchRoute, _homeFilterRoute],
     path: AppRouteEnum.home.path,
     name: AppRouteEnum.home.name,
     builder: (context, state) => const HomePage(),
@@ -70,6 +71,29 @@ final class AppRouter {
       return HomeSearchPage(
         currentLocationQuery: location,
         currentEventQuery: event,
+      );
+    },
+  );
+
+  GoRoute get _homeFilterRoute => GoRoute(
+    path: AppRouteEnum.homeFilter.path,
+    name: AppRouteEnum.homeFilter.name,
+    builder: (context, state) {
+      DateTime? startDate;
+      DateTime? endDate;
+      Set<int>? selectedCategories;
+
+      if (state.extra is Map<String, dynamic>) {
+        final extra = state.extra as Map<String, dynamic>;
+        startDate = extra["startDate"] as DateTime?;
+        endDate = extra["endDate"] as DateTime?;
+        selectedCategories = extra["selectedCategories"] as Set<int>?;
+      }
+
+      return HomeFilterPage(
+        initialStartDate: startDate,
+        initialEndDate: endDate,
+        initialSelectedCategories: selectedCategories,
       );
     },
   );
