@@ -1,4 +1,7 @@
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/domain/repositories/auth_repository.dart";
+import "package:attendee/utils/constants/app_string_constants.dart";
+import "package:attendee/utils/helpers/result.dart";
 import "package:attendee/utils/validation_utils.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
@@ -9,16 +12,21 @@ part "sign_up_event.dart";
 part "sign_up_state.dart";
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final String originalEmail;
-  final AuthBloc authBloc;
+  final AuthBloc _authBloc;
+  final AuthRepository _repository;
 
   String? _confirmEmailError;
   String? _firstNameError;
   String? _lastNameError;
   String? _passwordError;
 
-  SignUpBloc({required this.originalEmail, required this.authBloc})
-    : super(SignUpState.initial()) {
+  SignUpBloc({
+    required AuthBloc authBloc,
+    required AuthRepository repository,
+    required String originalEmail,
+  }) : _repository = repository,
+       _authBloc = authBloc,
+       super(SignUpState.initial(originalEmail: originalEmail)) {
     on<FieldChanged>(_onFieldChanged);
     on<FieldCompleted>(_onFieldCompleted);
     on<SubmitButtonTapped>(_onSubmitButtonTapped);
@@ -70,17 +78,23 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   ) async {
     emit(state.copyWith(status: ViewStatusEnum.loading));
 
-    try {
-      // TODO: Implement actual sign up logic
-      await Future.delayed(const Duration(seconds: 3));
+    final result = await _repository.signUp(
+      email: state.originalEmail,
+      password: state.password,
+      firstName: state.firstName,
+      lastName: state.lastName,
+    );
 
-      // Simulate successful registration with a mock token
-      const mockToken = "mock_auth_token_sign_up_success";
-      authBloc.add(AuthTokenAdded(mockToken));
-
-      emit(state.copyWith(status: ViewStatusEnum.success));
-    } catch (e) {
-      emit(state.copyWith(status: ViewStatusEnum.failure));
+    switch (result) {
+      case Ok<void>():
+        await _signInAfterSignUp(emit: emit);
+      case Error<void>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: AppStringConstants.genericErrors.tryAgainMessage,
+          ),
+        );
     }
   }
 
@@ -96,7 +110,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       case SignUpFields.confirmEmail:
         _confirmEmailError = ValidationUtils.validateConfirmField(
           state.confirmEmail,
-          originalText: originalEmail,
+          originalText: state.originalEmail,
         );
         break;
       case SignUpFields.firstName:
@@ -118,5 +132,27 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         state.firstName.isNotEmpty &&
         state.lastName.isNotEmpty &&
         state.password.isNotEmpty;
+  }
+
+  Future<void> _signInAfterSignUp({required Emitter<SignUpState> emit}) async {
+    final dataToken = await _repository.signIn(
+      email: state.originalEmail,
+      password: state.password,
+    );
+
+    switch (dataToken) {
+      case Ok<(String accessToken, String refreshToken)>():
+        _authBloc.add(AuthTokenAdded(dataToken.value.$1));
+
+        emit(state.copyWith(status: ViewStatusEnum.success));
+
+      case Error<(String, String)>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: AppStringConstants.genericErrors.tryAgainMessage,
+          ),
+        );
+    }
   }
 }

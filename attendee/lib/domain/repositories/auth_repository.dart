@@ -8,4 +8,10 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+  Future<Result<void>> signUp({
+    required String email,
+    required String password,
+    required String firstName,
+    required String lastName,
+  });
 }
