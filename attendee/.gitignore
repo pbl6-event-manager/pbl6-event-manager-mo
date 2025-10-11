@@ -255,3 +255,6 @@ google-services.json
 # FVM Version Cache
 .fvm/
 .env
+
+# Generated .g.dart files
+*.g.dart

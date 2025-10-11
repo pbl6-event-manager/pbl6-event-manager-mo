@@ -1,13 +1,19 @@
 import "dart:async";
 
+import "package:attendee/domain/repositories/check_email_repository.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
+import "package:attendee/utils/helpers/nullable.dart";
+import "package:attendee/utils/helpers/result.dart";
 import "package:attendee/utils/validation_utils.dart";
 import "package:bloc/bloc.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_event.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart";
 
 class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
-  EmailInitialBloc() : super(const EmailInitialState()) {
+  final CheckEmailRepository _checkEmailRepository;
+  EmailInitialBloc({required CheckEmailRepository checkEmailRepository})
+    : _checkEmailRepository = checkEmailRepository,
+      super(const EmailInitialState()) {
     on<EmailChanged>(_onEmailChanged);
     on<EmailSubmitted>(_onEmailSubmitted);
     on<EmailCompleted>(_onEmailCompleted);
@@ -51,18 +57,26 @@ class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
 
     emit(state.copyWith(status: ViewStatusEnum.loading, errorMessage: null));
 
-    try {
-      // TODO: Simulate API call - replace with actual authentication logic
-      await Future.delayed(const Duration(seconds: 2));
+    final result = await _checkEmailRepository.checkIfEmailExists(
+      email: state.email,
+    );
 
-      emit(state.copyWith(status: ViewStatusEnum.success));
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: "An error occurred. Please try again.",
-        ),
-      );
+    switch (result) {
+      case Ok():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            isEmailRegistered: Nullable(result.value),
+          ),
+        );
+      case Error():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            // TODO: Process error later
+            errorMessage: result.error.toString(),
+          ),
+        );
     }
   }
 }
