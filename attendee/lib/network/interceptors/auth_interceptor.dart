@@ -21,6 +21,14 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    final bool includeToken = !options.extra.containsKey(
+      InterceptorsConstants.noAuth,
+    );
+
+    if (includeToken == false) {
+      return;
+    }
+
     final String? accessToken = await securedStorage.read(
       key: securedStorageAccessTokenKey,
     );

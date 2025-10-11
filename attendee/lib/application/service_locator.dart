@@ -1,6 +1,9 @@
 import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/domain/repositories/check_email_repository.dart";
 import "package:attendee/network/config/dio_config.dart";
+import "package:attendee/network/datasources/auth_datasource.dart";
+import "package:attendee/network/repositories/check_email_repository_implementation.dart";
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:dio/dio.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
@@ -36,6 +39,18 @@ class ServiceLocator {
 
     _getIt.registerLazySingleton<AppRouter>(
       () => AppRouter(_getIt<AuthBloc>()),
+    );
+
+    // Datasources
+    _getIt.registerLazySingleton<AuthDatasource>(
+      () => AuthDatasource(_getIt<Dio>()),
+    );
+
+    // Repositories
+    _getIt.registerLazySingleton<CheckEmailRepository>(
+      () => CheckEmailRepositoryImplementation(
+        authDatasource: _getIt<AuthDatasource>(),
+      ),
     );
   }
 }

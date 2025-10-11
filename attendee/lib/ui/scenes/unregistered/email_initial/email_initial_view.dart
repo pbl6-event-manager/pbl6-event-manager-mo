@@ -1,4 +1,5 @@
 import "package:attendee/application/app_router.dart";
+import "package:attendee/domain/repositories/check_email_repository.dart";
 import "package:attendee/ui/common_widgets/common_text_field.dart";
 import "package:attendee/ui/common_widgets/common_button_with_loading.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_navigator.dart";
@@ -22,7 +23,11 @@ class EmailInitialPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => EmailInitialBloc()),
+        BlocProvider(
+          create: (context) => EmailInitialBloc(
+            checkEmailRepository: GetIt.instance<CheckEmailRepository>(),
+          ),
+        ),
         RepositoryProvider<EmailInitialNavigator>(
           create: (context) => EmailInitialNavigatorImplementation(
             goRouter: GetIt.instance<AppRouter>().router,
@@ -128,10 +133,14 @@ class _EmailInitialViewState extends State<EmailInitialView> {
   }
 
   void _blocListener(BuildContext context, EmailInitialState state) {
-    if (state.status == ViewStatusEnum.success) {
-      context.read<EmailInitialNavigator>().goToSignIn(
-        email: emailController.text,
-      );
+    if (state.status == ViewStatusEnum.success &&
+        state.isEmailRegistered != null) {
+      final EmailInitialNavigator navigator = context
+          .read<EmailInitialNavigator>();
+
+      state.isEmailRegistered == true
+          ? navigator.goToSignIn(email: emailController.text)
+          : navigator.goToSignUp(email: emailController.text);
     }
   }
 }
