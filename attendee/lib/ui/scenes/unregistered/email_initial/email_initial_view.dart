@@ -1,5 +1,5 @@
 import "package:attendee/application/app_router.dart";
-import "package:attendee/domain/repositories/check_email_repository.dart";
+import "package:attendee/domain/repositories/auth_repository.dart";
 import "package:attendee/ui/common_widgets/common_text_field.dart";
 import "package:attendee/ui/common_widgets/common_button_with_loading.dart";
 import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_navigator.dart";
@@ -25,7 +25,7 @@ class EmailInitialPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => EmailInitialBloc(
-            checkEmailRepository: GetIt.instance<CheckEmailRepository>(),
+            checkEmailRepository: GetIt.instance<AuthRepository>(),
           ),
         ),
         RepositoryProvider<EmailInitialNavigator>(
