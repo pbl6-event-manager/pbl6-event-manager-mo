@@ -1,6 +1,6 @@
 import "dart:async";
 
-import "package:attendee/domain/repositories/check_email_repository.dart";
+import "package:attendee/domain/repositories/auth_repository.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/nullable.dart";
 import "package:attendee/utils/helpers/result.dart";
@@ -10,8 +10,8 @@ import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial
 import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart";
 
 class EmailInitialBloc extends Bloc<EmailInitalEvent, EmailInitialState> {
-  final CheckEmailRepository _checkEmailRepository;
-  EmailInitialBloc({required CheckEmailRepository checkEmailRepository})
+  final AuthRepository _checkEmailRepository;
+  EmailInitialBloc({required AuthRepository checkEmailRepository})
     : _checkEmailRepository = checkEmailRepository,
       super(const EmailInitialState()) {
     on<EmailChanged>(_onEmailChanged);

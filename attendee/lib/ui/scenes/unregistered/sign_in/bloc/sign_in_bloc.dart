@@ -1,17 +1,26 @@
 import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/domain/repositories/auth_repository.dart";
 import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart";
 import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart";
 import "package:attendee/utils/constants/app_string_constants.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
+import "package:attendee/utils/helpers/result.dart";
 import "package:attendee/utils/validation_utils.dart";
 import "package:bloc/bloc.dart";
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  final AuthBloc authBloc;
+  final AuthBloc _authBloc;
+  final AuthRepository _repository;
 
-  SignInBloc({required this.authBloc}) : super(const SignInState.initial()) {
+  SignInBloc({
+    required AuthBloc authBloc,
+    required AuthRepository authRepository,
+    required String email,
+  }) : _authBloc = authBloc,
+       _repository = authRepository,
+       super(SignInState.initial(email: email)) {
     on<PasswordChanged>(_onPasswordChanged);
     on<PasswordCompleted>(_onPasswordCompleted);
     on<PasswordSubmitted>(_onPasswordSubmitted);
@@ -52,25 +61,27 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     Emitter<SignInState> emit,
   ) async {
     if (!state.isButtonEnabled) return;
-
     emit(state.copyWith(status: ViewStatusEnum.loading, errorMessage: null));
 
-    try {
-      // TODO: Simulate API call - replace with actual authentication logic
-      await Future.delayed(const Duration(seconds: 2));
+    final dataToken = await _repository.signIn(
+      email: state.email,
+      password: state.password,
+    );
 
-      // Simulate successful authentication with a mock token
-      const mockToken = "mock_auth_token_sign_in_success";
-      authBloc.add(AuthTokenAdded(mockToken));
+    switch (dataToken) {
+      case Ok<(String accessToken, String refreshToken)>():
+        const mockToken = "mock_auth_token_sign_in_success";
+        _authBloc.add(AuthTokenAdded(mockToken));
 
-      emit(state.copyWith(status: ViewStatusEnum.success));
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: AppStringConstants.genericErrors.tryAgainMessage,
-        ),
-      );
+        emit(state.copyWith(status: ViewStatusEnum.success));
+
+      case Error<(String, String)>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: AppStringConstants.genericErrors.tryAgainMessage,
+          ),
+        );
     }
   }
 

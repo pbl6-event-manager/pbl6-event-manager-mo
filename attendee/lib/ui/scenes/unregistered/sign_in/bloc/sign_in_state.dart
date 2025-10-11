@@ -10,6 +10,7 @@ class SignInState extends Equatable {
   final String? errorMessage;
   final bool isButtonEnabled;
   final bool isSecured;
+  final String email;
 
   bool get isLoading => status == ViewStatusEnum.loading;
 
@@ -20,6 +21,7 @@ class SignInState extends Equatable {
     required this.errorMessage,
     required this.isButtonEnabled,
     required this.isSecured,
+    required this.email,
   });
   const SignInState.initial({
     this.password = "",
@@ -28,6 +30,7 @@ class SignInState extends Equatable {
     this.errorMessage,
     this.isButtonEnabled = false,
     this.isSecured = true,
+    required this.email,
   });
 
   @override
@@ -47,6 +50,7 @@ class SignInState extends Equatable {
     String? errorMessage,
     bool? isButtonEnabled,
     bool? isSecured,
+    String? email,
   }) {
     return SignInState(
       password: password ?? this.password,
@@ -55,6 +59,7 @@ class SignInState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       isButtonEnabled: isButtonEnabled ?? this.isButtonEnabled,
       isSecured: isSecured ?? this.isSecured,
+      email: email ?? this.email,
     );
   }
 }
