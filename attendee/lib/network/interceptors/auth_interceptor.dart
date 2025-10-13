@@ -9,11 +9,13 @@ class AuthInterceptor extends Interceptor {
   final String securedStorageAccessTokenKey;
   final Dio dio;
   final int maxRetries;
+  final void Function() onUnauthenticated;
 
   const AuthInterceptor({
     required this.securedStorage,
     required this.securedStorageAccessTokenKey,
     required this.dio,
+    required this.onUnauthenticated,
     this.maxRetries = 3,
   });
   @override
@@ -43,6 +45,11 @@ class AuthInterceptor extends Interceptor {
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode;
+
+    if (statusCode != null && statusCode == 401) {
+      onUnauthenticated();
+      return;
+    }
 
     if (statusCode != null && statusCode >= 500 && statusCode < 600) {
       // Get current retry count from request options

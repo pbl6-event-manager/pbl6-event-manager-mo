@@ -1,3 +1,4 @@
+import "package:attendee/domain/models/event.dart";
 import "package:attendee/ui/common_widgets/common_event_tag.dart";
 import "package:attendee/ui/common_widgets/common_image_carousel.dart";
 import "package:attendee/ui/common_widgets/common_image_widget.dart";
@@ -14,33 +15,39 @@ import "package:flutter/material.dart";
 /// - Normal: Big image with share button: [EventWidget]
 /// - Compact: Small image without share button and single image only (first image of the list) [EventWidget.compact]
 class EventWidget extends StatelessWidget {
-  const EventWidget({super.key, this.isLoading = false}) : _isCompact = false;
+  const EventWidget({super.key, this.isLoading = false, required this.event})
+    : _isCompact = false;
 
-  const EventWidget.compact({super.key, this.isLoading = false})
-    : _isCompact = true;
+  const EventWidget.compact({
+    super.key,
+    this.isLoading = false,
+    required this.event,
+  }) : _isCompact = true;
 
   final bool _isCompact;
   final bool isLoading;
-
-  // TODO: Apply model later
+  final Event event;
 
   String get title =>
-      isLoading ? "Loading Event Title Here" : "FREE Gaming and Bartending ";
-  DateTime get startTime => DateTime.now();
+      isLoading ? "Loading Event Title Here" : (event.title ?? "");
+
+  DateTime get startTime => event.date ?? DateTime.now();
+
   String get location =>
-      isLoading ? "Loading location here" : "This is a location";
+      isLoading ? "Loading location here" : (event.city ?? event.address ?? "");
+
   bool get isFree => false;
   int get pricing => 90;
-  List<String> get imageUrls => [
-    "https://images.unsplash.com/photo-1755357667384-adec9e5cdf84?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0",
-    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0",
-    "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0",
-    "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0",
-    "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0",
-  ];
+
+  List<String> get imageUrls {
+    if (event.bannerImagePath != null && event.bannerImagePath!.isNotEmpty) {
+      return [event.bannerImagePath!];
+    }
+    // Fallback images for loading/empty state
+    return [
+      "https://images.unsplash.com/photo-1755357667384-adec9e5cdf84?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ];
+  }
 
   bool get isFavorite => false;
   bool get isFewTicketLeft => true;

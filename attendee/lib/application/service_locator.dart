@@ -1,9 +1,12 @@
 import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/repositories/auth_repository.dart";
+import "package:attendee/domain/repositories/event_repository.dart";
 import "package:attendee/network/config/dio_config.dart";
 import "package:attendee/network/datasources/auth_datasource.dart";
+import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/network/repositories/auth_repository_implementation.dart";
+import "package:attendee/network/repositories/event_repository_implementation.dart";
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:dio/dio.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
@@ -24,17 +27,18 @@ class ServiceLocator {
         ),
       ),
     );
-
-    _getIt.registerLazySingleton<Dio>(
-      () => DioConfig.getConfiguredDio(
-        secureStorage: _getIt<FlutterSecureStorage>(),
-        securedStorageAccessTokenKey: StorageKeysConstants.tokenKey,
-      ),
-    );
-
     _getIt.registerLazySingleton<AuthBloc>(
       () => AuthBloc(),
       dispose: (bloc) => bloc.close(),
+    );
+
+    _getIt.registerLazySingleton<Dio>(
+      () => DioConfig.getConfiguredDio(
+        onUnauthenticated: () =>
+            _getIt<AuthBloc>().add(const AuthTokenRemoved()),
+        secureStorage: _getIt<FlutterSecureStorage>(),
+        securedStorageAccessTokenKey: StorageKeysConstants.tokenKey,
+      ),
     );
 
     _getIt.registerLazySingleton<AppRouter>(
@@ -46,10 +50,19 @@ class ServiceLocator {
       () => AuthDatasource(_getIt<Dio>()),
     );
 
+    _getIt.registerLazySingleton<EventDatasource>(
+      () => EventDatasource(_getIt<Dio>()),
+    );
+
     // Repositories
     _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImplementation(
         authDatasource: _getIt<AuthDatasource>(),
+      ),
+    );
+    _getIt.registerLazySingleton<EventRepository>(
+      () => EventRepositoryImplementation(
+        eventDatasource: _getIt<EventDatasource>(),
       ),
     );
   }
