@@ -10,6 +10,7 @@ final class HomeState extends Equatable {
   final DateTime? filterStartDate;
   final DateTime? filterEndDate;
   final Set<int> selectedCategories;
+  final List<Event> events;
 
   const HomeState({
     required this.status,
@@ -21,6 +22,7 @@ final class HomeState extends Equatable {
     required this.filterStartDate,
     required this.filterEndDate,
     required this.selectedCategories,
+    required this.events,
   });
 
   const HomeState.initial()
@@ -32,7 +34,8 @@ final class HomeState extends Equatable {
       chipData = const [],
       filterStartDate = null,
       filterEndDate = null,
-      selectedCategories = const {};
+      selectedCategories = const {},
+      events = const [];
 
   HomeState copyWith({
     ViewStatusEnum? status,
@@ -44,6 +47,7 @@ final class HomeState extends Equatable {
     Nullable<DateTime>? filterStartDate,
     Nullable<DateTime>? filterEndDate,
     Set<int>? selectedCategories,
+    List<Event>? events,
   }) {
     return HomeState(
       currentSearchQuery: currentSearchQuery != null
@@ -61,6 +65,7 @@ final class HomeState extends Equatable {
           ? filterEndDate.value
           : this.filterEndDate,
       selectedCategories: selectedCategories ?? this.selectedCategories,
+      events: events ?? this.events,
     );
   }
 
@@ -75,5 +80,6 @@ final class HomeState extends Equatable {
     filterStartDate,
     filterEndDate,
     selectedCategories,
+    events,
   ];
 }

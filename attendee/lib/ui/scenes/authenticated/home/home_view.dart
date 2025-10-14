@@ -1,4 +1,5 @@
 import "package:attendee/application/app_router.dart";
+import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/ui/scenes/authenticated/home/bloc/home_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/home/widgets/home_event_section.dart";
@@ -19,7 +20,9 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeBloc>(
-          create: (context) => HomeBloc()..add(HomeLoad()),
+          create: (context) =>
+              HomeBloc(eventDatasource: GetIt.instance<EventDatasource>())
+                ..add(HomeLoad()),
         ),
         RepositoryProvider<HomeNavigator>(
           create: (context) => HomeNavigatorImplementation(
@@ -60,26 +63,33 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildBody(bool isLoading, BuildContext context) {
-    return SliverSkeletonizer(
-      enabled: isLoading,
-      child: SliverPadding(
-        padding: EdgeInsetsGeometry.symmetric(
-          horizontal: UIConstants.horizontalPadding,
-        ),
-        sliver: SliverMainAxisGroup(
-          slivers: [
-            ..._buildListSectionWithTitle(
-              context,
-              title: "Popular in Los Angeles",
-              contentWidget: HomeEventSection.compact(isLoading: isLoading),
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        return SliverSkeletonizer(
+          enabled: isLoading,
+          child: SliverPadding(
+            padding: EdgeInsetsGeometry.symmetric(
+              horizontal: UIConstants.horizontalPadding,
             ),
-            const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
-            HomeEventSection(isLoading: isLoading),
-            const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
-            HomeEventSection(isLoading: isLoading),
-          ],
-        ),
-      ),
+            sliver: SliverMainAxisGroup(
+              slivers: [
+                ..._buildListSectionWithTitle(
+                  context,
+                  title: "Popular in Los Angeles",
+                  contentWidget: HomeEventSection.compact(
+                    isLoading: isLoading,
+                    events: state.events,
+                  ),
+                ),
+                const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
+                HomeEventSection(isLoading: isLoading, events: state.events),
+                const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
+                HomeEventSection(isLoading: isLoading, events: state.events),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

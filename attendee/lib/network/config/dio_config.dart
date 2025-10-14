@@ -11,6 +11,7 @@ abstract class DioConfig {
   static Dio getConfiguredDio({
     required FlutterSecureStorage secureStorage,
     required String securedStorageAccessTokenKey,
+    required void Function() onUnauthenticated,
   }) {
     final Dio dio = Dio(BaseOptions(baseUrl: ApiEndpointConstants.baseUrl));
 
@@ -19,6 +20,7 @@ abstract class DioConfig {
 
     dio.interceptors.addAll([
       AuthInterceptor(
+        onUnauthenticated: onUnauthenticated,
         securedStorage: secureStorage,
         securedStorageAccessTokenKey: securedStorageAccessTokenKey,
         dio: retryDio,
