@@ -1,4 +1,5 @@
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/domain/repositories/auth_repository.dart";
 import "package:attendee/ui/common_widgets/mix_text.dart";
 import "package:attendee/ui/scenes/unregistered/sign_up/bloc/sign_up_bloc.dart";
 import "package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_field_list.dart";
@@ -11,6 +12,7 @@ import "package:attendee/utils/extensions/context_extension.dart";
 import "package:attendee/utils/string_utils.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:get_it/get_it.dart";
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key, required this.email});
@@ -20,8 +22,11 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          SignUpBloc(originalEmail: email, authBloc: context.read<AuthBloc>()),
+      create: (context) => SignUpBloc(
+        originalEmail: email,
+        authBloc: context.read<AuthBloc>(),
+        repository: GetIt.instance<AuthRepository>(),
+      ),
       child: SignUpView(email: email),
     );
   }
