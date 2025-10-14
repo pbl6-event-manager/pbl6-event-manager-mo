@@ -70,8 +70,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
     switch (dataToken) {
       case Ok<(String accessToken, String refreshToken)>():
-        const mockToken = "mock_auth_token_sign_in_success";
-        _authBloc.add(AuthTokenAdded(mockToken));
+        _authBloc.add(AuthTokenAdded(dataToken.value.$1));
 
         emit(state.copyWith(status: ViewStatusEnum.success));
 
