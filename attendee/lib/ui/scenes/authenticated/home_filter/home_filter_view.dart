@@ -1,5 +1,6 @@
 import "package:attendee/application/app_router.dart";
-import "package:attendee/domain/models/category.dart";
+import "package:attendee/domain/models/event_category.dart";
+import "package:attendee/domain/repositories/category_repository.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/bloc/home_filter_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_navigator.dart";
 import "package:attendee/utils/constants/app_string_constants.dart";
@@ -10,6 +11,7 @@ import "package:attendee/utils/extensions/date_time_extension.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
+import "package:skeletonizer/skeletonizer.dart";
 
 class HomeFilterPage extends StatelessWidget {
   const HomeFilterPage({
@@ -25,21 +27,19 @@ class HomeFilterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<EventCategory> dummyCategories = [
-      EventCategory(id: 1, name: "A"),
-      EventCategory(id: 2, name: "B"),
-    ];
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => HomeFilterBloc(dummyCategories)
-            ..add(
-              HomeFilterLoaded(
-                selectedCategoryId: initialSelectedCategories ?? {},
-                startDate: initialStartDate,
-                endDate: initialEndDate,
+          create: (context) =>
+              HomeFilterBloc(
+                categoryRepository: GetIt.instance<CategoryRepository>(),
+              )..add(
+                HomeFilterLoaded(
+                  selectedCategoryId: initialSelectedCategories ?? {},
+                  startDate: initialStartDate,
+                  endDate: initialEndDate,
+                ),
               ),
-            ),
         ),
         RepositoryProvider<HomeFilterNavigator>(
           create: (context) => HomeFilterNavigatorImplementation(
@@ -59,7 +59,6 @@ class HomeFilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeFilterBloc, HomeFilterState>(
       builder: (context, state) {
-        final allCategories = context.read<HomeFilterBloc>().allCategories;
         return Scaffold(
           bottomNavigationBar: _buildBottomBar(context),
           body: SafeArea(
@@ -67,11 +66,12 @@ class HomeFilterView extends StatelessWidget {
               horizontal: UIConstants.horizontalPadding,
             ),
             child: CustomScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
               slivers: [
                 _buildAppBar(context),
                 _buildDateFilter(context),
                 SliverToBoxAdapter(child: Divider()),
-                _buildCategoryFilter(context, allCategories),
+                _buildCategoryFilter(context, state.allCategories),
               ],
             ),
           ),
@@ -137,11 +137,12 @@ class HomeFilterView extends StatelessWidget {
     );
   }
 
-  SliverMainAxisGroup _buildCategoryFilter(
+  Widget _buildCategoryFilter(
     BuildContext context,
-    List<EventCategory> categories,
+    List<EventCategory>? categories,
   ) {
     final state = context.read<HomeFilterBloc>().state;
+    final List<EventCategory> uiCategories = categories ?? EventCategory.dummy;
     return SliverMainAxisGroup(
       slivers: [
         SliverPadding(
@@ -178,9 +179,11 @@ class HomeFilterView extends StatelessWidget {
           ),
         ),
         SliverList.builder(
-          itemBuilder: (context, index) =>
-              _buildCategoryTile(context, categories[index]),
-          itemCount: categories.length,
+          itemBuilder: (context, index) => Skeletonizer(
+            enabled: categories == null,
+            child: _buildCategoryTile(context, uiCategories[index]),
+          ),
+          itemCount: uiCategories.length,
         ),
       ],
     );
@@ -284,20 +287,22 @@ class HomeFilterView extends StatelessWidget {
     final state = context.read<HomeFilterBloc>().state;
     final isSelected = state.selectedCategories.contains(category.id);
 
-    return CheckboxListTile(
-      activeColor: context.colorPalette.primary,
-      visualDensity: VisualDensity(
-        horizontal: VisualDensity.minimumDensity,
-        vertical: VisualDensity.minimumDensity,
+    return Skeleton.leaf(
+      child: CheckboxListTile(
+        activeColor: context.colorPalette.primary,
+        visualDensity: VisualDensity(
+          horizontal: VisualDensity.minimumDensity,
+          vertical: VisualDensity.minimumDensity,
+        ),
+        contentPadding: EdgeInsets.zero,
+        value: isSelected,
+        onChanged: (bool? value) {
+          context.read<HomeFilterBloc>().add(
+            HomeFilterCategoryTapped(chosenCategoryId: category.id),
+          );
+        },
+        title: Text(category.name, style: context.textPalette.bodyMedium),
       ),
-      contentPadding: EdgeInsets.zero,
-      value: isSelected,
-      onChanged: (bool? value) {
-        context.read<HomeFilterBloc>().add(
-          HomeFilterCategoryTapped(chosenCategoryId: category.id),
-        );
-      },
-      title: Text(category.name, style: context.textPalette.bodyMedium),
     );
   }
 

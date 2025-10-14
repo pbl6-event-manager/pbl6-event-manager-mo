@@ -1,11 +1,14 @@
 import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/repositories/auth_repository.dart";
+import "package:attendee/domain/repositories/category_repository.dart";
 import "package:attendee/domain/repositories/event_repository.dart";
 import "package:attendee/network/config/dio_config.dart";
 import "package:attendee/network/datasources/auth_datasource.dart";
+import "package:attendee/network/datasources/category_datasource.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/network/repositories/auth_repository_implementation.dart";
+import "package:attendee/network/repositories/category_repository_implementation.dart";
 import "package:attendee/network/repositories/event_repository_implementation.dart";
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:dio/dio.dart";
@@ -54,6 +57,10 @@ class ServiceLocator {
       () => EventDatasource(_getIt<Dio>()),
     );
 
+    _getIt.registerLazySingleton<CategoryDatasource>(
+      () => CategoryDatasource(_getIt<Dio>()),
+    );
+
     // Repositories
     _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImplementation(
@@ -63,6 +70,11 @@ class ServiceLocator {
     _getIt.registerLazySingleton<EventRepository>(
       () => EventRepositoryImplementation(
         eventDatasource: _getIt<EventDatasource>(),
+      ),
+    );
+    _getIt.registerLazySingleton<CategoryRepository>(
+      () => CategoryRepositoryImplementation(
+        categoryDatasource: _getIt<CategoryDatasource>(),
       ),
     );
   }
