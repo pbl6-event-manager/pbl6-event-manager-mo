@@ -37,4 +37,27 @@ final class AuthRepositoryImplementation implements AuthRepository {
       return Result.error(error);
     }
   }
+
+  @override
+  Future<Result<void>> signUp({
+    required String email,
+    required String password,
+    required String firstName,
+    required String lastName,
+  }) async {
+    try {
+      await _authDatasource.signUp(
+        credentials: {
+          "email": email,
+          "password": password,
+          "firstName": firstName,
+          "lastName": lastName,
+        },
+      );
+
+      return const Result.ok(null);
+    } catch (error) {
+      return Result.error(error);
+    }
+  }
 }

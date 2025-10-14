@@ -6,6 +6,7 @@ enum SignUpFields { confirmEmail, firstName, lastName, password }
 
 class SignUpState extends Equatable {
   final ViewStatusEnum status;
+  final String originalEmail;
   final String confirmEmail;
   final String? confirmEmailError;
   final String firstName;
@@ -22,6 +23,7 @@ class SignUpState extends Equatable {
   bool get isLoading => status == ViewStatusEnum.loading;
 
   const SignUpState({
+    required this.originalEmail,
     required this.isFormValid,
     required this.confirmEmail,
     required this.confirmEmailError,
@@ -37,6 +39,7 @@ class SignUpState extends Equatable {
   });
 
   const SignUpState.initial({
+    required this.originalEmail,
     this.isFormValid = false,
     this.confirmEmail = "",
     this.confirmEmailError,
@@ -82,6 +85,7 @@ class SignUpState extends Equatable {
     bool? isPasswordSecured,
   }) {
     return SignUpState(
+      originalEmail: originalEmail,
       isFormValid: isFormValid ?? this.isFormValid,
 
       status: status ?? this.status,

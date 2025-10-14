@@ -19,4 +19,6 @@ abstract class AuthDatasource {
   Future<SignInResponseDto> signIn({
     @Body() required Map<String, String> credentials,
   });
+  @POST(ApiEndpointConstants.signUp)
+  Future<void> signUp({@Body() required Map<String, String> credentials});
 }
