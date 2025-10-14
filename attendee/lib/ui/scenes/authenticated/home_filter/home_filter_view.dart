@@ -3,11 +3,11 @@ import "package:attendee/domain/models/event_category.dart";
 import "package:attendee/domain/repositories/category_repository.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/bloc/home_filter_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_navigator.dart";
+import "package:attendee/ui/scenes/authenticated/home_filter/widgets/home_filter_appbar.dart";
+import "package:attendee/ui/scenes/authenticated/home_filter/widgets/home_filter_date_filter_list.dart";
 import "package:attendee/utils/constants/app_string_constants.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/enums/date_filter_enums.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
-import "package:attendee/utils/extensions/date_time_extension.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
@@ -68,8 +68,18 @@ class HomeFilterView extends StatelessWidget {
             child: CustomScrollView(
               physics: AlwaysScrollableScrollPhysics(),
               slivers: [
-                _buildAppBar(context),
-                _buildDateFilter(context),
+                HomeFilterAppBar(),
+                HomeFilterDateFilterList(
+                  dateType: state.dateType,
+                  onDateFilterSelected: (startDate, endDate) =>
+                      context.read<HomeFilterBloc>().add(
+                        HomeFilterDayTapped(
+                          startDate: startDate,
+                          endDate: endDate,
+                        ),
+                      ),
+                ),
+
                 SliverToBoxAdapter(child: Divider()),
                 _buildCategoryFilter(context, state.allCategories),
               ],
@@ -103,7 +113,7 @@ class HomeFilterView extends StatelessWidget {
             ),
             child: Flexible(
               child: Text(
-                "Reset",
+                AppStringConstants.homeFilter.resetButton,
                 style: context.textPalette.labelLarge.copyWith(
                   decoration: TextDecoration.underline,
                   color: state.hasFilterChanged
@@ -127,7 +137,7 @@ class HomeFilterView extends StatelessWidget {
                 );
               },
               child: Text(
-                "Apply Filters",
+                AppStringConstants.homeFilter.applyFiltersButton,
                 style: context.textPalette.labelLarge,
               ),
             ),
@@ -167,7 +177,7 @@ class HomeFilterView extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        "Reset",
+                        AppStringConstants.homeFilter.resetButton,
                         style: context.textPalette.labelMedium.copyWith(
                           decoration: TextDecoration.underline,
                         ),
@@ -189,100 +199,6 @@ class HomeFilterView extends StatelessWidget {
     );
   }
 
-  SliverMainAxisGroup _buildDateFilter(BuildContext context) {
-    final state = context.read<HomeFilterBloc>().state;
-
-    return SliverMainAxisGroup(
-      slivers: [
-        SliverPadding(
-          padding: EdgeInsetsGeometry.symmetric(vertical: 8),
-          sliver: SliverToBoxAdapter(
-            child: Text(
-              AppStringConstants.homeFilter.dateFilter,
-              style: context.textPalette.headlineLarge,
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: RadioGroup<DateFilterEnums>(
-            groupValue: state.dateType,
-            onChanged: (DateFilterEnums? value) {
-              if (value == null) return;
-
-              DateTime? startDate;
-              DateTime? endDate;
-
-              switch (value) {
-                case DateFilterEnums.any:
-                  startDate = null;
-                  endDate = null;
-                  break;
-                case DateFilterEnums.today:
-                  startDate = DateTime.now();
-                  endDate = null;
-                  break;
-                case DateFilterEnums.tomorrow:
-                  startDate = DateTime.now().add(Duration(days: 1));
-                  endDate = null;
-                  break;
-                case DateFilterEnums.custom:
-                  _showDatePicker(context);
-                  return;
-                case DateFilterEnums.weekdays:
-                  final weekDays = DateTime.now().weekdays;
-                  startDate = weekDays.$1;
-                  endDate = weekDays.$2;
-                case DateFilterEnums.weekends:
-                  final weekends = DateTime.now().weekends;
-                  startDate = weekends.$1;
-                  endDate = weekends.$2;
-              }
-
-              context.read<HomeFilterBloc>().add(
-                HomeFilterDayTapped(startDate: startDate, endDate: endDate),
-              );
-            },
-            child: Column(
-              children: DateFilterEnums.values
-                  .map((option) => _buildDateTile(context, option))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDateTile(BuildContext context, DateFilterEnums option) {
-    return ListTile(
-      visualDensity: VisualDensity(
-        horizontal: VisualDensity.minimumDensity,
-        vertical: VisualDensity.minimumDensity,
-      ),
-      contentPadding: EdgeInsets.zero,
-      title: Text(option.uiLabel, style: context.textPalette.bodyMedium),
-      trailing: Radio<DateFilterEnums>(
-        value: option,
-        activeColor: context.colorPalette.primary,
-      ),
-    );
-  }
-
-  Future<void> _showDatePicker(BuildContext context) async {
-    final now = DateTime.now();
-    final dateRange = await showDateRangePicker(
-      context: context,
-      firstDate: now,
-      lastDate: DateTime(now.year + 10),
-    );
-
-    if (dateRange != null && context.mounted) {
-      context.read<HomeFilterBloc>().add(
-        HomeFilterDayTapped(startDate: dateRange.start, endDate: dateRange.end),
-      );
-    }
-  }
-
   Widget _buildCategoryTile(BuildContext context, EventCategory category) {
     final state = context.read<HomeFilterBloc>().state;
     final isSelected = state.selectedCategories.contains(category.id);
@@ -302,43 +218,6 @@ class HomeFilterView extends StatelessWidget {
           );
         },
         title: Text(category.name, style: context.textPalette.bodyMedium),
-      ),
-    );
-  }
-
-  Widget _buildAppBar(BuildContext context) {
-    return SliverAppBar(
-      surfaceTintColor: Colors.transparent,
-      shadowColor: context.colorPalette.border.withValues(alpha: 0.1),
-      automaticallyImplyLeading: false,
-      titleSpacing: 0,
-      pinned: true,
-      toolbarHeight: 60,
-
-      title: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "Filter",
-                    style: context.textPalette.displayLarge,
-                  ),
-                ),
-
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close),
-                  iconSize: 32,
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }
