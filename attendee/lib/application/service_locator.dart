@@ -6,6 +6,10 @@ import "package:attendee/network/config/dio_config.dart";
 import "package:attendee/network/datasources/auth_datasource.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/network/repositories/auth_repository_implementation.dart";
+import "package:attendee/domain/repositories/location_repository.dart";
+import "package:attendee/network/datasources/location_datasource.dart";
+import "package:attendee/network/repositories/location_repository_implementation.dart";
+import "package:attendee/network/constants/api_endpoint_constants.dart";
 import "package:attendee/network/repositories/event_repository_implementation.dart";
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:dio/dio.dart";
@@ -54,6 +58,13 @@ class ServiceLocator {
       () => EventDatasource(_getIt<Dio>()),
     );
 
+    _getIt.registerLazySingleton<LocationDatasource>(
+      () => LocationDatasource(
+        _getIt<Dio>(),
+        baseUrl: ApiEndpointConstants.locationBaseUrl,
+      ),
+    );
+
     // Repositories
     _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImplementation(
@@ -63,6 +74,12 @@ class ServiceLocator {
     _getIt.registerLazySingleton<EventRepository>(
       () => EventRepositoryImplementation(
         eventDatasource: _getIt<EventDatasource>(),
+      ),
+    );
+
+    _getIt.registerLazySingleton<LocationRepository>(
+      () => LocationRepositoryImplementation(
+        locationDatasource: _getIt<LocationDatasource>(),
       ),
     );
   }
