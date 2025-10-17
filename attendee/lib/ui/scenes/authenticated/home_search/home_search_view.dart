@@ -1,4 +1,5 @@
 import "package:attendee/application/app_router.dart";
+import "package:attendee/domain/repositories/location_repository.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/home_search_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_appbar.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_list_tile.dart";
@@ -24,13 +25,15 @@ class HomeSearchPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => HomeSearchBloc()
-            ..add(
-              HomeSearchLoaded(
-                currentLocation: currentLocationQuery,
-                currentEventSearchQuery: currentEventQuery,
+          create: (_) =>
+              HomeSearchBloc(
+                locationRepository: GetIt.instance<LocationRepository>(),
+              )..add(
+                HomeSearchLoaded(
+                  currentLocation: currentLocationQuery,
+                  currentEventSearchQuery: currentEventQuery,
+                ),
               ),
-            ),
         ),
         RepositoryProvider<HomeSearchNavigator>(
           create: (context) => HomeSearchNavigatorImplementation(

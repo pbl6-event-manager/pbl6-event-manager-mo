@@ -1,3 +1,6 @@
+import "dart:developer";
+
+import "package:attendee/domain/repositories/location_repository.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
 
@@ -5,7 +8,10 @@ part "home_search_event.dart";
 part "home_search_state.dart";
 
 class HomeSearchBloc extends Bloc<HomeSearchEvent, HomeSearchState> {
-  HomeSearchBloc() : super(HomeSearchState.initial()) {
+  final LocationRepository _locationRepository;
+  HomeSearchBloc({required LocationRepository locationRepository})
+    : _locationRepository = locationRepository,
+      super(HomeSearchState.initial()) {
     on<HomeSearchLoaded>(_onLoaded);
     on<HomeSearchModeChanged>(_onModeChanged);
     on<HomeSearchFocusedFieldChanged>(_onFocusedFieldChanged);
