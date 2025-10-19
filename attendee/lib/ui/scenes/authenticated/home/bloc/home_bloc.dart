@@ -3,7 +3,6 @@ import "package:attendee/domain/usecases/search_by_current_location_usecase.dart
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/nullable.dart";
-import "package:attendee/utils/helpers/result.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
 
@@ -122,19 +121,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     if (event.searchData == null) {
       return;
-    }
-
-    // TODO: Remove test
-    final Result<List<Event>> eventList = await _searchByCurrentLocationUsecase
-        .execute();
-
-    switch (eventList) {
-      case Ok<List<Event>>():
-        emit(state.copyWith(events: eventList.value));
-        return;
-
-      case Error<List<Event>>():
-        return;
     }
 
     final String? eventSearchQuery =

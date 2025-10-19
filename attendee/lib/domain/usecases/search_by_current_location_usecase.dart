@@ -19,17 +19,18 @@ final class SearchByCurrentLocationUsecaseImplementation
   @override
   Future<Result<List<Event>>> execute() async {
     try {
-      // TODO: Implement search by lat long here
-      final (double lat, double long) currentCoordinate =
-          await _getDeviceCurrentPosition();
+      final position = await _getDeviceCurrentPosition();
 
-      return _eventRemoteRepository.getEvents();
+      return _eventRemoteRepository.getEventsNearby(
+        lat: position.lat,
+        long: position.long,
+      );
     } catch (error) {
       return Result.error(error);
     }
   }
 
-  Future<(double lat, double long)> _getDeviceCurrentPosition() async {
+  Future<({double lat, double long})> _getDeviceCurrentPosition() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -47,6 +48,6 @@ final class SearchByCurrentLocationUsecaseImplementation
 
     final Position position = await Geolocator.getCurrentPosition();
 
-    return (position.latitude, position.longitude);
+    return (lat: position.latitude, long: position.longitude);
   }
 }
