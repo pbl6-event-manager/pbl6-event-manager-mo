@@ -1,4 +1,5 @@
 import "package:attendee/application/app_router.dart";
+import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/ui/scenes/authenticated/home/bloc/home_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_navigator.dart";
@@ -20,9 +21,11 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeBloc>(
-          create: (context) =>
-              HomeBloc(eventDatasource: GetIt.instance<EventDatasource>())
-                ..add(HomeLoad()),
+          create: (context) => HomeBloc(
+            eventDatasource: GetIt.instance<EventDatasource>(),
+            searchByCurrentLocationUsecase:
+                GetIt.instance<SearchByCurrentLocationUsecase>(),
+          )..add(HomeLoad()),
         ),
         RepositoryProvider<HomeNavigator>(
           create: (context) => HomeNavigatorImplementation(
