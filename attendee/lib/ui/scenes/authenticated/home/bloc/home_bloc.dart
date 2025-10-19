@@ -1,9 +1,12 @@
+import "dart:developer";
+
 import "package:attendee/domain/models/event.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/nullable.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
+import "package:geolocator/geolocator.dart";
 
 part "home_event.dart";
 part "home_state.dart";
@@ -118,6 +121,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       return;
     }
 
+    // TODO: Remove demo
+    await _getDeviceCurrentPosition();
+
     final String? eventSearchQuery =
         event.searchData?.$1 != state.currentSearchQuery
         ? event.searchData?.$1
@@ -210,5 +216,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     }
+  }
+
+  Future<void> _getDeviceCurrentPosition() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    final Position position = await Geolocator.getCurrentPosition();
+
+    log(position.latitude.toString());
+    log(position.longitude.toString());
   }
 }
