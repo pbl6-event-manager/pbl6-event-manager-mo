@@ -1,4 +1,5 @@
 import "package:attendee/domain/models/event.dart";
+import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/nullable.dart";
@@ -10,10 +11,14 @@ part "home_state.dart";
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final EventDatasource _eventDatasource;
+  final SearchByCurrentLocationUsecase _searchByCurrentLocationUsecase;
 
-  HomeBloc({required EventDatasource eventDatasource})
-    : _eventDatasource = eventDatasource,
-      super(HomeState.initial()) {
+  HomeBloc({
+    required EventDatasource eventDatasource,
+    required SearchByCurrentLocationUsecase searchByCurrentLocationUsecase,
+  }) : _eventDatasource = eventDatasource,
+       _searchByCurrentLocationUsecase = searchByCurrentLocationUsecase,
+       super(HomeState.initial()) {
     on<HomeLoad>(_onHomeLoad);
     on<HomeReload>(_onHomeReload);
     on<HomeChipSelected>(_onHomeChipSelected);

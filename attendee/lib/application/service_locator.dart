@@ -2,6 +2,7 @@ import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/repositories/auth_repository.dart";
 import "package:attendee/domain/repositories/event_repository.dart";
+import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
 import "package:attendee/network/config/dio_config.dart";
 import "package:attendee/network/datasources/auth_datasource.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
@@ -80,6 +81,13 @@ class ServiceLocator {
     _getIt.registerLazySingleton<LocationRepository>(
       () => LocationRepositoryImplementation(
         locationDatasource: _getIt<LocationDatasource>(),
+      ),
+    );
+    // Usecases
+
+    _getIt.registerLazySingleton<SearchByCurrentLocationUsecase>(
+      () => SearchByCurrentLocationUsecaseImplementation(
+        eventRemoteRepository: _getIt<EventRepository>(),
       ),
     );
   }
