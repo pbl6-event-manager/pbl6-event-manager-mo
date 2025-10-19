@@ -5,7 +5,6 @@ import "package:go_router/go_router.dart";
 
 abstract class HomeNavigator extends BaseNavigator {
   Future<void> goToSearch({
-    required String? currentEventSearchQuery,
     required String currentLocationLabel,
     required void Function((String?, String?)) onSearchSubmitted,
   });
@@ -25,14 +24,10 @@ class HomeNavigatorImplementation implements HomeNavigator {
 
   @override
   Future<void> goToSearch({
-    required String? currentEventSearchQuery,
     required String currentLocationLabel,
     required void Function((String?, String?)) onSearchSubmitted,
   }) async {
-    final Map<String, String?> queryParams = {
-      "location": currentLocationLabel,
-      "event": currentEventSearchQuery,
-    };
+    final Map<String, String?> queryParams = {"location": currentLocationLabel};
     final searchValues = await goRouter.pushNamed(
       AppRouteEnum.homeSearch.name,
       queryParameters: queryParams,

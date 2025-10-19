@@ -100,7 +100,6 @@ class HomeView extends StatelessWidget {
         onEventSearchCleared: () => _onEventSearchCleared(context),
         onSearchTapped: () => _onSearchTapped(
           context,
-          currentEventSearchQuery: state.currentSearchQuery,
           currentLocationLabel: state.currentLocation,
           onSearchSubmitted: (data) => context.read<HomeBloc>().add(
             HomeReturnedFromSearch(searchData: data),
@@ -138,13 +137,12 @@ class HomeView extends StatelessWidget {
 
   void _onSearchTapped(
     BuildContext context, {
-    required String? currentEventSearchQuery,
+
     required String currentLocationLabel,
 
     required Function((String?, String?)) onSearchSubmitted,
   }) {
     context.read<HomeNavigator>().goToSearch(
-      currentEventSearchQuery: currentEventSearchQuery,
       currentLocationLabel: currentLocationLabel,
       onSearchSubmitted: onSearchSubmitted,
     );
