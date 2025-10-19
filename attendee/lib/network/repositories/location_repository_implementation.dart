@@ -27,8 +27,8 @@ class LocationRepositoryImplementation implements LocationRepository {
     final rawResponse = await _locationDatasource.getCountries();
     final body = rawResponse.data;
 
-    if (body is Map && body["data"] is List) {
-      final List<dynamic> data = body["data"] as List<dynamic>;
+    if (body is List) {
+      final List<dynamic> data = body;
       final List<String> countryList = data
           .whereType<Map>()
           .map((countryItem) => countryItem["country"])

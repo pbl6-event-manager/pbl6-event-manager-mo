@@ -13,6 +13,7 @@ class HomeSearchAppbar extends StatelessWidget {
     this.isUsingCurrentLocation = false,
     this.initialSearchValue,
     this.initialLocationValue,
+    this.isEnabled = true,
   });
 
   final VoidCallback? onCloseTapped;
@@ -24,6 +25,8 @@ class HomeSearchAppbar extends StatelessWidget {
   final String? initialSearchValue;
 
   final String? initialLocationValue;
+
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,12 @@
 import "package:attendee/application/app_router.dart";
 import "package:attendee/domain/repositories/location_repository.dart";
+
 import "package:attendee/ui/scenes/authenticated/home_search/home_search_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_appbar.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_list_tile.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/bloc/home_search_bloc.dart";
+import "package:attendee/ui/scenes/authenticated/home_search/widgets/location_dropdown.dart";
+import "package:attendee/utils/constants/app_string_constants.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
@@ -11,29 +14,18 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
 
 class HomeSearchPage extends StatelessWidget {
-  const HomeSearchPage({
-    super.key,
-    this.currentLocationQuery,
-    this.currentEventQuery,
-  });
+  const HomeSearchPage({super.key, this.currentLocationQuery});
 
   final String? currentLocationQuery;
-  final String? currentEventQuery;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              HomeSearchBloc(
-                locationRepository: GetIt.instance<LocationRepository>(),
-              )..add(
-                HomeSearchLoaded(
-                  currentLocation: currentLocationQuery,
-                  currentEventSearchQuery: currentEventQuery,
-                ),
-              ),
+          create: (_) => HomeSearchBloc(
+            locationRepository: GetIt.instance<LocationRepository>(),
+          ),
         ),
         RepositoryProvider<HomeSearchNavigator>(
           create: (context) => HomeSearchNavigatorImplementation(
@@ -41,7 +33,7 @@ class HomeSearchPage extends StatelessWidget {
           ),
         ),
       ],
-      child: const HomeSearchView(),
+      child: HomeSearchView(),
     );
   }
 }
@@ -54,10 +46,22 @@ class HomeSearchView extends StatelessWidget {
     return BlocBuilder<HomeSearchBloc, HomeSearchState>(
       builder: (context, state) {
         final bool isLocationMode = state.mode == HomeSearchMode.location;
-        final String? selectedLocationString = state.selectedLocationLabel;
         final String? currentLocationLabel = state.currentLocationLabel;
 
         return Scaffold(
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: UIConstants.horizontalPadding,
+              vertical: 8,
+            ),
+            child: FilledButton(
+              onPressed: state.doesAllowSearch
+                  ? () => _onSearchPressed(context)
+                  : null,
+
+              child: Text(AppStringConstants.homeSearch.searchButton),
+            ),
+          ),
           body: SafeArea(
             minimum: EdgeInsets.symmetric(
               horizontal: UIConstants.horizontalPadding,
@@ -66,81 +70,38 @@ class HomeSearchView extends StatelessWidget {
               slivers: [
                 _buildAppBar(context, state),
 
-                if (isLocationMode && selectedLocationString != null)
-                  _buildSelectedLocation(selectedLocationString),
-
-                if (isLocationMode && currentLocationLabel != null)
-                  _buildCurrentLocation(
-                    currentLocationLabel,
-                    state.isUsingCurrentLocation,
+                if (isLocationMode)
+                  SliverMainAxisGroup(
+                    slivers: [
+                      if (currentLocationLabel != null)
+                        _buildCurrentLocation(
+                          currentLocationLabel,
+                          state.isUsingCurrentLocation,
+                        ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Divider(height: 20),
+                        ),
+                      ),
+                      _buildLocationSelectWidgets(
+                        context,
+                        countries: state.selectableCountries ?? [],
+                        cities: state.selectableCities ?? [],
+                        selectedCountry: state.selectedCountry,
+                        selectedCity: state.selectedCity,
+                        isCityLoading: state.isCityListLoading,
+                        isCountryLoading: state.isCountryListLoading,
+                      ),
+                    ],
                   ),
 
                 SliverToBoxAdapter(child: SizedBox(height: 4)),
-                if (state.isShowingHistory)
-                  SliverToBoxAdapter(
-                    child: Text(
-                      "Recent",
-                      style: context.textPalette.labelLarge.copyWith(
-                        color: context.colorPalette.textPlaceholder,
-                      ),
-                    ),
-                  ),
-
-                _buildSearchResults(context, state),
               ],
             ),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildSearchResults(BuildContext context, HomeSearchState state) {
-    final List<String> items = state.isShowingHistory
-        ? (state.mode == HomeSearchMode.event
-              ? state.eventHistory
-              : state.locationHistory)
-        : state.shownResults;
-
-    return SliverList.builder(
-      itemBuilder: (context, index) {
-        final String label = items[index];
-        if (state.isShowingHistory) {
-          return HomeSearchListTile.recent(
-            label: label,
-            onTapped: () => onSearchItemPressed(
-              context,
-              type: state.mode,
-              searchValue: label,
-            ),
-            onClearTapped: () {
-              context.read<HomeSearchBloc>().add(
-                HomeSearchClearRecentItem(value: label),
-              );
-            },
-          );
-        }
-
-        if (state.mode == HomeSearchMode.location) {
-          return HomeSearchListTile.location(
-            label: label,
-            onTapped: () => onSearchItemPressed(
-              context,
-              type: HomeSearchMode.location,
-              searchValue: items[index],
-            ),
-          );
-        }
-        return HomeSearchListTile.search(
-          label: label,
-          onTapped: () => onSearchItemPressed(
-            context,
-            type: HomeSearchMode.event,
-            searchValue: items[index],
-          ),
-        );
-      },
-      itemCount: items.length,
     );
   }
 
@@ -156,17 +117,6 @@ class HomeSearchView extends StatelessWidget {
         prefixIcon: isUsingCurrentLocation
             ? Icons.navigation
             : Icons.navigation_outlined,
-      ),
-    );
-  }
-
-  SliverToBoxAdapter _buildSelectedLocation(String selectedLocationString) {
-    return SliverToBoxAdapter(
-      child: HomeSearchListTile(
-        label: selectedLocationString,
-        onClearTapped: null,
-        onTapped: () {},
-        prefixIcon: Icons.my_location_sharp,
       ),
     );
   }
@@ -208,19 +158,82 @@ class HomeSearchView extends StatelessWidget {
       ..add(HomeSearchLocationQueryChanged(value));
   }
 
-  void onSearchItemPressed(
-    BuildContext context, {
-    required HomeSearchMode type,
-    required String searchValue,
-  }) {
+  void _onSearchPressed(BuildContext context) {
     final HomeSearchNavigator navigator = context.read<HomeSearchNavigator>();
+    final HomeSearchState state = context.read<HomeSearchBloc>().state;
 
-    switch (type) {
+    switch (state.mode) {
       case HomeSearchMode.event:
-        navigator.returnToHome(eventQuery: searchValue, locationQuery: null);
+        navigator.returnToHome(
+          eventQuery: state.eventQuery,
+          locationQuery: null,
+        );
 
       case HomeSearchMode.location:
-        navigator.returnToHome(eventQuery: null, locationQuery: searchValue);
+        navigator.returnToHome(
+          eventQuery: null,
+          locationQuery: state.locationQuery,
+        );
     }
+  }
+
+  Widget _buildLocationSelectWidgets(
+    BuildContext context, {
+    required List<String> countries,
+    required List<String> cities,
+    required String? selectedCountry,
+    required String? selectedCity,
+    required bool isCountryLoading,
+    required bool isCityLoading,
+  }) {
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Row(
+            children: [
+              Expanded(
+                child: LocationDropdown(
+                  isLoading: isCountryLoading,
+                  hintText:
+                      AppStringConstants.homeSearch.countryDropdownPlaceholder,
+                  onOptionSelected: (optionalCountry) =>
+                      _onCountrySelected(context, country: optionalCountry),
+                  values: countries,
+                  value: selectedCountry,
+                ),
+              ),
+
+              SizedBox(width: 16),
+              Expanded(
+                child: LocationDropdown(
+                  isLoading: isCityLoading,
+                  hintText:
+                      AppStringConstants.homeSearch.cityDropdownPlaceholder,
+                  onOptionSelected: (city) => _onCitySelected(context, city),
+                  values: cities,
+                  value: selectedCity,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Save button
+      ],
+    );
+  }
+
+  void _onCountrySelected(BuildContext context, {required String? country}) {
+    if (country == null) {
+      return;
+    }
+    context.read<HomeSearchBloc>().add(HomeCountrySelected(country: country));
+  }
+
+  void _onCitySelected(BuildContext context, String? city) {
+    if (city == null) {
+      return;
+    }
+    context.read<HomeSearchBloc>().add(HomeCitySelected(city: city));
   }
 }

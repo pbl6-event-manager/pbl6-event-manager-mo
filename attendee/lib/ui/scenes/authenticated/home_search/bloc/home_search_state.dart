@@ -6,13 +6,23 @@ class HomeSearchState extends Equatable {
   const HomeSearchState({
     required this.mode,
     required this.eventQuery,
+    // Text in search box
     required this.locationQuery,
-    required this.shownResults,
-    required this.isShowingHistory,
-    required this.eventHistory,
-    required this.locationHistory,
-    required this.selectedLocationLabel,
+
+    // Selected location
+    required this.selectedCountry,
+    required this.selectedCity,
+
+    // Current location based on GPS
     required this.currentLocationLabel,
+
+    // Countries and cities selection list
+    required this.selectableCountries,
+    required this.selectableCities,
+
+    // Status of country and city list
+    required this.isCountryListLoading,
+    required this.isCityListLoading,
   });
 
   factory HomeSearchState.initial() {
@@ -20,32 +30,38 @@ class HomeSearchState extends Equatable {
       mode: HomeSearchMode.event,
       eventQuery: null,
       locationQuery: null,
-      shownResults: const <String>[],
-      isShowingHistory: true,
-      eventHistory: const <String>["Flutter", "Music", "Tech"],
-      locationHistory: const <String>[
-        "Las Vegas, NV",
-        "San Jose, CA",
-        "New York, NY",
-      ],
-      selectedLocationLabel: null,
+      selectedCountry: null,
+      selectedCity: null,
+      selectableCities: null,
+      selectableCountries: null,
       currentLocationLabel: "Current location",
+      isCityListLoading: false,
+      isCountryListLoading: false,
     );
   }
 
   final HomeSearchMode mode;
   final String? eventQuery;
   final String? locationQuery;
-  final List<String> shownResults;
-  final bool isShowingHistory;
 
-  final List<String> eventHistory;
-  final List<String> locationHistory;
+  final String? selectedCountry;
+  final String? selectedCity;
 
-  final String? selectedLocationLabel;
+  final bool isCountryListLoading;
+  final bool isCityListLoading;
+
   final String? currentLocationLabel;
 
   bool get isUsingCurrentLocation => true;
+
+  bool get doesAllowSearch =>
+      (mode == HomeSearchMode.event && eventQuery != null) ||
+      (mode == HomeSearchMode.location && locationQuery != null);
+
+  // Countries and cities selection list
+
+  final List<String>? selectableCountries;
+  final List<String>? selectableCities;
 
   HomeSearchState copyWith({
     HomeSearchMode? mode,
@@ -53,13 +69,17 @@ class HomeSearchState extends Equatable {
     bool setEventQueryToNull = false,
     String? locationQuery,
     bool setLocationQueryToNull = false,
-    List<String>? shownResults,
-    bool? isShowingHistory,
-    List<String>? eventHistory,
-    List<String>? locationHistory,
-    String? selectedLocationLabel,
-    bool setSelectedLocationLabelToNull = false,
+
+    Nullable<String>? selectedCountry,
+    Nullable<String>? selectedCity,
+
     String? currentLocationLabel,
+
+    List<String>? selectableCountries,
+    List<String>? selectableCities,
+
+    bool? isCountryListLoading,
+    bool? isCityListLoading,
   }) {
     return HomeSearchState(
       mode: mode ?? this.mode,
@@ -67,14 +87,18 @@ class HomeSearchState extends Equatable {
       locationQuery: setLocationQueryToNull
           ? null
           : (locationQuery ?? this.locationQuery),
-      shownResults: shownResults ?? this.shownResults,
-      isShowingHistory: isShowingHistory ?? this.isShowingHistory,
-      eventHistory: eventHistory ?? this.eventHistory,
-      locationHistory: locationHistory ?? this.locationHistory,
-      selectedLocationLabel: setSelectedLocationLabelToNull
-          ? null
-          : (selectedLocationLabel ?? this.selectedLocationLabel),
+
+      selectedCountry: selectedCountry != null
+          ? selectedCountry.value
+          : this.selectedCountry,
+      selectedCity: selectedCity != null
+          ? selectedCity.value
+          : this.selectedCity,
       currentLocationLabel: currentLocationLabel ?? this.currentLocationLabel,
+      selectableCountries: selectableCountries ?? this.selectableCountries,
+      selectableCities: selectableCities ?? this.selectableCities,
+      isCityListLoading: isCityListLoading ?? this.isCityListLoading,
+      isCountryListLoading: isCountryListLoading ?? this.isCountryListLoading,
     );
   }
 
@@ -83,11 +107,13 @@ class HomeSearchState extends Equatable {
     mode,
     eventQuery,
     locationQuery,
-    shownResults,
-    isShowingHistory,
-    eventHistory,
-    locationHistory,
-    selectedLocationLabel,
+
+    selectedCountry,
+    selectedCity,
+    selectableCities,
+    selectableCountries,
     currentLocationLabel,
+    isCityListLoading,
+    isCountryListLoading,
   ];
 }

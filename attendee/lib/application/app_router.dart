@@ -66,12 +66,8 @@ final class AppRouter {
     name: AppRouteEnum.homeSearch.name,
     builder: (context, state) {
       final String? location = state.uri.queryParameters["location"];
-      final String? event = state.uri.queryParameters["event"];
 
-      return HomeSearchPage(
-        currentLocationQuery: location,
-        currentEventQuery: event,
-      );
+      return HomeSearchPage(currentLocationQuery: location);
     },
   );
 
