@@ -9,8 +9,10 @@ abstract class ApiEndpointConstants {
   static const String signIn = "/auth/login";
   static const String signUp = "/auth/signup";
 
+  // EVENTS
   static const String events = "/events";
   static const String eventsNearby = "/events/nearby";
+  static const String eventsSearch = "/events/search";
 
   // External APIs
   static const String locationBaseUrl = "https://countriesnow.space/api/v0.1";

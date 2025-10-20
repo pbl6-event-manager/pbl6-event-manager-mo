@@ -8,4 +8,12 @@ abstract class EventRepository {
     required double lat,
     required double long,
   });
+
+  Future<Result<List<Event>>> searchEvents({
+    String? keyword,
+    String? location,
+    DateTime? startDate,
+    DateTime? endDate,
+    Set<int>? categoryIds,
+  });
 }

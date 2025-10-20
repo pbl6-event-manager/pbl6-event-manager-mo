@@ -14,9 +14,14 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
 
 class HomeSearchPage extends StatelessWidget {
-  const HomeSearchPage({super.key, this.currentLocationQuery});
+  const HomeSearchPage({
+    super.key,
+    this.currentLocationQuery,
+    this.isUsingCurrentLocation,
+  });
 
   final String? currentLocationQuery;
+  final bool? isUsingCurrentLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +38,23 @@ class HomeSearchPage extends StatelessWidget {
           ),
         ),
       ],
-      child: HomeSearchView(),
+      child: HomeSearchView(
+        initalLocation: currentLocationQuery,
+        isInitallyUsingCurrentLocation: isUsingCurrentLocation ?? false,
+      ),
     );
   }
 }
 
 class HomeSearchView extends StatelessWidget {
-  const HomeSearchView({super.key});
+  const HomeSearchView({
+    super.key,
+    this.initalLocation,
+    required this.isInitallyUsingCurrentLocation,
+  });
+
+  final String? initalLocation;
+  final bool isInitallyUsingCurrentLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +90,9 @@ class HomeSearchView extends StatelessWidget {
                     slivers: [
                       if (currentLocationLabel != null)
                         _buildCurrentLocation(
+                          context,
                           currentLocationLabel,
-                          state.isUsingCurrentLocation,
+                          isInitallyUsingCurrentLocation,
                         ),
                       SliverToBoxAdapter(
                         child: Padding(
@@ -106,6 +122,7 @@ class HomeSearchView extends StatelessWidget {
   }
 
   SliverToBoxAdapter _buildCurrentLocation(
+    BuildContext context,
     String currentLocationLabel,
     bool isUsingCurrentLocation,
   ) {
@@ -113,7 +130,13 @@ class HomeSearchView extends StatelessWidget {
       child: HomeSearchListTile(
         label: currentLocationLabel,
         onClearTapped: null,
-        onTapped: () {},
+        onTapped: isUsingCurrentLocation
+            ? null
+            : () => context.read<HomeSearchNavigator>().returnToHome(
+                eventQuery: null,
+                locationQuery: null,
+                isUsingCurrentLocation: true,
+              ),
         prefixIcon: isUsingCurrentLocation
             ? Icons.navigation
             : Icons.navigation_outlined,
@@ -132,13 +155,13 @@ class HomeSearchView extends StatelessWidget {
       pinned: true,
       toolbarHeight: 200,
       title: HomeSearchAppbar(
-        isUsingCurrentLocation: state.isUsingCurrentLocation,
         initialLocationValue: initialLocationValue,
         initialSearchValue: initialSearchValue,
         onEventSearchChanged: (value) => onEventSearchChanged(context, value),
         onCloseTapped: () => context.read<HomeSearchNavigator>().returnToHome(
           eventQuery: null,
           locationQuery: null,
+          isUsingCurrentLocation: isInitallyUsingCurrentLocation,
         ),
         onLocationSearchChanged: (value) =>
             onLocationSearchChanged(context, value),
@@ -167,12 +190,14 @@ class HomeSearchView extends StatelessWidget {
         navigator.returnToHome(
           eventQuery: state.eventQuery,
           locationQuery: null,
+          isUsingCurrentLocation: isInitallyUsingCurrentLocation,
         );
 
       case HomeSearchMode.location:
         navigator.returnToHome(
           eventQuery: null,
           locationQuery: state.locationQuery,
+          isUsingCurrentLocation: isInitallyUsingCurrentLocation,
         );
     }
   }

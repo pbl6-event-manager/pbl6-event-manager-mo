@@ -1,6 +1,6 @@
 import "package:attendee/application/app_router.dart";
+import "package:attendee/domain/repositories/event_repository.dart";
 import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
-import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/ui/scenes/authenticated/home/bloc/home_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/home/widgets/home_event_section.dart";
@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
       providers: [
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(
-            eventDatasource: GetIt.instance<EventDatasource>(),
+            eventRepository: GetIt.instance<EventRepository>(),
             searchByCurrentLocationUsecase:
                 GetIt.instance<SearchByCurrentLocationUsecase>(),
           )..add(HomeLoad()),
@@ -104,6 +104,7 @@ class HomeView extends StatelessWidget {
         onSearchTapped: () => _onSearchTapped(
           context,
           currentLocationLabel: state.currentLocation,
+          isUsingCurrentLocation: state.isUsingCurrentLocation,
           onSearchSubmitted: (data) => context.read<HomeBloc>().add(
             HomeReturnedFromSearch(searchData: data),
           ),
@@ -111,10 +112,6 @@ class HomeView extends StatelessWidget {
         currentEventSearchQuery: state.currentSearchQuery,
         currentLocation: state.currentLocation,
         onFilterTapped: () => _onFilterTapped(context),
-        chipData: state.chipData,
-        onChipTapped: (id) =>
-            context.read<HomeBloc>().add(HomeChipSelected(id)),
-        selectedChipId: state.selectedChipId,
       ),
 
       toolbarHeight: 148,
@@ -142,11 +139,13 @@ class HomeView extends StatelessWidget {
     BuildContext context, {
 
     required String currentLocationLabel,
+    required bool isUsingCurrentLocation,
 
-    required Function((String?, String?)) onSearchSubmitted,
+    required Function((String?, String?, bool)) onSearchSubmitted,
   }) {
     context.read<HomeNavigator>().goToSearch(
       currentLocationLabel: currentLocationLabel,
+      isUsingCurrentLocation: isUsingCurrentLocation,
       onSearchSubmitted: onSearchSubmitted,
     );
   }
