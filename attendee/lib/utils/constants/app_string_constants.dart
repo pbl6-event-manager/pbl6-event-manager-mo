@@ -91,6 +91,9 @@ final class HomeSearchAppStrings {
   const HomeSearchAppStrings._();
 
   String get appBarTitle => "Search";
+  String get searchButton => "Search";
+  String get countryDropdownPlaceholder => "Country";
+  String get cityDropdownPlaceholder => "City";
 }
 
 final class HomeFilterAppStrings {

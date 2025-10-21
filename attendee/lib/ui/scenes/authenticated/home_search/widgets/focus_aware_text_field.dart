@@ -9,6 +9,7 @@ class FocusAwareTextField extends StatefulWidget {
     this.initialValue,
     this.onChanged,
     this.onFocusChanged,
+    this.isEnabled = true,
   });
 
   final String? hintText;
@@ -16,6 +17,7 @@ class FocusAwareTextField extends StatefulWidget {
   final String? initialValue;
   final ValueChanged<String>? onChanged;
   final ValueChanged<bool>? onFocusChanged;
+  final bool isEnabled;
 
   @override
   State<FocusAwareTextField> createState() => FocusAwareTextFieldState();
@@ -30,7 +32,6 @@ class FocusAwareTextFieldState extends State<FocusAwareTextField> {
     super.initState();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
-      setState(() {});
       widget.onFocusChanged?.call(_focusNode.hasFocus);
     });
     _controller = TextEditingController(text: widget.initialValue ?? "");
@@ -69,6 +70,7 @@ class FocusAwareTextFieldState extends State<FocusAwareTextField> {
         : context.colorPalette.textPlaceholder;
 
     return TextFormField(
+      enabled: widget.isEnabled,
       controller: _controller,
       style: context.textPalette.bodyLarge,
       focusNode: _focusNode,

@@ -4,8 +4,7 @@ enum AppRouteEnum {
   signUp(path: "signUp"),
   home(path: "/home"),
 
-  /// Contains query param `{"event":  String?, "location": String}`
-  /// - "event": Current event search query (if any)
+  /// Contains query param `{"location": String}`
   /// - "location": Current location (fetched from home view)
   homeSearch(path: "search"),
 

@@ -3,11 +3,16 @@ import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/repositories/auth_repository.dart";
 import "package:attendee/domain/repositories/category_repository.dart";
 import "package:attendee/domain/repositories/event_repository.dart";
+import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
 import "package:attendee/network/config/dio_config.dart";
 import "package:attendee/network/datasources/auth_datasource.dart";
 import "package:attendee/network/datasources/category_datasource.dart";
 import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/network/repositories/auth_repository_implementation.dart";
+import "package:attendee/domain/repositories/location_repository.dart";
+import "package:attendee/network/datasources/location_datasource.dart";
+import "package:attendee/network/repositories/location_repository_implementation.dart";
+import "package:attendee/network/constants/api_endpoint_constants.dart";
 import "package:attendee/network/repositories/category_repository_implementation.dart";
 import "package:attendee/network/repositories/event_repository_implementation.dart";
 import "package:attendee/utils/constants/storage_keys_constants.dart";
@@ -57,6 +62,13 @@ class ServiceLocator {
       () => EventDatasource(_getIt<Dio>()),
     );
 
+    _getIt.registerLazySingleton<LocationDatasource>(
+      () => LocationDatasource(
+        _getIt<Dio>(),
+        baseUrl: ApiEndpointConstants.locationBaseUrl,
+      ),
+    );
+
     _getIt.registerLazySingleton<CategoryDatasource>(
       () => CategoryDatasource(_getIt<Dio>()),
     );
@@ -70,6 +82,19 @@ class ServiceLocator {
     _getIt.registerLazySingleton<EventRepository>(
       () => EventRepositoryImplementation(
         eventDatasource: _getIt<EventDatasource>(),
+      ),
+    );
+
+    _getIt.registerLazySingleton<LocationRepository>(
+      () => LocationRepositoryImplementation(
+        locationDatasource: _getIt<LocationDatasource>(),
+      ),
+    );
+    // Usecases
+
+    _getIt.registerLazySingleton<SearchByCurrentLocationUsecase>(
+      () => SearchByCurrentLocationUsecaseImplementation(
+        eventRemoteRepository: _getIt<EventRepository>(),
       ),
     );
     _getIt.registerLazySingleton<CategoryRepository>(

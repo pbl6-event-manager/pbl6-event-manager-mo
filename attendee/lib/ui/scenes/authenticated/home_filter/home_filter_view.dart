@@ -111,15 +111,13 @@ class HomeFilterView extends StatelessWidget {
                 context.colorPalette.primary.withValues(alpha: 0.4),
               ),
             ),
-            child: Flexible(
-              child: Text(
-                AppStringConstants.homeFilter.resetButton,
-                style: context.textPalette.labelLarge.copyWith(
-                  decoration: TextDecoration.underline,
-                  color: state.hasFilterChanged
-                      ? context.colorPalette.text
-                      : context.colorPalette.textPlaceholder,
-                ),
+            child: Text(
+              AppStringConstants.homeFilter.resetButton,
+              style: context.textPalette.labelLarge.copyWith(
+                decoration: TextDecoration.underline,
+                color: state.hasFilterChanged
+                    ? context.colorPalette.text
+                    : context.colorPalette.textPlaceholder,
               ),
             ),
           ),

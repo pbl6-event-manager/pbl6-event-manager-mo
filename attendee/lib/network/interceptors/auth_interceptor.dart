@@ -28,6 +28,7 @@ class AuthInterceptor extends Interceptor {
     );
 
     if (includeToken == false) {
+      super.onRequest(options, handler);
       return;
     }
 
