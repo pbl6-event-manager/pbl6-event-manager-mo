@@ -2,6 +2,8 @@ import "dart:async";
 
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:attendee/utils/enums/auth_status_enum.dart";
+import "package:attendee/domain/repositories/category_repository.dart";
+import "package:attendee/network/repositories/category_repository_implementation.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
@@ -69,6 +71,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       await _secureStorage.delete(key: StorageKeysConstants.tokenKey);
+
+      final getIt = GetIt.instance;
+      if (getIt.isRegistered<CategoryRepository>()) {
+        final repo = getIt<CategoryRepository>();
+        if (repo is CategoryRepositoryImplementation) {
+          repo.clearCache();
+        }
+      }
       emit(const AuthState.unauthenticated());
     } catch (e) {
       // Even if there's an error deleting, emit unauthenticated state

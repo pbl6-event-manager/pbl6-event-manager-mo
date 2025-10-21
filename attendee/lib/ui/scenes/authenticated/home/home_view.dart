@@ -114,10 +114,10 @@ class HomeView extends StatelessWidget {
         onFilterTapped: () => _onFilterTapped(context),
       ),
 
-      toolbarHeight: 148,
+      toolbarHeight: 100,
       pinned: true,
       elevation: 0,
-      shadowColor: context.colorPalette.primary,
+      shadowColor: context.colorPalette.border.withValues(alpha: 0.1),
       surfaceTintColor: Colors.transparent,
     );
   }

@@ -22,6 +22,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
        super(HomeState.initial()) {
     on<HomeLoad>(_onHomeLoad);
     on<HomeReload>(_onHomeReload);
+
     on<HomeReturnedFromSearch>(_onHomeReturnedFromSearch);
     on<HomeEventSearchCleared>(_onHomeEventSearchCleared);
     on<HomeReturnedFromFilter>(_onHomeReturnedFromFilter);

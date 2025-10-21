@@ -7,6 +7,7 @@ final class HomeFilterState extends Equatable {
     required this.selectedStartDate,
     required this.selectedEndDate,
     required this.selectedCategories,
+    required this.allCategories,
   });
 
   const HomeFilterState.initial()
@@ -14,13 +15,15 @@ final class HomeFilterState extends Equatable {
       errorMessage = null,
       selectedEndDate = null,
       selectedStartDate = null,
-      selectedCategories = const {};
+      selectedCategories = const {},
+      allCategories = null;
 
   final ViewStatusEnum status;
   final String? errorMessage;
   final DateTime? selectedStartDate;
   final DateTime? selectedEndDate;
   final Set<int> selectedCategories;
+  final List<EventCategory>? allCategories;
 
   DateFilterEnums get dateType {
     if (selectedEndDate == null) {
@@ -66,6 +69,7 @@ final class HomeFilterState extends Equatable {
     selectedStartDate,
     selectedEndDate,
     selectedCategories,
+    allCategories,
   ];
 
   HomeFilterState copyWith({
@@ -74,6 +78,7 @@ final class HomeFilterState extends Equatable {
     Nullable<DateTime>? selectedStartDate,
     Nullable<DateTime>? selectedEndDate,
     Set<int>? selectedCategories,
+    Nullable<List<EventCategory>>? allCategories,
   }) {
     return HomeFilterState(
       status: status ?? this.status,
@@ -87,6 +92,9 @@ final class HomeFilterState extends Equatable {
           ? selectedEndDate.value
           : this.selectedEndDate,
       selectedCategories: selectedCategories ?? this.selectedCategories,
+      allCategories: allCategories != null
+          ? allCategories.value
+          : this.allCategories,
     );
   }
 }

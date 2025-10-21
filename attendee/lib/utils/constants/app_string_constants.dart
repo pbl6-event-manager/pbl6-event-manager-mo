@@ -112,4 +112,8 @@ final class HomeFilterAppStrings {
 
   // Category filter
   String get categoryFilter => "Category";
+
+  // Buttons
+  String get resetButton => "Reset";
+  String get applyFiltersButton => "Apply Filters";
 }

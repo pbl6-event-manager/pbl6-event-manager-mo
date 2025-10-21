@@ -18,4 +18,6 @@ abstract class ApiEndpointConstants {
   static const String locationBaseUrl = "https://countriesnow.space/api/v0.1";
   static const String locationCityList = "/countries/cities/q";
   static const String locationCountryList = "/countries";
+  // CATEGORIES
+  static const String categories = "/categories";
 }
