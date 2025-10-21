@@ -3,13 +3,19 @@ part of "home_bloc.dart";
 final class HomeState extends Equatable {
   final ViewStatusEnum status;
   final String? errorMessage;
-  final String currentLocation;
+  final String? currentLocation;
   final String? currentSearchQuery;
   final DateTime? filterStartDate;
   final DateTime? filterEndDate;
   final Set<int> selectedCategories;
   final List<Event> events;
   final bool isUsingCurrentLocation;
+
+  bool get isSearching =>
+      currentLocation != null ||
+      currentSearchQuery != null ||
+      selectedCategories.isNotEmpty ||
+      filterStartDate != null;
 
   const HomeState({
     required this.status,
@@ -28,7 +34,7 @@ final class HomeState extends Equatable {
     : status = ViewStatusEnum.initial,
       errorMessage = null,
 
-      currentLocation = "Hanoi",
+      currentLocation = null,
       currentSearchQuery = null,
 
       filterStartDate = null,
@@ -41,7 +47,7 @@ final class HomeState extends Equatable {
     ViewStatusEnum? status,
     String? errorMessage,
     List<(int, String)>? chipData,
-    String? currentLocation,
+    Nullable<String>? currentLocation,
     Nullable<String>? currentSearchQuery,
     Nullable<DateTime>? filterStartDate,
     Nullable<DateTime>? filterEndDate,
@@ -56,7 +62,9 @@ final class HomeState extends Equatable {
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
 
-      currentLocation: currentLocation ?? this.currentLocation,
+      currentLocation: currentLocation != null
+          ? currentLocation.value
+          : this.currentLocation,
       filterStartDate: filterStartDate != null
           ? filterStartDate.value
           : this.filterStartDate,

@@ -71,7 +71,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       state.copyWith(
         status: ViewStatusEnum.loading,
         currentSearchQuery: Nullable(eventSearchQuery),
-        currentLocation: locationSearchQuery,
+        currentLocation: Nullable(locationSearchQuery),
         isUsingCurrentLocation: locationSearchQuery != null
             ? false
             : isUsingCurrentLocation,

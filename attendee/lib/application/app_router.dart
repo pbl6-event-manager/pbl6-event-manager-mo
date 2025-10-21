@@ -65,15 +65,11 @@ final class AppRouter {
     path: AppRouteEnum.homeSearch.path,
     name: AppRouteEnum.homeSearch.name,
     builder: (context, state) {
-      final String? location = state.uri.queryParameters["location"];
       final bool? isUsingCurrentLocation = bool.tryParse(
         state.uri.queryParameters["isUsingCurrentLocation"] ?? "",
       );
 
-      return HomeSearchPage(
-        currentLocationQuery: location,
-        isUsingCurrentLocation: isUsingCurrentLocation,
-      );
+      return HomeSearchPage(isUsingCurrentLocation: isUsingCurrentLocation);
     },
   );
 

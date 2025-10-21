@@ -14,13 +14,8 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
 
 class HomeSearchPage extends StatelessWidget {
-  const HomeSearchPage({
-    super.key,
-    this.currentLocationQuery,
-    this.isUsingCurrentLocation,
-  });
+  const HomeSearchPage({super.key, this.isUsingCurrentLocation});
 
-  final String? currentLocationQuery;
   final bool? isUsingCurrentLocation;
 
   @override
@@ -39,7 +34,6 @@ class HomeSearchPage extends StatelessWidget {
         ),
       ],
       child: HomeSearchView(
-        initalLocation: currentLocationQuery,
         isInitallyUsingCurrentLocation: isUsingCurrentLocation ?? false,
       ),
     );
@@ -49,11 +43,10 @@ class HomeSearchPage extends StatelessWidget {
 class HomeSearchView extends StatelessWidget {
   const HomeSearchView({
     super.key,
-    this.initalLocation,
+
     required this.isInitallyUsingCurrentLocation,
   });
 
-  final String? initalLocation;
   final bool isInitallyUsingCurrentLocation;
 
   @override

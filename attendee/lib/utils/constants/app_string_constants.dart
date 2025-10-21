@@ -85,6 +85,8 @@ final class HomeAppStrings {
   String get searchAppBarLabel => "Find things to do";
 
   String searchAppBarTitle(String location) => "In $location";
+
+  String get personalizedEvents => "Events for you";
 }
 
 final class HomeSearchAppStrings {
