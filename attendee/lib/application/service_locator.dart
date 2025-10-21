@@ -45,7 +45,7 @@ class ServiceLocator {
         onUnauthenticated: () =>
             _getIt<AuthBloc>().add(const AuthTokenRemoved()),
         secureStorage: _getIt<FlutterSecureStorage>(),
-        securedStorageAccessTokenKey: StorageKeysConstants.tokenKey,
+        securedStorageAccessTokenKey: StorageKeysConstants.accessTokenKey,
       ),
     );
 

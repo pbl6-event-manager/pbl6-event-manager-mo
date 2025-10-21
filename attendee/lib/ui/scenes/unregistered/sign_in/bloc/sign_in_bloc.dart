@@ -69,12 +69,17 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     );
 
     switch (dataToken) {
-      case Ok<(String accessToken, String refreshToken)>():
-        _authBloc.add(AuthTokenAdded(dataToken.value.$1));
+      case Ok<({String accessToken, String refreshToken})>():
+        _authBloc.add(
+          AuthTokenAdded(
+            accessToken: dataToken.value.accessToken,
+            refreshToken: dataToken.value.refreshToken,
+          ),
+        );
 
         emit(state.copyWith(status: ViewStatusEnum.success));
 
-      case Error<(String, String)>():
+      case Error<({String accessToken, String refreshToken})>():
         emit(
           state.copyWith(
             status: ViewStatusEnum.failure,

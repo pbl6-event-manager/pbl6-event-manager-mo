@@ -23,7 +23,7 @@ final class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future<Result<(String, String)>> signIn({
+  Future<Result<({String accessToken, String refreshToken})>> signIn({
     required String email,
     required String password,
   }) async {

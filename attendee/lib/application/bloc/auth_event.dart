@@ -12,12 +12,13 @@ class AuthStatusRequested extends AuthEvent {
 }
 
 class AuthTokenAdded extends AuthEvent {
-  final String token;
+  final String accessToken;
+  final String refreshToken;
 
-  const AuthTokenAdded(this.token);
+  const AuthTokenAdded({required this.accessToken, required this.refreshToken});
 
   @override
-  List<Object?> get props => [token];
+  List<Object?> get props => [accessToken, refreshToken];
 }
 
 class AuthTokenRemoved extends AuthEvent {
