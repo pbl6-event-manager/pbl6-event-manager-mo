@@ -15,5 +15,6 @@ class SignInResponseDto {
   factory SignInResponseDto.fromJson(Map<String, dynamic> json) =>
       _$SignInResponseDtoFromJson(json);
 
-  (String, String) toDomain() => (accessToken, refreshToken);
+  ({String accessToken, String refreshToken}) toDomain() =>
+      (accessToken: accessToken, refreshToken: refreshToken);
 }

@@ -141,12 +141,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
 
     switch (dataToken) {
-      case Ok<(String accessToken, String refreshToken)>():
-        _authBloc.add(AuthTokenAdded(dataToken.value.$1));
+      case Ok<({String accessToken, String refreshToken})>():
+        _authBloc.add(
+          AuthTokenAdded(
+            accessToken: dataToken.value.accessToken,
+            refreshToken: dataToken.value.accessToken,
+          ),
+        );
 
         emit(state.copyWith(status: ViewStatusEnum.success));
 
-      case Error<(String, String)>():
+      case Error<({String accessToken, String refreshToken})>():
         emit(
           state.copyWith(
             status: ViewStatusEnum.failure,

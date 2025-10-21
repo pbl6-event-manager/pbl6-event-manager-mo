@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:developer";
 
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:attendee/utils/enums/auth_status_enum.dart";
@@ -33,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       final token = await _secureStorage.read(
-        key: StorageKeysConstants.tokenKey,
+        key: StorageKeysConstants.accessTokenKey,
       );
 
       if (token != null && token.isNotEmpty) {
@@ -53,10 +54,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      await _secureStorage.write(
-        key: StorageKeysConstants.tokenKey,
-        value: event.token,
-      );
+      await Future.wait([
+        _secureStorage.write(
+          key: StorageKeysConstants.accessTokenKey,
+          value: event.accessToken,
+        ),
+        _secureStorage.write(
+          key: StorageKeysConstants.refreshTokenKey,
+          value: event.refreshToken,
+        ),
+      ]);
+
       emit(const AuthState.authenticated());
     } catch (e) {
       // If there's an error storing the token, remain unauthenticated
@@ -70,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      await _secureStorage.delete(key: StorageKeysConstants.tokenKey);
+      await _secureStorage.delete(key: StorageKeysConstants.accessTokenKey);
 
       final getIt = GetIt.instance;
       if (getIt.isRegistered<CategoryRepository>()) {
