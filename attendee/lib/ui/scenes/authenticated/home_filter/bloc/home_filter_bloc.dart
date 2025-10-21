@@ -1,8 +1,10 @@
-import "package:attendee/domain/models/category.dart";
+import "package:attendee/domain/models/event_category.dart";
+import "package:attendee/domain/repositories/category_repository.dart";
 import "package:attendee/utils/enums/date_filter_enums.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/extensions/date_time_extension.dart";
 import "package:attendee/utils/helpers/nullable.dart";
+import "package:attendee/utils/helpers/result.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
 
@@ -10,9 +12,10 @@ part "home_filter_event.dart";
 part "home_filter_state.dart";
 
 class HomeFilterBloc extends Bloc<HomeFilterEvent, HomeFilterState> {
-  final List<EventCategory> allCategories;
-
-  HomeFilterBloc(this.allCategories) : super(HomeFilterState.initial()) {
+  final CategoryRepository _categoryRepository;
+  HomeFilterBloc({required CategoryRepository categoryRepository})
+    : _categoryRepository = categoryRepository,
+      super(HomeFilterState.initial()) {
     on<HomeFilterLoaded>(_onLoaded);
     on<HomeFilterCategoryTapped>(_onCategoryTapped);
     on<HomeFilterResetCategoryTapped>(_onCategoryResetTapped);
@@ -20,7 +23,10 @@ class HomeFilterBloc extends Bloc<HomeFilterEvent, HomeFilterState> {
     on<HomeFilterDayTapped>(_onDayTapped);
   }
 
-  void _onLoaded(HomeFilterLoaded event, Emitter<HomeFilterState> emit) {
+  Future<void> _onLoaded(
+    HomeFilterLoaded event,
+    Emitter<HomeFilterState> emit,
+  ) async {
     emit(
       state.copyWith(
         selectedStartDate: Nullable(event.startDate),
@@ -28,6 +34,8 @@ class HomeFilterBloc extends Bloc<HomeFilterEvent, HomeFilterState> {
         selectedCategories: event.selectedCategoryId,
       ),
     );
+
+    await _loadCategories(emit);
   }
 
   void _onCategoryTapped(
@@ -82,5 +90,17 @@ class HomeFilterBloc extends Bloc<HomeFilterEvent, HomeFilterState> {
         selectedEndDate: Nullable(event.endDate),
       ),
     );
+  }
+
+  Future<void> _loadCategories(Emitter<HomeFilterState> emit) async {
+    final categoryResult = await _categoryRepository.getCategories();
+
+    switch (categoryResult) {
+      case Ok<List<EventCategory>>():
+        emit(state.copyWith(allCategories: Nullable(categoryResult.value)));
+
+      case Error<List<EventCategory>>():
+        emit(state.copyWith(allCategories: Nullable(null)));
+    }
   }
 }

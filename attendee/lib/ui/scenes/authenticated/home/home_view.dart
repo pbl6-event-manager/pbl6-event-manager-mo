@@ -111,16 +111,12 @@ class HomeView extends StatelessWidget {
         currentEventSearchQuery: state.currentSearchQuery,
         currentLocation: state.currentLocation,
         onFilterTapped: () => _onFilterTapped(context),
-        chipData: state.chipData,
-        onChipTapped: (id) =>
-            context.read<HomeBloc>().add(HomeChipSelected(id)),
-        selectedChipId: state.selectedChipId,
       ),
 
-      toolbarHeight: 148,
+      toolbarHeight: 100,
       pinned: true,
       elevation: 0,
-      shadowColor: context.colorPalette.primary,
+      shadowColor: context.colorPalette.border.withValues(alpha: 0.1),
       surfaceTintColor: Colors.transparent,
     );
   }

@@ -21,7 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
        super(HomeState.initial()) {
     on<HomeLoad>(_onHomeLoad);
     on<HomeReload>(_onHomeReload);
-    on<HomeChipSelected>(_onHomeChipSelected);
+
     on<HomeReturnedFromSearch>(_onHomeReturnedFromSearch);
     on<HomeEventSearchCleared>(_onHomeEventSearchCleared);
     on<HomeReturnedFromFilter>(_onHomeReturnedFromFilter);
@@ -64,38 +64,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(status: ViewStatusEnum.loading));
 
     try {
-      final events = await _eventDatasource.getEvents();
-
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.success,
-          events: events,
-          errorMessage: null,
-        ),
-      );
-    } catch (error) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> _onHomeChipSelected(
-    HomeChipSelected event,
-    Emitter<HomeState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        status: ViewStatusEnum.loading,
-        selectedChipId: event.chipId,
-      ),
-    );
-
-    try {
-      // Fetch events for selected chip/category
       final events = await _eventDatasource.getEvents();
 
       emit(

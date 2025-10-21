@@ -4,7 +4,7 @@ final class HomeState extends Equatable {
   final ViewStatusEnum status;
   final String? errorMessage;
   final int? selectedChipId;
-  final List<(int, String)> chipData;
+
   final String currentLocation;
   final String? currentSearchQuery;
   final DateTime? filterStartDate;
@@ -16,7 +16,7 @@ final class HomeState extends Equatable {
     required this.status,
     required this.errorMessage,
     required this.selectedChipId,
-    required this.chipData,
+
     required this.currentLocation,
     required this.currentSearchQuery,
     required this.filterStartDate,
@@ -31,7 +31,7 @@ final class HomeState extends Equatable {
       selectedChipId = null,
       currentLocation = "Hanoi",
       currentSearchQuery = null,
-      chipData = const [],
+
       filterStartDate = null,
       filterEndDate = null,
       selectedCategories = const {},
@@ -56,7 +56,6 @@ final class HomeState extends Equatable {
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedChipId: selectedChipId ?? this.selectedChipId,
-      chipData: chipData ?? this.chipData,
       currentLocation: currentLocation ?? this.currentLocation,
       filterStartDate: filterStartDate != null
           ? filterStartDate.value
@@ -74,7 +73,6 @@ final class HomeState extends Equatable {
     status,
     errorMessage,
     selectedChipId,
-    chipData,
     currentLocation,
     currentSearchQuery,
     filterStartDate,

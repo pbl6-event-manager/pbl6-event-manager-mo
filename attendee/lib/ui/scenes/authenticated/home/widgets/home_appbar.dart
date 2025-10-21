@@ -7,11 +7,10 @@ class HomeAppbar extends StatelessWidget {
   const HomeAppbar({
     super.key,
     this.onFilterTapped,
-    required this.onChipTapped,
+
     required this.onSearchTapped,
     required this.onEventSearchCleared,
-    required this.selectedChipId,
-    required this.chipData,
+
     required this.currentLocation,
     required this.currentEventSearchQuery,
   });
@@ -21,9 +20,6 @@ class HomeAppbar extends StatelessWidget {
 
   /// Only clear event search, location search remains the same
   final VoidCallback? onEventSearchCleared;
-  final ValueChanged<int> onChipTapped;
-  final int? selectedChipId;
-  final List<(int, String)> chipData;
 
   final String currentLocation;
   final String? currentEventSearchQuery;
@@ -45,8 +41,6 @@ class HomeAppbar extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20),
-        _buildScrollableChips(context),
-        SizedBox(height: 16),
       ],
     );
   }
@@ -115,51 +109,6 @@ class HomeAppbar extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildScrollableChips(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(
-          horizontal: UIConstants.horizontalPadding,
-        ),
-        itemCount: chipData.length,
-        separatorBuilder: (context, index) => SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final isSelected = chipData[index].$1 == selectedChipId;
-          return FilterChip(
-            side: BorderSide(color: Colors.transparent),
-            label: Text(chipData[index].$2),
-            selected: isSelected,
-            onSelected: (bool selected) {
-              onChipTapped(chipData[index].$1);
-            },
-
-            color: WidgetStatePropertyAll(
-              isSelected
-                  ? context.colorPalette.primary
-                  : context.colorPalette.surfaceContainer,
-            ),
-
-            selectedColor: context.colorPalette.primary,
-            showCheckmark: false,
-            labelStyle: context.textPalette.labelMedium.copyWith(
-              color: isSelected
-                  ? context.colorPalette.onPrimary
-                  : context.colorPalette.text,
-              fontWeight: FontWeight.w600,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            visualDensity: VisualDensity.compact,
-          );
-        },
       ),
     );
   }
