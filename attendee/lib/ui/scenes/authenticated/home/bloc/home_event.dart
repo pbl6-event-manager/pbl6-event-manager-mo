@@ -18,7 +18,7 @@ final class HomeReload extends HomeEvent {
 final class HomeReturnedFromSearch extends HomeEvent {
   const HomeReturnedFromSearch({this.searchData});
 
-  final (String?, String?)? searchData;
+  final (String?, String?, bool)? searchData;
 
   @override
   List<Object?> get props => [searchData];

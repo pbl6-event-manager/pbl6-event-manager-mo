@@ -52,8 +52,6 @@ class HomeSearchState extends Equatable {
 
   final String? currentLocationLabel;
 
-  bool get isUsingCurrentLocation => true;
-
   bool get doesAllowSearch =>
       (mode == HomeSearchMode.event && eventQuery != null) ||
       (mode == HomeSearchMode.location && locationQuery != null);

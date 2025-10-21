@@ -5,6 +5,7 @@ abstract class HomeSearchNavigator extends BaseNavigator {
   void returnToHome({
     required String? eventQuery,
     required String? locationQuery,
+    required bool isUsingCurrentLocation,
   });
 }
 
@@ -18,11 +19,13 @@ final class HomeSearchNavigatorImplementation implements HomeSearchNavigator {
   void returnToHome({
     required String? eventQuery,
     required String? locationQuery,
+    required bool isUsingCurrentLocation,
   }) {
-    final (String?, String?)? returnValue =
-        (eventQuery != null || locationQuery != null)
-        ? (eventQuery, locationQuery)
-        : null;
+    final (String?, String?, bool) returnValue = (
+      eventQuery,
+      locationQuery,
+      isUsingCurrentLocation,
+    );
     goRouter.pop(returnValue);
   }
 }

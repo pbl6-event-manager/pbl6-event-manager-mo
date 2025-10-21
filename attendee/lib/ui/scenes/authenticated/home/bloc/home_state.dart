@@ -3,19 +3,23 @@ part of "home_bloc.dart";
 final class HomeState extends Equatable {
   final ViewStatusEnum status;
   final String? errorMessage;
-  final int? selectedChipId;
-
-  final String currentLocation;
+  final String? currentLocation;
   final String? currentSearchQuery;
   final DateTime? filterStartDate;
   final DateTime? filterEndDate;
   final Set<int> selectedCategories;
   final List<Event> events;
+  final bool isUsingCurrentLocation;
+
+  bool get isSearching =>
+      currentLocation != null ||
+      currentSearchQuery != null ||
+      selectedCategories.isNotEmpty ||
+      filterStartDate != null;
 
   const HomeState({
     required this.status,
     required this.errorMessage,
-    required this.selectedChipId,
 
     required this.currentLocation,
     required this.currentSearchQuery,
@@ -23,31 +27,33 @@ final class HomeState extends Equatable {
     required this.filterEndDate,
     required this.selectedCategories,
     required this.events,
+    required this.isUsingCurrentLocation,
   });
 
   const HomeState.initial()
     : status = ViewStatusEnum.initial,
       errorMessage = null,
-      selectedChipId = null,
-      currentLocation = "Hanoi",
+
+      currentLocation = null,
       currentSearchQuery = null,
 
       filterStartDate = null,
       filterEndDate = null,
       selectedCategories = const {},
+      isUsingCurrentLocation = false,
       events = const [];
 
   HomeState copyWith({
     ViewStatusEnum? status,
     String? errorMessage,
-    int? selectedChipId,
     List<(int, String)>? chipData,
-    String? currentLocation,
+    Nullable<String>? currentLocation,
     Nullable<String>? currentSearchQuery,
     Nullable<DateTime>? filterStartDate,
     Nullable<DateTime>? filterEndDate,
     Set<int>? selectedCategories,
     List<Event>? events,
+    bool? isUsingCurrentLocation,
   }) {
     return HomeState(
       currentSearchQuery: currentSearchQuery != null
@@ -55,8 +61,10 @@ final class HomeState extends Equatable {
           : this.currentSearchQuery,
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
-      selectedChipId: selectedChipId ?? this.selectedChipId,
-      currentLocation: currentLocation ?? this.currentLocation,
+
+      currentLocation: currentLocation != null
+          ? currentLocation.value
+          : this.currentLocation,
       filterStartDate: filterStartDate != null
           ? filterStartDate.value
           : this.filterStartDate,
@@ -65,6 +73,8 @@ final class HomeState extends Equatable {
           : this.filterEndDate,
       selectedCategories: selectedCategories ?? this.selectedCategories,
       events: events ?? this.events,
+      isUsingCurrentLocation:
+          isUsingCurrentLocation ?? this.isUsingCurrentLocation,
     );
   }
 
@@ -72,12 +82,12 @@ final class HomeState extends Equatable {
   List<Object?> get props => [
     status,
     errorMessage,
-    selectedChipId,
     currentLocation,
     currentSearchQuery,
     filterStartDate,
     filterEndDate,
     selectedCategories,
     events,
+    isUsingCurrentLocation,
   ];
 }

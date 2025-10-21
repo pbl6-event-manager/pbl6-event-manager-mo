@@ -1,8 +1,9 @@
 import "package:attendee/domain/models/event.dart";
+import "package:attendee/domain/repositories/event_repository.dart";
 import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
-import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/nullable.dart";
+import "package:attendee/utils/helpers/result.dart";
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
 
@@ -10,13 +11,13 @@ part "home_event.dart";
 part "home_state.dart";
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final EventDatasource _eventDatasource;
+  final EventRepository _eventRepository;
   final SearchByCurrentLocationUsecase _searchByCurrentLocationUsecase;
 
   HomeBloc({
-    required EventDatasource eventDatasource,
+    required EventRepository eventRepository,
     required SearchByCurrentLocationUsecase searchByCurrentLocationUsecase,
-  }) : _eventDatasource = eventDatasource,
+  }) : _eventRepository = eventRepository,
        _searchByCurrentLocationUsecase = searchByCurrentLocationUsecase,
        super(HomeState.initial()) {
     on<HomeLoad>(_onHomeLoad);
@@ -29,57 +30,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onHomeLoad(HomeLoad event, Emitter<HomeState> emit) async {
     emit(state.copyWith(status: ViewStatusEnum.loading));
-
-    try {
-      final events = await _eventDatasource.getEvents();
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.success,
-          events: events,
-          chipData: [
-            (1, "All Events"),
-            (2, "Conferences"),
-            (3, "Workshops"),
-            (4, "Networking"),
-            (5, "Webinars"),
-            (6, "Meetups"),
-            (7, "Training"),
-            (8, "Social"),
-          ],
-
-          selectedChipId: 1,
-        ),
-      );
-    } catch (error) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
+    await _fetchAllEvents(emit);
   }
 
   Future<void> _onHomeReload(HomeReload event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(status: ViewStatusEnum.loading));
-
-    try {
-      final events = await _eventDatasource.getEvents();
-
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.success,
-          events: events,
-          errorMessage: null,
-        ),
-      );
-    } catch (error) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: error.toString(),
-        ),
-      );
+    {
+      emit(state.copyWith(status: ViewStatusEnum.loading));
+      await _fetchAllEvents(emit);
     }
   }
 
@@ -100,28 +57,49 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ? event.searchData?.$2
         : null;
 
-    if (eventSearchQuery == null && locationSearchQuery == null) {
+    final bool? isUsingCurrentLocation =
+        event.searchData?.$3 != state.isUsingCurrentLocation
+        ? event.searchData?.$3
+        : null;
+
+    if (eventSearchQuery == null &&
+        locationSearchQuery == null &&
+        isUsingCurrentLocation == null) {
       return;
     }
     emit(
       state.copyWith(
         status: ViewStatusEnum.loading,
         currentSearchQuery: Nullable(eventSearchQuery),
-        currentLocation: locationSearchQuery,
+        currentLocation: Nullable(locationSearchQuery),
+        isUsingCurrentLocation: locationSearchQuery != null
+            ? false
+            : isUsingCurrentLocation,
       ),
     );
 
-    try {
-      // Fetch events with search parameters
-      final events = await _eventDatasource.getEvents();
-      emit(state.copyWith(status: ViewStatusEnum.success, events: events));
-    } catch (error) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: error.toString(),
-        ),
-      );
+    final eventsResponse = (isUsingCurrentLocation ?? false)
+        ? await _searchByCurrentLocationUsecase.execute()
+        : await _eventRepository.searchEvents(
+            keyword: eventSearchQuery,
+            location: locationSearchQuery,
+          );
+
+    switch (eventsResponse) {
+      case Ok<List<Event>>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            events: eventsResponse.value,
+          ),
+        );
+      case Error<List<Event>>(error: final error):
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: error.toString(),
+          ),
+        );
     }
   }
 
@@ -137,18 +115,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
 
-    try {
-      // Fetch all events when search is cleared
-      final events = await _eventDatasource.getEvents();
-      emit(state.copyWith(status: ViewStatusEnum.success, events: events));
-    } catch (error) {
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.failure,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
+    await _fetchAllEvents(emit);
   }
 
   Future<void> _onHomeReturnedFromFilter(
@@ -171,11 +138,49 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
 
-    try {
-      // Fetch events with filter parameters
-      final events = await _eventDatasource.getEvents();
-      emit(state.copyWith(status: ViewStatusEnum.success, events: events));
-    } catch (error) {
+    final eventsResponse = await _eventRepository.searchEvents(
+      startDate: startDate,
+      endDate: endDate,
+      categoryIds: categories,
+    );
+
+    switch (eventsResponse) {
+      case Ok<List<Event>>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            events: eventsResponse.value,
+          ),
+        );
+      case Error<List<Event>>(error: final error):
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: error.toString(),
+          ),
+        );
+    }
+  }
+
+  Future<void> _fetchAllEvents(Emitter<HomeState> emit) async {
+    emit(state.copyWith(status: ViewStatusEnum.loading));
+
+    final eventsResponse = await _eventRepository.getEvents();
+    switch (eventsResponse) {
+      case Ok<List<Event>>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            events: eventsResponse.value,
+          ),
+        );
+      case Error<List<Event>>(error: Exception error):
+        state.copyWith(
+          status: ViewStatusEnum.failure,
+          errorMessage: error.toString(),
+        );
+    }
+    try {} catch (error) {
       emit(
         state.copyWith(
           status: ViewStatusEnum.failure,

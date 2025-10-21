@@ -18,4 +18,14 @@ abstract class EventDatasource {
     @Query("longtitue") required double longitude,
     @Query("radius") required double radiusInMeter,
   });
+
+  @GET(ApiEndpointConstants.eventsSearch)
+  Future<List<Event>> searchEvents({
+    @Query("keyword") required String? keyword,
+    @Query("city") required String? city,
+    @Query("country") required String? country,
+    @Query("startDate") required String? startDate,
+    @Query("endDate") required String? endDate,
+    @Query("categoryIds") required List<int>? categoryIds,
+  });
 }

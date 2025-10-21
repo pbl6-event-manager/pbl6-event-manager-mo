@@ -21,7 +21,7 @@ class HomeAppbar extends StatelessWidget {
   /// Only clear event search, location search remains the same
   final VoidCallback? onEventSearchCleared;
 
-  final String currentLocation;
+  final String? currentLocation;
   final String? currentEventSearchQuery;
 
   bool get hasSearchQuery => currentEventSearchQuery != null;
@@ -84,13 +84,14 @@ class HomeAppbar extends StatelessWidget {
                       : context.textPalette.subtitleLarge,
                 ),
 
-                Text(
-                  AppStringConstants.home.searchAppBarTitle(currentLocation),
+                if (currentLocation != null)
+                  Text(
+                    AppStringConstants.home.searchAppBarTitle(currentLocation!),
 
-                  style: hasSearchQuery
-                      ? context.textPalette.subtitleLarge
-                      : context.textPalette.labelLarge,
-                ),
+                    style: hasSearchQuery
+                        ? context.textPalette.subtitleLarge
+                        : context.textPalette.labelLarge,
+                  ),
               ],
             ),
           ),

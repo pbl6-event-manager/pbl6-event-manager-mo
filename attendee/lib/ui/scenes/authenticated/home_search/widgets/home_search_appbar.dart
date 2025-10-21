@@ -10,7 +10,6 @@ class HomeSearchAppbar extends StatelessWidget {
     this.onCloseTapped,
     required this.onEventSearchChanged,
     required this.onLocationSearchChanged,
-    this.isUsingCurrentLocation = false,
     this.initialSearchValue,
     this.initialLocationValue,
     this.isEnabled = true,
@@ -21,7 +20,6 @@ class HomeSearchAppbar extends StatelessWidget {
   final ValueChanged<String?> onEventSearchChanged;
   final ValueChanged<String?> onLocationSearchChanged;
 
-  final bool isUsingCurrentLocation;
   final String? initialSearchValue;
 
   final String? initialLocationValue;

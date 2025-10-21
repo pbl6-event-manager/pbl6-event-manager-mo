@@ -1,10 +1,11 @@
 import "package:attendee/application/app_router.dart";
+import "package:attendee/domain/repositories/event_repository.dart";
 import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
-import "package:attendee/network/datasources/event_datasource.dart";
 import "package:attendee/ui/scenes/authenticated/home/bloc/home_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/home/widgets/home_event_section.dart";
 import "package:attendee/ui/scenes/authenticated/home/widgets/home_appbar.dart";
+import "package:attendee/utils/constants/app_string_constants.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
       providers: [
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(
-            eventDatasource: GetIt.instance<EventDatasource>(),
+            eventRepository: GetIt.instance<EventRepository>(),
             searchByCurrentLocationUsecase:
                 GetIt.instance<SearchByCurrentLocationUsecase>(),
           )..add(HomeLoad()),
@@ -76,17 +77,16 @@ class HomeView extends StatelessWidget {
             ),
             sliver: SliverMainAxisGroup(
               slivers: [
-                ..._buildListSectionWithTitle(
-                  context,
-                  title: "Popular in Los Angeles",
-                  contentWidget: HomeEventSection.compact(
-                    isLoading: isLoading,
-                    events: state.events,
+                if (!state.isSearching)
+                  ..._buildListSectionWithTitle(
+                    context,
+                    title: AppStringConstants.home.personalizedEvents,
+                    contentWidget: HomeEventSection.compact(
+                      isLoading: isLoading,
+                      events: state.events,
+                    ),
                   ),
-                ),
-                const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
-                HomeEventSection(isLoading: isLoading, events: state.events),
-                const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
+
                 HomeEventSection(isLoading: isLoading, events: state.events),
               ],
             ),
@@ -103,7 +103,8 @@ class HomeView extends StatelessWidget {
         onEventSearchCleared: () => _onEventSearchCleared(context),
         onSearchTapped: () => _onSearchTapped(
           context,
-          currentLocationLabel: state.currentLocation,
+
+          isUsingCurrentLocation: state.isUsingCurrentLocation,
           onSearchSubmitted: (data) => context.read<HomeBloc>().add(
             HomeReturnedFromSearch(searchData: data),
           ),
@@ -132,17 +133,18 @@ class HomeView extends StatelessWidget {
     SliverToBoxAdapter(child: SizedBox(height: 26)),
 
     contentWidget,
+    const SliverToBoxAdapter(child: Divider(height: 26 * 2)),
   ];
 
   void _onSearchTapped(
     BuildContext context, {
 
-    required String currentLocationLabel,
+    required bool isUsingCurrentLocation,
 
-    required Function((String?, String?)) onSearchSubmitted,
+    required Function((String?, String?, bool)) onSearchSubmitted,
   }) {
     context.read<HomeNavigator>().goToSearch(
-      currentLocationLabel: currentLocationLabel,
+      isUsingCurrentLocation: isUsingCurrentLocation,
       onSearchSubmitted: onSearchSubmitted,
     );
   }

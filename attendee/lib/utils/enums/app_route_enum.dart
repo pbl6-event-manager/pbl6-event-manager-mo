@@ -4,8 +4,8 @@ enum AppRouteEnum {
   signUp(path: "signUp"),
   home(path: "/home"),
 
-  /// Contains query param `{"location": String}`
-  /// - "location": Current location (fetched from home view)
+  /// Contains query param `{"isUsingCurrentLocation": bool}`
+  /// - "isUsingCurrentLocation": is using device's GPS to search
   homeSearch(path: "search"),
 
   /// Query param `{"startDate": String?, "endDate": String?}`
