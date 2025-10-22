@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart";
 import "package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart";
@@ -21,7 +22,7 @@ final class AppRouter {
   AppRouter(this.authBloc);
 
   late final GoRouter router = GoRouter(
-    routes: [_homeRoute, _authRoute],
+    routes: [_bottomNavigationRoute, _authRoute],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     redirect: _redirectLogic,
@@ -53,12 +54,44 @@ final class AppRouter {
     },
   );
 
+  /// AUTHENTICATED ROUTES
+
+  /// Bottom navigation routes
+  StatefulShellRoute get _bottomNavigationRoute =>
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            BottomNavigationPage(navigationShell: navigationShell),
+
+        branches: [_homeBranch, _ticketBranch, _accountBranch],
+      );
+
+  /// AUTHENTICATED BRANCHES
+  StatefulShellBranch get _homeBranch =>
+      StatefulShellBranch(routes: [_homeRoute]);
+  StatefulShellBranch get _ticketBranch =>
+      StatefulShellBranch(routes: [_ticketRoute]);
+  StatefulShellBranch get _accountBranch =>
+      StatefulShellBranch(routes: [_accountRoute]);
+
   /// Home route for authenticated users
   GoRoute get _homeRoute => GoRoute(
     routes: [_homeSearchRoute, _homeFilterRoute],
     path: AppRouteEnum.home.path,
     name: AppRouteEnum.home.name,
     builder: (context, state) => const HomePage(),
+  );
+
+  // Add placeholder routes for tickets and account
+  GoRoute get _ticketRoute => GoRoute(
+    path: AppRouteEnum.tickets.path,
+    name: AppRouteEnum.tickets.name,
+    builder: (context, state) => const Placeholder(),
+  );
+
+  GoRoute get _accountRoute => GoRoute(
+    path: AppRouteEnum.account.path,
+    name: AppRouteEnum.account.name,
+    builder: (context, state) => const Placeholder(),
   );
 
   GoRoute get _homeSearchRoute => GoRoute(
