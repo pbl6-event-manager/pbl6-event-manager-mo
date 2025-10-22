@@ -22,7 +22,7 @@ abstract class DioConfig {
       AuthInterceptor(
         onUnauthenticated: onUnauthenticated,
         securedStorage: secureStorage,
-        securedStorageAccessTokenKey: securedStorageAccessTokenKey,
+
         dio: retryDio,
       ),
       ResponseInterceptor(),

@@ -8,6 +8,7 @@ abstract class ApiEndpointConstants {
   static const String checkEmail = "/auth/check-email";
   static const String signIn = "/auth/login";
   static const String signUp = "/auth/signup";
+  static const String refreshToken = "/auth/refresh-token";
 
   // EVENTS
   static const String events = "/events";

@@ -1,5 +1,4 @@
 import "dart:async";
-import "dart:developer";
 
 import "package:attendee/utils/constants/storage_keys_constants.dart";
 import "package:attendee/utils/enums/auth_status_enum.dart";
