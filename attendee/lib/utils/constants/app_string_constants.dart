@@ -1,4 +1,7 @@
 abstract class AppStringConstants {
+  static BottomNavigationAppString get bottomNavigation =>
+      BottomNavigationAppString._();
+
   static EmailInitialAppStrings get emailInitial => EmailInitialAppStrings._();
   static ButtonAppStrings get buttons => ButtonAppStrings._();
   static TextFieldAppStrings get textFields => TextFieldAppStrings._();
@@ -10,6 +13,14 @@ abstract class AppStringConstants {
   static HomeAppStrings get home => HomeAppStrings._();
   static HomeSearchAppStrings get homeSearch => HomeSearchAppStrings._();
   static HomeFilterAppStrings get homeFilter => HomeFilterAppStrings._();
+}
+
+final class BottomNavigationAppString {
+  const BottomNavigationAppString._();
+
+  String get homeTab => "Home";
+  String get ticketTab => "Tickets";
+  String get accountTab => "Account";
 }
 
 final class EmailInitialAppStrings {

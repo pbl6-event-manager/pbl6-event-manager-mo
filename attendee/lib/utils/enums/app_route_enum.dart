@@ -13,7 +13,10 @@ enum AppRouteEnum {
   /// - "endDate" is the selected end date filter
   ///
   /// Extra param: `List<String>`: a list of selected categories
-  homeFilter(path: "filter");
+  homeFilter(path: "filter"),
+
+  tickets(path: "/tickets"),
+  account(path: "/account");
 
   final String path;
   const AppRouteEnum({required this.path});
