@@ -34,7 +34,7 @@ class HomeSearchAppbar extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Text("Search", style: context.textPalette.displayLarge),
+              child: Text("Search", style: context.textPalette.displayMedium),
             ),
 
             IconButton(

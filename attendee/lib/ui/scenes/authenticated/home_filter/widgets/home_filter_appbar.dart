@@ -24,7 +24,7 @@ class HomeFilterAppBar extends StatelessWidget {
                 Expanded(
                   child: Text(
                     AppStringConstants.homeFilter.appBarTitle,
-                    style: context.textPalette.displayLarge,
+                    style: context.textPalette.displayMedium,
                   ),
                 ),
 

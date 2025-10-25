@@ -36,4 +36,11 @@ abstract class StringUtils {
         return PasswordStrengthEnum.weak;
     }
   }
+
+  static String getNameInitals({
+    required String firstName,
+    required String lastName,
+  }) {
+    return firstName.substring(0, 1) + lastName.substring(0, 1);
+  }
 }

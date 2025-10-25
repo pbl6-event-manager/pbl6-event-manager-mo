@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/ui/scenes/authenticated/account/account_view.dart";
 import "package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart";
@@ -91,7 +92,7 @@ final class AppRouter {
   GoRoute get _accountRoute => GoRoute(
     path: AppRouteEnum.account.path,
     name: AppRouteEnum.account.name,
-    builder: (context, state) => const Placeholder(),
+    builder: (context, state) => const AccountPage(),
   );
 
   GoRoute get _homeSearchRoute => GoRoute(
