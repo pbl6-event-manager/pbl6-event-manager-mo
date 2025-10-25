@@ -30,7 +30,7 @@ class AccountGeneralInfoCard extends StatelessWidget {
           children: [
             (imageUrl != null)
                 ? ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(40),
+                    borderRadius: BorderRadius.circular(40),
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: imageUrl!,
@@ -46,7 +46,10 @@ class AccountGeneralInfoCard extends StatelessWidget {
               spacing: 8,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(firstName, style: context.textPalette.headlineLarge),
+                Text(
+                  "$firstName $lastName",
+                  style: context.textPalette.headlineLarge,
+                ),
                 if (address != null) Text(address!),
 
                 if (attendedEventCount != null)
@@ -74,7 +77,6 @@ class AccountGeneralInfoCard extends StatelessWidget {
       ),
       width: 80,
       height: 80,
-
       child: Center(
         child: Text(
           StringUtils.getNameInitals(firstName: firstName, lastName: lastName),
