@@ -20,9 +20,11 @@ class AccountPage extends StatelessWidget {
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
 
-  String get name => "Name";
+  String get firstName => "First";
+  String get lastName => "Last";
   String? get address => "Address";
   int? get attendedEventCount => 10;
+  String? get imageUrl => null;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,9 @@ class AccountView extends StatelessWidget {
     children: [
       SizedBox(height: 20),
       AccountGeneralInfoCard(
-        name: name,
+        imageUrl: imageUrl,
+        firstName: firstName,
+        lastName: lastName,
         address: address,
         attendedEventCount: attendedEventCount,
       ),
