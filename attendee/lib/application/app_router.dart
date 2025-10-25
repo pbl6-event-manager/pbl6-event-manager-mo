@@ -132,9 +132,6 @@ final class AppRouter {
 
   /// REDIRECT
   FutureOr<String?> _redirectLogic(BuildContext context, GoRouterState state) {
-    final isAuthenticatedRoute = state.matchedLocation.startsWith(
-      AppRouteEnum.home.path,
-    );
     final isUnauthenticatedRoute = state.matchedLocation.startsWith(
       AppRouteEnum.auth.path,
     );
@@ -146,7 +143,7 @@ final class AppRouter {
     }
 
     // If user is not authenticated and trying to access protected routes, redirect to auth
-    if (!isAuthenticated && isAuthenticatedRoute) {
+    if (!isAuthenticated && !isUnauthenticatedRoute) {
       return AppRouteEnum.auth.path;
     }
 
