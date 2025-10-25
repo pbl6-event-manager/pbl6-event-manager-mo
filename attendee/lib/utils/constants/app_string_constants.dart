@@ -165,5 +165,4 @@ final class AccountAppStrings {
   // Other
   String get signOutLabel => "Sign out";
   String get versionLabel => "Version";
-  String get appVersionLabel => "App version";
 }
