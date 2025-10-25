@@ -13,6 +13,7 @@ abstract class AppStringConstants {
   static HomeAppStrings get home => HomeAppStrings._();
   static HomeSearchAppStrings get homeSearch => HomeSearchAppStrings._();
   static HomeFilterAppStrings get homeFilter => HomeFilterAppStrings._();
+  static AccountAppStrings get account => AccountAppStrings._();
 }
 
 final class BottomNavigationAppString {
@@ -129,4 +130,40 @@ final class HomeFilterAppStrings {
   // Buttons
   String get resetButton => "Reset";
   String get applyFiltersButton => "Apply Filters";
+}
+
+final class AccountAppStrings {
+  const AccountAppStrings._();
+
+  // App bar
+  String get appBarTitle => "Account";
+
+  // Section titles
+  String get preferencesSection => "Preferences";
+  String get helpSection => "Help";
+  String get legalSection => "Legal";
+
+  // General info
+  String eventsAttended(int count) => "$count events attended";
+
+  // Preference options
+  String get interestOption => "Interest";
+  String get friendsOption => "Friends";
+  String get followingOrganizersOption => "Organizers you follow";
+  String get manageNotificationOption => "Manage notifications";
+  String get linkedAccountsOption => "Linked accounts";
+
+  // Help options
+  String get browseHelpCenter => "Browse Help Center";
+
+  // Legal options
+  String get termsOfServiceOption => "Terms of service";
+  String get privacyOption => "Privacy";
+  String get accessibilityOption => "Accessibility";
+  String get cookiesOption => "Cookies";
+
+  // Other
+  String get signOutLabel => "Sign out";
+  String get versionLabel => "Version";
+  String get appVersionLabel => "App version";
 }
