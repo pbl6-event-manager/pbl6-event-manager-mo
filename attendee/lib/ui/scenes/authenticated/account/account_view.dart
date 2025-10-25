@@ -1,7 +1,10 @@
 import "dart:async";
 
+import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/domain/models/user.dart";
 import "package:attendee/domain/repositories/user_repository.dart";
+import "package:attendee/ui/scenes/authenticated/account/account_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/account/bloc/account_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/account/enums/account_options.dart";
 import "package:attendee/ui/scenes/authenticated/account/widgets/account_app_bar.dart";
@@ -22,12 +25,21 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AccountBloc(
-        userRepository: GetIt.instance<UserRepository>(),
-        authBloc: GetIt.instance<AuthBloc>(),
-      )..add(const AccountLoad()),
-      child: const AccountView(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AccountBloc(
+            userRepository: GetIt.instance<UserRepository>(),
+            authBloc: GetIt.instance<AuthBloc>(),
+          )..add(const AccountLoad()),
+        ),
+        RepositoryProvider<AccountNavigator>(
+          create: (context) => AccountNavigatorImplementation(
+            goRouter: GetIt.instance<AppRouter>().router,
+          ),
+        ),
+      ],
+      child: AccountView(),
     );
   }
 }
@@ -57,8 +69,8 @@ class AccountView extends StatelessWidget {
 
         return Scaffold(
           appBar: AccountAppBar(
-            onNotificationTapped: _onNotificationPressed,
-            onSettingTapped: _onSettingPressed,
+            onNotificationTapped: () => _onNotificationPressed(context),
+            onSettingTapped: () => _onSettingPressed(context, user: state.user),
           ),
           body: SafeArea(
             child: RefreshIndicator(
@@ -193,12 +205,19 @@ class AccountView extends StatelessWidget {
     );
   }
 
-  void _onNotificationPressed() {
-    // TODO: Navigate to notifications page
+  void _onNotificationPressed(BuildContext context) {
+    // TODO: Implement
   }
 
-  void _onSettingPressed() {
-    // TODO: Navigate to settings page
+  void _onSettingPressed(BuildContext context, {required User? user}) {
+    final AccountNavigator navigator = context.read<AccountNavigator>();
+    final AccountBloc bloc = context.read<AccountBloc>();
+
+    navigator.goToAccountSetting(
+      user: user,
+
+      onReloadNeeded: () => bloc.add(AccountReload()),
+    );
   }
 
   void _onPreferenceOptionTapped(AccountPreferenceOptions option) {
