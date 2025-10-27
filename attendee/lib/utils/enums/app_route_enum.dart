@@ -19,7 +19,8 @@ enum AppRouteEnum {
   account(path: "/account"),
 
   /// Extra: An optional [User] object fetched from account page
-  accountSetting(path: "/accountSetting");
+  accountSetting(path: "/accountSetting"),
+  accountSettingPassword(path: "password");
 
   final String path;
   const AppRouteEnum({required this.path});

@@ -1,11 +1,15 @@
+import "package:attendee/application/app_router.dart";
 import "package:attendee/domain/models/user.dart";
 import "package:attendee/ui/common_widgets/tappable_text_with_underline.dart";
+import "package:attendee/ui/scenes/authenticated/account_setting/account_setting_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_avatar_widget.dart";
 import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_field_list.dart";
 import "package:attendee/utils/constants/app_string_constants.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:get_it/get_it.dart";
 
 class AccountSettingPage extends StatelessWidget {
   const AccountSettingPage({super.key, required this.user});
@@ -13,7 +17,16 @@ class AccountSettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AccountSettingView(user: user);
+    return MultiBlocProvider(
+      providers: [
+        RepositoryProvider<AccountSettingNavigator>(
+          create: (context) => AccountSettingNavigatorImplementation(
+            goRouter: GetIt.instance<AppRouter>().router,
+          ),
+        ),
+      ],
+      child: AccountSettingView(user: user),
+    );
   }
 }
 
@@ -109,7 +122,12 @@ class _AccountSettingViewState extends State<AccountSettingView> {
     );
   }
 
-  void _onEditPasswordTapped() {}
+  void _onEditPasswordTapped() {
+    final AccountSettingNavigator navigator = context
+        .read<AccountSettingNavigator>();
+
+    navigator.goToPassword();
+  }
 
   void _onCloseAccountTapped() {}
 }
