@@ -175,4 +175,10 @@ final class AccountAppStrings {
   // Other
   String get signOutLabel => "Sign out";
   String get versionLabel => "Version";
+
+  // Photo setting
+  String get takePhotoLabel => "Take a photo";
+  String get photoLibraryLabel => "Choose from library";
+  String get deteleLabel => "Delete";
+  String get cancelLabel => "Cancel";
 }

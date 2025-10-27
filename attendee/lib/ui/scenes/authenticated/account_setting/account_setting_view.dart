@@ -2,8 +2,10 @@ import "package:attendee/application/app_router.dart";
 import "package:attendee/domain/models/user.dart";
 import "package:attendee/ui/common_widgets/tappable_text_with_underline.dart";
 import "package:attendee/ui/scenes/authenticated/account_setting/account_setting_navigator.dart";
+import "package:attendee/ui/scenes/authenticated/account_setting/enums/account_setting_picture_options.dart";
 import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_avatar_widget.dart";
 import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_field_list.dart";
+import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_picture_options_modal.dart";
 import "package:attendee/utils/constants/app_string_constants.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
@@ -91,6 +93,11 @@ class _AccountSettingViewState extends State<AccountSettingView> {
               avatarUrl: avatarUrl,
               firstName: firstName,
               lastName: lastName,
+              onUpdatePictureTapped: () => onUpdatePictureTapped(
+                context,
+
+                onUpdatePictureOptionSelected: _onUpdatePictureOptionSelected,
+              ),
             ),
             SizedBox(height: 32),
             AccountSettingFieldList(
@@ -144,4 +151,22 @@ class _AccountSettingViewState extends State<AccountSettingView> {
   }
 
   void _onCloseAccountTapped() {}
+
+  Future<AccountSettingPictureOptions?> onUpdatePictureTapped(
+    BuildContext context, {
+    required void Function(AccountSettingPictureOptions option)
+    onUpdatePictureOptionSelected,
+  }) async {
+    return showModalBottomSheet<AccountSettingPictureOptions>(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => AccountSettingPictureOptionsModal(
+        onOptionSelected: onUpdatePictureOptionSelected,
+      ),
+    );
+  }
+
+  void _onUpdatePictureOptionSelected(AccountSettingPictureOptions option) {}
 }

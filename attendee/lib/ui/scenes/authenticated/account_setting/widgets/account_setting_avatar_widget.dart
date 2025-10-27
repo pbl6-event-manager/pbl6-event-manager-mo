@@ -11,11 +11,14 @@ class AccountSettingAvatarWidget extends StatelessWidget {
     required this.avatarUrl,
     required this.firstName,
     required this.lastName,
+    required this.onUpdatePictureTapped,
   });
 
   final String? avatarUrl;
   final String? firstName;
   final String? lastName;
+
+  final VoidCallback onUpdatePictureTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class AccountSettingAvatarWidget extends StatelessWidget {
           style: context.textPalette.subtitleLarge.copyWith(
             color: context.colorPalette.text,
           ),
-          onTapped: _onUpdatePictureTapped,
+          onTapped: onUpdatePictureTapped,
         ),
       ],
     );
@@ -71,6 +74,4 @@ class AccountSettingAvatarWidget extends StatelessWidget {
       ),
     );
   }
-
-  void _onUpdatePictureTapped() {}
 }
