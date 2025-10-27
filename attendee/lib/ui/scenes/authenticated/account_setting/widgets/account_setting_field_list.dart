@@ -9,6 +9,9 @@ class AccountSettingFieldList extends StatelessWidget {
     required TextEditingController lastNameController,
     required this.email,
     required TextEditingController phoneController,
+    required this.firstNameFocusNode,
+    required this.lastNameFocusNode,
+    required this.phoneFocusNode,
   }) : _firstNameController = firstNameController,
        _lastNameController = lastNameController,
        _phoneController = phoneController;
@@ -18,22 +21,26 @@ class AccountSettingFieldList extends StatelessWidget {
   final String? email;
   final TextEditingController _phoneController;
 
+  final FocusNode firstNameFocusNode;
+  final FocusNode lastNameFocusNode;
+  final FocusNode phoneFocusNode;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: 28,
       children: [
         CommonTextField(
+          focusNode: firstNameFocusNode,
           hintText: AppStringConstants.textFields.firstNamePlaceholder,
           controller: _firstNameController,
           keyboardType: TextInputType.name,
-          inputAction: TextInputAction.next,
         ),
         CommonTextField(
+          focusNode: lastNameFocusNode,
           hintText: AppStringConstants.textFields.lastNamePlaceholder,
           controller: _lastNameController,
           keyboardType: TextInputType.name,
-          inputAction: TextInputAction.next,
         ),
         CommonTextField(
           hintText: AppStringConstants.textFields.emailPlaceholder,
@@ -42,10 +49,10 @@ class AccountSettingFieldList extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
         ),
         CommonTextField(
+          focusNode: phoneFocusNode,
           hintText: AppStringConstants.textFields.phoneNumberPlaceHolder,
           controller: _phoneController,
           keyboardType: TextInputType.phone,
-          inputAction: TextInputAction.done,
         ),
       ],
     );

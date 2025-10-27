@@ -42,6 +42,9 @@ class _AccountSettingViewState extends State<AccountSettingView> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
+  late final FocusNode _firstNameFocusNode;
+  late final FocusNode _lastNameFocusNode;
+  late final FocusNode _phoneFocusNode;
 
   String? get email => widget.user?.email;
   String? get firstName => widget.user?.firstName;
@@ -55,6 +58,10 @@ class _AccountSettingViewState extends State<AccountSettingView> {
     _firstNameController = TextEditingController(text: firstName ?? "");
     _lastNameController = TextEditingController(text: lastName ?? "");
     _phoneController = TextEditingController(text: phone ?? "");
+
+    _firstNameFocusNode = FocusNode();
+    _lastNameFocusNode = FocusNode();
+    _phoneFocusNode = FocusNode();
   }
 
   @override
@@ -62,6 +69,10 @@ class _AccountSettingViewState extends State<AccountSettingView> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _phoneController.dispose();
+
+    _firstNameFocusNode.dispose();
+    _lastNameFocusNode.dispose();
+    _phoneFocusNode.dispose();
     super.dispose();
   }
 
@@ -87,6 +98,9 @@ class _AccountSettingViewState extends State<AccountSettingView> {
               lastNameController: _lastNameController,
               email: email,
               phoneController: _phoneController,
+              firstNameFocusNode: _firstNameFocusNode,
+              lastNameFocusNode: _lastNameFocusNode,
+              phoneFocusNode: _phoneFocusNode,
             ),
             SizedBox(height: 32),
             _buildChangePasswordTile(context),

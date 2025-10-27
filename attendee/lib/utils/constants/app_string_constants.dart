@@ -43,6 +43,10 @@ final class TextFieldAppStrings {
   const TextFieldAppStrings._();
 
   String get passwordPlaceholder => "Password";
+  String get currentPasswordPlaceholder => "Current password";
+  String get confirmPasswordPlaceholder => "Confirm password";
+  String get newPasswordPlaceholder => "New password";
+
   String get emailPlaceholder => "Email address";
   String get confirmEmailPlaceholder => "Confirm email address";
   String get firstNamePlaceholder => "First name";
