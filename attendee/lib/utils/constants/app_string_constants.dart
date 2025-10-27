@@ -47,6 +47,7 @@ final class TextFieldAppStrings {
   String get confirmEmailPlaceholder => "Confirm email address";
   String get firstNamePlaceholder => "First name";
   String get lastNamePlaceholder => "Last name";
+  String get phoneNumberPlaceHolder => "Phone number";
 
   String get emailValidationError => "Please enter a valid email address";
 
@@ -161,6 +162,11 @@ final class AccountAppStrings {
   String get privacyOption => "Privacy";
   String get accessibilityOption => "Accessibility";
   String get cookiesOption => "Cookies";
+
+  // Account settings
+  String get updatePictureLabel => "Update picture";
+  String get changePasswordLabel => "Change password";
+  String get closeAccountLabel => "Close account";
 
   // Other
   String get signOutLabel => "Sign out";
