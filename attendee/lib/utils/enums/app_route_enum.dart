@@ -16,7 +16,11 @@ enum AppRouteEnum {
   homeFilter(path: "filter"),
 
   tickets(path: "/tickets"),
-  account(path: "/account");
+  account(path: "/account"),
+
+  /// Extra: An optional [User] object fetched from account page
+  accountSetting(path: "/accountSetting"),
+  accountSettingPassword(path: "password");
 
   final String path;
   const AppRouteEnum({required this.path});

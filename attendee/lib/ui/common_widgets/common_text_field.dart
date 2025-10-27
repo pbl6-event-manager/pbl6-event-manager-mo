@@ -96,6 +96,7 @@ class CommonTextField extends StatelessWidget {
             textInputAction: inputAction,
             focusNode: focusNode,
             readOnly: isReadOnly,
+
             initialValue: controller == null ? initialValue : null,
             obscureText: isSecured,
             enabled: isEnabled,

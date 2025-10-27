@@ -43,10 +43,15 @@ final class TextFieldAppStrings {
   const TextFieldAppStrings._();
 
   String get passwordPlaceholder => "Password";
+  String get currentPasswordPlaceholder => "Current password";
+  String get confirmPasswordPlaceholder => "Confirm password";
+  String get newPasswordPlaceholder => "New password";
+
   String get emailPlaceholder => "Email address";
   String get confirmEmailPlaceholder => "Confirm email address";
   String get firstNamePlaceholder => "First name";
   String get lastNamePlaceholder => "Last name";
+  String get phoneNumberPlaceHolder => "Phone number";
 
   String get emailValidationError => "Please enter a valid email address";
 
@@ -162,7 +167,18 @@ final class AccountAppStrings {
   String get accessibilityOption => "Accessibility";
   String get cookiesOption => "Cookies";
 
+  // Account settings
+  String get updatePictureLabel => "Update picture";
+  String get changePasswordLabel => "Change password";
+  String get closeAccountLabel => "Close account";
+
   // Other
   String get signOutLabel => "Sign out";
   String get versionLabel => "Version";
+
+  // Photo setting
+  String get takePhotoLabel => "Take a photo";
+  String get photoLibraryLabel => "Choose from library";
+  String get deteleLabel => "Delete";
+  String get cancelLabel => "Cancel";
 }

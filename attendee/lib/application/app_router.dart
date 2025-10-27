@@ -1,7 +1,10 @@
 import "dart:async";
 
 import "package:attendee/application/bloc/auth_bloc.dart";
+import "package:attendee/domain/models/user.dart";
 import "package:attendee/ui/scenes/authenticated/account/account_view.dart";
+import "package:attendee/ui/scenes/authenticated/account_setting/account_setting_view.dart";
+import "package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart";
 import "package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart";
 import "package:attendee/ui/scenes/authenticated/home/home_view.dart";
 import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart";
@@ -23,7 +26,7 @@ final class AppRouter {
   AppRouter(this.authBloc);
 
   late final GoRouter router = GoRouter(
-    routes: [_bottomNavigationRoute, _authRoute],
+    routes: [_bottomNavigationRoute, _authRoute, _accountSettingRoute],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     redirect: _redirectLogic,
@@ -89,24 +92,6 @@ final class AppRouter {
     builder: (context, state) => const Placeholder(),
   );
 
-  GoRoute get _accountRoute => GoRoute(
-    path: AppRouteEnum.account.path,
-    name: AppRouteEnum.account.name,
-    builder: (context, state) => const AccountPage(),
-  );
-
-  GoRoute get _homeSearchRoute => GoRoute(
-    path: AppRouteEnum.homeSearch.path,
-    name: AppRouteEnum.homeSearch.name,
-    builder: (context, state) {
-      final bool? isUsingCurrentLocation = bool.tryParse(
-        state.uri.queryParameters["isUsingCurrentLocation"] ?? "",
-      );
-
-      return HomeSearchPage(isUsingCurrentLocation: isUsingCurrentLocation);
-    },
-  );
-
   GoRoute get _homeFilterRoute => GoRoute(
     path: AppRouteEnum.homeFilter.path,
     name: AppRouteEnum.homeFilter.name,
@@ -127,6 +112,43 @@ final class AppRouter {
         initialEndDate: endDate,
         initialSelectedCategories: selectedCategories,
       );
+    },
+  );
+
+  // ACCOUNT ROUTE
+  GoRoute get _accountRoute => GoRoute(
+    path: AppRouteEnum.account.path,
+    name: AppRouteEnum.account.name,
+    builder: (context, state) => const AccountPage(),
+  );
+
+  GoRoute get _accountSettingRoute => GoRoute(
+    path: AppRouteEnum.accountSetting.path,
+    name: AppRouteEnum.accountSetting.name,
+    routes: [_accountSettingPasswordRoute],
+    builder: (context, state) {
+      final User? user = state.extra is User ? state.extra as User : null;
+      return AccountSettingPage(user: user);
+    },
+  );
+
+  GoRoute get _accountSettingPasswordRoute => GoRoute(
+    path: AppRouteEnum.accountSettingPassword.path,
+    name: AppRouteEnum.accountSettingPassword.name,
+    builder: (context, state) {
+      return AccountSettingPasswordPage();
+    },
+  );
+
+  GoRoute get _homeSearchRoute => GoRoute(
+    path: AppRouteEnum.homeSearch.path,
+    name: AppRouteEnum.homeSearch.name,
+    builder: (context, state) {
+      final bool? isUsingCurrentLocation = bool.tryParse(
+        state.uri.queryParameters["isUsingCurrentLocation"] ?? "",
+      );
+
+      return HomeSearchPage(isUsingCurrentLocation: isUsingCurrentLocation);
     },
   );
 
