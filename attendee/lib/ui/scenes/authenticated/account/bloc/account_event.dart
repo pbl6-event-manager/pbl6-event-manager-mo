@@ -11,8 +11,22 @@ final class AccountLoad extends AccountEvent {
   const AccountLoad();
 }
 
-final class AccountReload extends AccountEvent {
-  const AccountReload();
+final class AccountUpdateUserInfo extends AccountEvent {
+  final ({
+    String? firstName,
+    String? lastName,
+    String? phoneNumber,
+    String? profilePhoto,
+  })
+  userUpdateData;
+  const AccountUpdateUserInfo({required this.userUpdateData});
+
+  @override
+  List<Object?> get props => [userUpdateData];
+}
+
+final class AccountRefresh extends AccountEvent {
+  const AccountRefresh();
 }
 
 final class AccountLogout extends AccountEvent {

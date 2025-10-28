@@ -6,7 +6,16 @@ import "package:go_router/go_router.dart";
 abstract class AccountNavigator extends BaseNavigator {
   Future<void> goToAccountSetting({
     required User? user,
-    required void Function() onReloadNeeded,
+    required void Function(
+      ({
+        String? firstName,
+        String? lastName,
+        String? phoneNumber,
+        String? profilePhoto,
+      })
+      userUpdateData,
+    )
+    onReloadNeeded,
   });
 }
 
@@ -19,14 +28,33 @@ final class AccountNavigatorImplementation implements AccountNavigator {
   @override
   Future<void> goToAccountSetting({
     required User? user,
-    required void Function() onReloadNeeded,
+    required void Function(
+      ({
+        String? firstName,
+        String? lastName,
+        String? phoneNumber,
+        String? profilePhoto,
+      })
+      userUpdateData,
+    )
+    onReloadNeeded,
   }) async {
-    final needReload = await goRouter.pushNamed(
+    final dynamic userUpdateData = await goRouter.pushNamed(
       AppRouteEnum.accountSetting.name,
       extra: user,
     );
-    if (needReload == true) {
-      onReloadNeeded();
+
+    if (userUpdateData
+        is ({
+          String? firstName,
+          String? lastName,
+          String? phoneNumber,
+          String? profilePhoto,
+        })) {
+      onReloadNeeded(userUpdateData);
     }
+    // if (needReload == true) {
+    //   onReloadNeeded();
+    // }
   }
 }

@@ -13,10 +13,12 @@ class UserUpdateRequestDto {
     required this.avatarBinary,
   });
 
-  FormData get toForm => FormData.fromMap({
-    "firstName": firstName,
-    "lastName": lastName,
-    "phoneNumber": phoneNumber,
-    "avatarBinary": avatarBinary,
-  });
+  FormData get toForm => FormData.fromMap(
+    {
+      "firstName": firstName,
+      "lastName": lastName,
+      "phoneNumber": phoneNumber,
+      "avatarBinary": avatarBinary,
+    }..removeWhere((key, value) => value == null),
+  );
 }

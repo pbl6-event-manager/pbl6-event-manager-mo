@@ -1,5 +1,3 @@
-import "dart:developer";
-
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/models/user.dart";
 import "package:attendee/domain/repositories/user_repository.dart";
@@ -22,8 +20,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
        _authBloc = authBloc,
        super(const AccountState.initial()) {
     on<AccountLoad>(_onAccountLoad);
-    on<AccountReload>(_onAccountReload);
+    on<AccountRefresh>(_onAccountReload);
     on<AccountLogout>(_onAccountLogout);
+    on<AccountUpdateUserInfo>(_onAccountUpdateData);
   }
 
   Future<void> _onAccountLoad(
@@ -35,7 +34,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   }
 
   Future<void> _onAccountReload(
-    AccountReload event,
+    AccountRefresh event,
     Emitter<AccountState> emit,
   ) async {
     emit(state.copyWith(status: ViewStatusEnum.loading));
@@ -65,5 +64,44 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
   void _onAccountLogout(AccountLogout event, Emitter<AccountState> emit) {
     _authBloc.add(const AuthTokenRemoved());
+  }
+
+  Future<void> _onAccountUpdateData(
+    AccountUpdateUserInfo event,
+    Emitter<AccountState> emit,
+  ) async {
+    // If all field null  => returns
+    if (event.userUpdateData.firstName == null &&
+        event.userUpdateData.lastName == null &&
+        event.userUpdateData.phoneNumber == null &&
+        event.userUpdateData.profilePhoto == null) {
+      return;
+    }
+
+    emit(state.copyWith(status: ViewStatusEnum.loading));
+
+    final Result<User> userResponse = await _userRepository.editUserInfo(
+      firstName: event.userUpdateData.firstName,
+      lastName: event.userUpdateData.lastName,
+      phoneNumber: event.userUpdateData.phoneNumber,
+      avatarBinary: event.userUpdateData.profilePhoto,
+    );
+
+    switch (userResponse) {
+      case Ok<User>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            user: userResponse.value,
+          ),
+        );
+      case Error<User>(error: final error):
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: error.toString(),
+          ),
+        );
+    }
   }
 }

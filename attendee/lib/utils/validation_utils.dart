@@ -65,4 +65,18 @@ abstract class ValidationUtils {
 
     return null;
   }
+
+  static String? validatePhoneNumber(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.trim().isEmpty) {
+      return AppStringConstants.textFields.fieldIsRequiredValidationError;
+    }
+
+    final phoneRegex = RegExp(r"^(\+84|0)\d{9}$");
+
+    if (!phoneRegex.hasMatch(phoneNumber.trim())) {
+      return AppStringConstants.textFields.phoneNumberValidationError;
+    }
+
+    return null;
+  }
 }

@@ -60,6 +60,9 @@ final class TextFieldAppStrings {
   String get passwordValidationError =>
       "Password must be at least 10 characters long and contain uppercase letters, lowercase letters, numbers, and special characters";
 
+  String get phoneNumberValidationError =>
+      "Phone number must start with +84 or 0 and have 9 digits";
+
   String fieldsDoNotMatch(String fieldName) => "$fieldName must match";
 }
 

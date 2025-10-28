@@ -83,7 +83,7 @@ class AccountView extends StatelessWidget {
                     completer.complete();
                   }
                 });
-                context.read<AccountBloc>().add(const AccountReload());
+                context.read<AccountBloc>().add(const AccountRefresh());
                 await completer.future.timeout(
                   const Duration(seconds: 10),
                   onTimeout: () {},
@@ -216,7 +216,8 @@ class AccountView extends StatelessWidget {
     navigator.goToAccountSetting(
       user: user,
 
-      onReloadNeeded: () => bloc.add(AccountReload()),
+      onReloadNeeded: (userUpdateData) =>
+          bloc.add(AccountUpdateUserInfo(userUpdateData: userUpdateData)),
     );
   }
 

@@ -12,6 +12,9 @@ class AccountSettingFieldList extends StatelessWidget {
     required this.firstNameFocusNode,
     required this.lastNameFocusNode,
     required this.phoneFocusNode,
+    required this.firstNameValidationLabel,
+    required this.lastNameValidationLabel,
+    required this.phoneNumberValidatiionLabel,
   }) : _firstNameController = firstNameController,
        _lastNameController = lastNameController,
        _phoneController = phoneController;
@@ -20,6 +23,10 @@ class AccountSettingFieldList extends StatelessWidget {
   final TextEditingController _lastNameController;
   final String? email;
   final TextEditingController _phoneController;
+
+  final String? firstNameValidationLabel;
+  final String? lastNameValidationLabel;
+  final String? phoneNumberValidatiionLabel;
 
   final FocusNode firstNameFocusNode;
   final FocusNode lastNameFocusNode;
@@ -35,12 +42,14 @@ class AccountSettingFieldList extends StatelessWidget {
           hintText: AppStringConstants.textFields.firstNamePlaceholder,
           controller: _firstNameController,
           keyboardType: TextInputType.name,
+          errorText: firstNameValidationLabel,
         ),
         CommonTextField(
           focusNode: lastNameFocusNode,
           hintText: AppStringConstants.textFields.lastNamePlaceholder,
           controller: _lastNameController,
           keyboardType: TextInputType.name,
+          errorText: lastNameValidationLabel,
         ),
         CommonTextField(
           hintText: AppStringConstants.textFields.emailPlaceholder,
@@ -49,10 +58,12 @@ class AccountSettingFieldList extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
         ),
         CommonTextField(
+          maxCharCount: 12,
           focusNode: phoneFocusNode,
           hintText: AppStringConstants.textFields.phoneNumberPlaceHolder,
           controller: _phoneController,
           keyboardType: TextInputType.phone,
+          errorText: phoneNumberValidatiionLabel,
         ),
       ],
     );
