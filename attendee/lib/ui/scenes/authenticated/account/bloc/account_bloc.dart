@@ -1,3 +1,5 @@
+import "dart:developer";
+
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/models/user.dart";
 import "package:attendee/domain/repositories/user_repository.dart";

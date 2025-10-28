@@ -10,4 +10,8 @@ abstract class UserDatasource {
 
   @GET(ApiEndpointConstants.account)
   Future<User> getUserInfo();
+
+  @PATCH(ApiEndpointConstants.account)
+  @MultiPart()
+  Future<User> updateUserInfo({@Body() required FormData formData});
 }
