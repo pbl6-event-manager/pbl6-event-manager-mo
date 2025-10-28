@@ -26,3 +26,10 @@ class AccountPhoneNumberFieldChanged extends AccountSettingEvent {
   @override
   List<Object?> get props => [phoneNumberValue];
 }
+
+class AccountProfilePictureChanged extends AccountSettingEvent {
+  final XFile? imageFile;
+  const AccountProfilePictureChanged({required this.imageFile});
+  @override
+  List<Object?> get props => [imageFile];
+}

@@ -4,7 +4,7 @@ class UserUpdateRequestDto {
   final String? firstName;
   final String? lastName;
   final String? phoneNumber;
-  final String? avatarBinary;
+  final MultipartFile? avatarBinary;
 
   const UserUpdateRequestDto({
     required this.firstName,
@@ -18,7 +18,7 @@ class UserUpdateRequestDto {
       "firstName": firstName,
       "lastName": lastName,
       "phoneNumber": phoneNumber,
-      "avatarBinary": avatarBinary,
+      "avatar": avatarBinary,
     }..removeWhere((key, value) => value == null),
   );
 }

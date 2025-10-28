@@ -1,6 +1,7 @@
 import "package:attendee/application/base_navigator.dart";
 import "package:attendee/utils/enums/app_route_enum.dart";
 import "package:go_router/go_router.dart";
+import "package:image_picker/image_picker.dart";
 
 abstract class AccountSettingNavigator extends BaseNavigator {
   void goToPassword();
@@ -8,7 +9,7 @@ abstract class AccountSettingNavigator extends BaseNavigator {
     required String? firstName,
     required String? lastName,
     required String? phoneNumber,
-    required String? profilePhoto,
+    required XFile? profilePhoto,
   });
 }
 
@@ -29,7 +30,7 @@ final class AccountSettingNavigatorImplementation
     required String? firstName,
     required String? lastName,
     required String? phoneNumber,
-    required String? profilePhoto,
+    required XFile? profilePhoto,
   }) {
     goRouter.pop((
       firstName: firstName,

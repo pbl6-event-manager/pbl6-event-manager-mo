@@ -2,6 +2,7 @@ import "package:attendee/application/base_navigator.dart";
 import "package:attendee/domain/models/user.dart";
 import "package:attendee/utils/enums/app_route_enum.dart";
 import "package:go_router/go_router.dart";
+import "package:image_picker/image_picker.dart";
 
 abstract class AccountNavigator extends BaseNavigator {
   Future<void> goToAccountSetting({
@@ -11,7 +12,7 @@ abstract class AccountNavigator extends BaseNavigator {
         String? firstName,
         String? lastName,
         String? phoneNumber,
-        String? profilePhoto,
+        XFile? profilePhoto,
       })
       userUpdateData,
     )
@@ -33,7 +34,7 @@ final class AccountNavigatorImplementation implements AccountNavigator {
         String? firstName,
         String? lastName,
         String? phoneNumber,
-        String? profilePhoto,
+        XFile? profilePhoto,
       })
       userUpdateData,
     )
@@ -49,7 +50,7 @@ final class AccountNavigatorImplementation implements AccountNavigator {
           String? firstName,
           String? lastName,
           String? phoneNumber,
-          String? profilePhoto,
+          XFile? profilePhoto,
         })) {
       onReloadNeeded(userUpdateData);
     }

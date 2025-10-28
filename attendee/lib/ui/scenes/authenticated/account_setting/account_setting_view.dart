@@ -13,6 +13,7 @@ import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
+import "package:image_picker/image_picker.dart";
 
 class AccountSettingPage extends StatelessWidget {
   const AccountSettingPage({super.key, required this.user});
@@ -124,6 +125,7 @@ class _AccountSettingViewState extends State<AccountSettingView> {
                     avatarUrl: avatarUrl,
                     firstName: firstName,
                     lastName: lastName,
+                    selectedImage: state.selectedProfileImage,
                     onUpdatePictureTapped: () => onUpdatePictureTapped(
                       context,
 
@@ -208,7 +210,40 @@ class _AccountSettingViewState extends State<AccountSettingView> {
     );
   }
 
-  void _onUpdatePictureOptionSelected(AccountSettingPictureOptions option) {}
+  Future<void> _onUpdatePictureOptionSelected(
+    AccountSettingPictureOptions option,
+  ) async {
+    final AccountSettingBloc bloc = context.read<AccountSettingBloc>();
+    final ImagePicker picker = ImagePicker();
+
+    switch (option) {
+      case AccountSettingPictureOptions.takePhoto:
+        final XFile? image = await picker.pickImage(source: ImageSource.camera);
+        if (image != null) {
+          bloc.add(AccountProfilePictureChanged(imageFile: image));
+        }
+        break;
+
+      case AccountSettingPictureOptions.chooseFromLibrary:
+        final XFile? image = await picker.pickImage(
+          source: ImageSource.gallery,
+        );
+        if (image != null) {
+          bloc.add(AccountProfilePictureChanged(imageFile: image));
+        }
+        break;
+
+      case AccountSettingPictureOptions.delete:
+        // Clear local selection and trigger deletion
+        bloc.add(AccountProfilePictureChanged(imageFile: null));
+        // TODO: Trigger API deletion if needed
+        break;
+
+      case AccountSettingPictureOptions.cancel:
+        // Do nothing
+        break;
+    }
+  }
 
   void _onFirstNameChanged({required String value}) {
     final AccountSettingBloc bloc = context.read<AccountSettingBloc>();
@@ -244,7 +279,7 @@ class _AccountSettingViewState extends State<AccountSettingView> {
       phoneNumber: state.phoneNumberValidationLabel == null
           ? state.changedPhoneNumber
           : null,
-      profilePhoto: null,
+      profilePhoto: state.selectedProfileImage,
     );
   }
 }

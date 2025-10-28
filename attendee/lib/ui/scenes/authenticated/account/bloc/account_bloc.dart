@@ -4,7 +4,9 @@ import "package:attendee/domain/repositories/user_repository.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/result.dart";
 import "package:bloc/bloc.dart";
+import "package:dio/dio.dart";
 import "package:equatable/equatable.dart";
+import "package:image_picker/image_picker.dart";
 
 part "account_event.dart";
 part "account_state.dart";
@@ -80,11 +82,21 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
     emit(state.copyWith(status: ViewStatusEnum.loading));
 
+    // Convert XFile to MultipartFile if available
+    MultipartFile? avatarFile;
+    if (event.userUpdateData.profilePhoto != null) {
+      final XFile imageFile = event.userUpdateData.profilePhoto!;
+      avatarFile = await MultipartFile.fromFile(
+        imageFile.path,
+        filename: imageFile.name,
+      );
+    }
+
     final Result<User> userResponse = await _userRepository.editUserInfo(
       firstName: event.userUpdateData.firstName,
       lastName: event.userUpdateData.lastName,
       phoneNumber: event.userUpdateData.phoneNumber,
-      avatarBinary: event.userUpdateData.profilePhoto,
+      avatarBinary: avatarFile,
     );
 
     switch (userResponse) {

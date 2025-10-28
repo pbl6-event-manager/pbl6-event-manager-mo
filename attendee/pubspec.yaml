@@ -50,6 +50,7 @@ dependencies:
   retrofit_generator: ^10.0.6
   json_annotation: ^4.9.0
   geolocator: ^14.0.2
+  image_picker: ^1.2.0
 
 dev_dependencies:
   flutter_test:

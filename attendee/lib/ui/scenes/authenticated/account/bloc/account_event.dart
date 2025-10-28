@@ -16,7 +16,7 @@ final class AccountUpdateUserInfo extends AccountEvent {
     String? firstName,
     String? lastName,
     String? phoneNumber,
-    String? profilePhoto,
+    XFile? profilePhoto,
   })
   userUpdateData;
   const AccountUpdateUserInfo({required this.userUpdateData});

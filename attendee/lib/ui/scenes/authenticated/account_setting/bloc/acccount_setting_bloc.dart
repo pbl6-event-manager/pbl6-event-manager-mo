@@ -3,6 +3,7 @@ import "package:attendee/utils/validation_utils.dart";
 
 import "package:bloc/bloc.dart";
 import "package:equatable/equatable.dart";
+import "package:image_picker/image_picker.dart";
 
 part "acccount_setting_event.dart";
 part "acccount_setting_state.dart";
@@ -14,6 +15,7 @@ class AccountSettingBloc
     on<AccountFirstNameFieldChanged>(_onFirstNameFieldChanged);
     on<AccountLastNameFieldChanged>(_onLastNameFieldChanged);
     on<AccountPhoneNumberFieldChanged>(_onPhoneNumberFieldChanged);
+    on<AccountProfilePictureChanged>(_onProfilePictureChanged);
   }
 
   void _onFirstNameFieldChanged(
@@ -59,5 +61,12 @@ class AccountSettingBloc
         phoneNumberValidationLabel: Nullable(phoneNumberValidation),
       ),
     );
+  }
+
+  void _onProfilePictureChanged(
+    AccountProfilePictureChanged event,
+    Emitter<AccountSettingState> emit,
+  ) {
+    emit(state.copyWith(selectedProfileImage: Nullable(event.imageFile)));
   }
 }

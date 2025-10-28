@@ -11,6 +11,7 @@ final class AccountSettingState extends Equatable {
     required this.firstNameValidationLabel,
     required this.lastNameValidationLabel,
     required this.phoneNumberValidationLabel,
+    required this.selectedProfileImage,
   });
 
   const AccountSettingState.initial()
@@ -22,7 +23,8 @@ final class AccountSettingState extends Equatable {
       currentPhoneNumber = null,
       firstNameValidationLabel = null,
       lastNameValidationLabel = null,
-      phoneNumberValidationLabel = null;
+      phoneNumberValidationLabel = null,
+      selectedProfileImage = null;
 
   const AccountSettingState.fromInitialData({
     required String? firstName,
@@ -36,7 +38,8 @@ final class AccountSettingState extends Equatable {
        currentPhoneNumber = phoneNumber,
        firstNameValidationLabel = null,
        lastNameValidationLabel = null,
-       phoneNumberValidationLabel = null;
+       phoneNumberValidationLabel = null,
+       selectedProfileImage = null;
 
   final String? initialFirstName;
   final String? initialLastName;
@@ -50,6 +53,8 @@ final class AccountSettingState extends Equatable {
   final String? lastNameValidationLabel;
   final String? phoneNumberValidationLabel;
 
+  final XFile? selectedProfileImage;
+
   // Getters that return null if value hasn't changed from initial
   String? get changedFirstName =>
       currentFirstName != initialFirstName ? currentFirstName : null;
@@ -60,11 +65,15 @@ final class AccountSettingState extends Equatable {
   String? get changedPhoneNumber =>
       currentPhoneNumber != initialPhoneNumber ? currentPhoneNumber : null;
 
+  // Check if profile image was selected
+  bool get hasProfileImageChanged => selectedProfileImage != null;
+
   // Check if any field has changed
   bool get hasChanges =>
       changedFirstName != null ||
       changedLastName != null ||
-      changedPhoneNumber != null;
+      changedPhoneNumber != null ||
+      hasProfileImageChanged;
 
   AccountSettingState copyWith({
     String? currentFirstName,
@@ -73,6 +82,7 @@ final class AccountSettingState extends Equatable {
     Nullable<String>? firstNameValidationLabel,
     Nullable<String>? lastNameValidationLabel,
     Nullable<String>? phoneNumberValidationLabel,
+    Nullable<XFile>? selectedProfileImage,
   }) {
     return AccountSettingState(
       initialFirstName: initialFirstName,
@@ -90,6 +100,9 @@ final class AccountSettingState extends Equatable {
       phoneNumberValidationLabel: phoneNumberValidationLabel != null
           ? phoneNumberValidationLabel.value
           : this.phoneNumberValidationLabel,
+      selectedProfileImage: selectedProfileImage != null
+          ? selectedProfileImage.value
+          : this.selectedProfileImage,
     );
   }
 
@@ -101,5 +114,6 @@ final class AccountSettingState extends Equatable {
     firstNameValidationLabel,
     lastNameValidationLabel,
     phoneNumberValidationLabel,
+    selectedProfileImage,
   ];
 }
