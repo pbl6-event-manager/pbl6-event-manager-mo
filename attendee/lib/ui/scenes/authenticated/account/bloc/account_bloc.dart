@@ -80,7 +80,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       return;
     }
 
-    emit(state.copyWith(status: ViewStatusEnum.loading));
+    emit(state.copyWith(isUpdatingAcount: true));
 
     // Convert XFile to MultipartFile if available
     MultipartFile? avatarFile;
@@ -105,6 +105,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
           state.copyWith(
             status: ViewStatusEnum.success,
             user: userResponse.value,
+            isUpdatingAcount: false,
           ),
         );
       case Error<User>(error: final error):
@@ -112,6 +113,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
           state.copyWith(
             status: ViewStatusEnum.failure,
             errorMessage: error.toString(),
+            isUpdatingAcount: false,
           ),
         );
     }

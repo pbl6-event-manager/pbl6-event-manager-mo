@@ -236,7 +236,7 @@ class _AccountSettingViewState extends State<AccountSettingView> {
       case AccountSettingPictureOptions.delete:
         // Clear local selection and trigger deletion
         bloc.add(AccountProfilePictureChanged(imageFile: null));
-        // TODO: Trigger API deletion if needed
+
         break;
 
       case AccountSettingPictureOptions.cancel:
