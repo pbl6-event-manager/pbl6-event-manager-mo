@@ -43,26 +43,28 @@ class AccountGeneralInfoCard extends StatelessWidget {
                   )
                 : _buildDefaultAvatar(context),
             SizedBox(width: 16),
-            Column(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '$firstName $lastName',
-                  style: context.textPalette.headlineLarge,
-                ),
-                if (address != null) Text(address!),
-
-                if (attendedEventCount != null)
+            Flexible(
+              child: Column(
+                spacing: 8,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    AppStringConstants.account.eventsAttended(
-                      attendedEventCount!,
-                    ),
-                    style: context.textPalette.subtitleLarge.copyWith(
-                      fontSize: 12,
-                    ),
+                    '$firstName $lastName',
+                    style: context.textPalette.headlineLarge,
                   ),
-              ],
+                  if (address != null) Text(address!),
+
+                  if (attendedEventCount != null)
+                    Text(
+                      AppStringConstants.account.eventsAttended(
+                        attendedEventCount!,
+                      ),
+                      style: context.textPalette.subtitleLarge.copyWith(
+                        fontSize: 12,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),
