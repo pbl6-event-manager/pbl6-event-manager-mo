@@ -1,27 +1,27 @@
-import "package:flutter_dotenv/flutter_dotenv.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class ApiEndpointConstants {
   const ApiEndpointConstants._();
-  static String baseUrl = dotenv.env["BASE_URL"] ?? "";
+  static String baseUrl = dotenv.env['BASE_URL'] ?? '';
 
   // AUTH
-  static const String checkEmail = "/auth/check-email";
-  static const String signIn = "/auth/login";
-  static const String signUp = "/auth/signup";
-  static const String refreshToken = "/auth/refresh-token";
+  static const String checkEmail = '/auth/check-email';
+  static const String signIn = '/auth/login';
+  static const String signUp = '/auth/signup';
+  static const String refreshToken = '/auth/refresh-token';
 
   // ACCOUNT
-  static const String account = "/user/profile";
+  static const String account = '/user/profile';
 
   // EVENTS
-  static const String events = "/events";
-  static const String eventsNearby = "/events/nearby";
-  static const String eventsSearch = "/events/search";
+  static const String events = '/events';
+  static const String eventsNearby = '/events/nearby';
+  static const String eventsSearch = '/events/search';
 
   // External APIs
-  static const String locationBaseUrl = "https://countriesnow.space/api/v0.1";
-  static const String locationCityList = "/countries/cities/q";
-  static const String locationCountryList = "/countries";
+  static const String locationBaseUrl = 'https://countriesnow.space/api/v0.1';
+  static const String locationCityList = '/countries/cities/q';
+  static const String locationCountryList = '/countries';
   // CATEGORIES
-  static const String categories = "/categories";
+  static const String categories = '/categories';
 }

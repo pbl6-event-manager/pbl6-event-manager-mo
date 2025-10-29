@@ -1,9 +1,9 @@
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:attendee/utils/string_utils.dart";
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
-import "package:skeletonizer/skeletonizer.dart";
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:attendee/utils/string_utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AccountGeneralInfoCard extends StatelessWidget {
   const AccountGeneralInfoCard({
@@ -48,7 +48,7 @@ class AccountGeneralInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$firstName $lastName",
+                  '$firstName $lastName',
                   style: context.textPalette.headlineLarge,
                 ),
                 if (address != null) Text(address!),

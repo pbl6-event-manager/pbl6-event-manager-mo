@@ -1,4 +1,4 @@
-part of "home_search_bloc.dart";
+part of 'home_search_bloc.dart';
 
 enum HomeSearchMode { event, location }
 
@@ -34,7 +34,7 @@ class HomeSearchState extends Equatable {
       selectedCity: null,
       selectableCities: null,
       selectableCountries: null,
-      currentLocationLabel: "Current location",
+      currentLocationLabel: 'Current location',
       isCityListLoading: false,
       isCountryListLoading: false,
     );

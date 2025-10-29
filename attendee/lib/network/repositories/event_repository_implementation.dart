@@ -1,7 +1,7 @@
-import "package:attendee/domain/models/event.dart";
-import "package:attendee/domain/repositories/event_repository.dart";
-import "package:attendee/network/datasources/event_datasource.dart";
-import "package:attendee/utils/helpers/result.dart";
+import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/repositories/event_repository.dart';
+import 'package:attendee/network/datasources/event_datasource.dart';
+import 'package:attendee/utils/helpers/result.dart';
 
 final class EventRepositoryImplementation implements EventRepository {
   final EventDatasource _eventDatasource;
@@ -77,7 +77,7 @@ final class EventRepositoryImplementation implements EventRepository {
       return (null, null);
     }
 
-    final parts = location.split(", ");
+    final parts = location.split(', ');
     return (parts.firstOrNull, parts.length >= 2 ? parts[1] : null);
   }
 }

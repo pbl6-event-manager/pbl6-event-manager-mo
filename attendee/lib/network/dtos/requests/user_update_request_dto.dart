@@ -1,4 +1,4 @@
-import "package:dio/dio.dart";
+import 'package:dio/dio.dart';
 
 class UserUpdateRequestDto {
   final String? firstName;
@@ -15,10 +15,10 @@ class UserUpdateRequestDto {
 
   FormData get toForm => FormData.fromMap(
     {
-      "firstName": firstName,
-      "lastName": lastName,
-      "phoneNumber": phoneNumber,
-      "avatar": avatarBinary,
+      'firstName': firstName,
+      'lastName': lastName,
+      'phoneNumber': phoneNumber,
+      'avatar': avatarBinary,
     }..removeWhere((key, value) => value == null),
   );
 }

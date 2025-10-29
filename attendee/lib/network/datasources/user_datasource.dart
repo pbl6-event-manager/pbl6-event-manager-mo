@@ -1,8 +1,8 @@
-import "package:attendee/domain/models/user.dart";
-import "package:attendee/network/constants/api_endpoint_constants.dart";
-import "package:dio/dio.dart";
-import "package:retrofit/retrofit.dart";
-part "user_datasource.g.dart";
+import 'package:attendee/domain/models/user.dart';
+import 'package:attendee/network/constants/api_endpoint_constants.dart';
+import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
+part 'user_datasource.g.dart';
 
 @RestApi()
 abstract class UserDatasource {

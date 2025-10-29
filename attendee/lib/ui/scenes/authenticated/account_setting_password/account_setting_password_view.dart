@@ -1,7 +1,7 @@
-import "package:attendee/ui/common_widgets/common_text_field.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/ui/common_widgets/common_text_field.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 class AccountSettingPasswordPage extends StatelessWidget {
   const AccountSettingPasswordPage({super.key});
@@ -129,7 +129,7 @@ class _AccountSettingPasswordViewState
 
           FilledButton(
             onPressed: _onUpdatePasswordTapped,
-            child: Text("Update password"),
+            child: Text('Update password'),
           ),
         ],
       ),

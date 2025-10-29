@@ -1,6 +1,6 @@
-import "package:attendee/ui/scenes/authenticated/account/enums/account_options.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/ui/scenes/authenticated/account/enums/account_options.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 class AccountOptionList<T extends AccountOptions> extends StatelessWidget {
   const AccountOptionList({

@@ -1,6 +1,6 @@
-import "package:attendee/ui/common_widgets/common_text_field.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/ui/common_widgets/common_text_field.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:flutter/material.dart';
 
 class AccountSettingFieldList extends StatelessWidget {
   const AccountSettingFieldList({

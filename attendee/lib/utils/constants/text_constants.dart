@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class TextConstants {
-  static const String fontFamilyText = "Lato";
+  static const String fontFamilyText = 'Lato';
   static const TextStyle display4XL = TextStyle(
     fontFamily: fontFamilyText,
     fontSize: 24,

@@ -1,7 +1,7 @@
-import "package:attendee/ui/themes/color_palette.dart";
-import "package:attendee/ui/themes/text_palette.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/ui/themes/color_palette.dart';
+import 'package:attendee/ui/themes/text_palette.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 /// A centralized class that show dialog and snack bar
 class UiMessageManager {
@@ -48,8 +48,8 @@ class UiMessageManager {
     required BuildContext context,
     String? title,
     required String message,
-    String confirmText = "Yes",
-    String cancelText = "No",
+    String confirmText = 'Yes',
+    String cancelText = 'No',
     bool barrierDismissible = true,
   }) async {
     final colorPalette = Theme.of(context).extension<ColorPalette>()!;

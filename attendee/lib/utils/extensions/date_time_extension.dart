@@ -1,9 +1,9 @@
-import "package:intl/intl.dart";
+import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
   // Sun, 21 Sep • 17:30
   String get shortenStringWithDot =>
-      DateFormat("ccc, dd MMM • hh:mm").format(this);
+      DateFormat('ccc, dd MMM • hh:mm').format(this);
 
   bool get isToday {
     final DateTime today = DateTime.now();

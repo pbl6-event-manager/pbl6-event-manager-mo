@@ -1,10 +1,10 @@
-import "dart:io";
+import 'dart:io';
 
-import "package:attendee/network/constants/api_endpoint_constants.dart";
-import "package:attendee/network/constants/interceptors_constants.dart";
-import "package:attendee/utils/constants/storage_keys_constants.dart";
-import "package:dio/dio.dart";
-import "package:flutter_secure_storage/flutter_secure_storage.dart";
+import 'package:attendee/network/constants/api_endpoint_constants.dart';
+import 'package:attendee/network/constants/interceptors_constants.dart';
+import 'package:attendee/utils/constants/storage_keys_constants.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthInterceptor extends Interceptor {
   final FlutterSecureStorage securedStorage;
@@ -40,7 +40,7 @@ class AuthInterceptor extends Interceptor {
     );
 
     if (accessToken != null) {
-      options.headers[HttpHeaders.authorizationHeader] = "Bearer $accessToken";
+      options.headers[HttpHeaders.authorizationHeader] = 'Bearer $accessToken';
     }
 
     super.onRequest(options, handler);
@@ -74,7 +74,7 @@ class AuthInterceptor extends Interceptor {
 
           // Update the original request with the new token
           err.requestOptions.headers[HttpHeaders.authorizationHeader] =
-              "Bearer $newAccessToken";
+              'Bearer $newAccessToken';
 
           try {
             // Retry the original request
@@ -144,10 +144,10 @@ class AuthInterceptor extends Interceptor {
 
       final Map<String, dynamic>? data = refreshTokenResponse.data;
 
-      if (data == null || data["data"] == null) return null;
+      if (data == null || data['data'] == null) return null;
 
-      final Map<String, dynamic> responseData = data["data"];
-      return responseData["accessToken"] as String?;
+      final Map<String, dynamic> responseData = data['data'];
+      return responseData['accessToken'] as String?;
     } catch (error) {
       return null;
     }

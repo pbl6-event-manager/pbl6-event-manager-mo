@@ -1,4 +1,4 @@
-part of "acccount_setting_bloc.dart";
+part of 'acccount_setting_bloc.dart';
 
 final class AccountSettingState extends Equatable {
   const AccountSettingState({

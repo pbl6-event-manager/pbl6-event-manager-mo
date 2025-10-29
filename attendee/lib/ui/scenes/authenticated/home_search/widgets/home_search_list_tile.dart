@@ -1,5 +1,5 @@
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 class HomeSearchListTile extends StatelessWidget {
   const HomeSearchListTile({

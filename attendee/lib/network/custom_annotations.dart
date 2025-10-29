@@ -1,4 +1,4 @@
-import "package:retrofit/dio.dart";
+import 'package:retrofit/dio.dart';
 
 /// Annotation to not use auth in certain API requests
 class NoAuth extends TypedExtras {

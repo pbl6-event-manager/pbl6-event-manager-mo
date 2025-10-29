@@ -1,20 +1,20 @@
-import "package:attendee/application/app_router.dart";
-import "package:attendee/domain/repositories/auth_repository.dart";
-import "package:attendee/ui/common_widgets/common_text_field.dart";
-import "package:attendee/ui/common_widgets/common_button_with_loading.dart";
-import "package:attendee/ui/scenes/unregistered/email_initial/email_initial_navigator.dart";
-import "package:attendee/ui/scenes/unregistered/email_initial/widgets/email_address_banner_widget.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/enums/view_status_enum.dart";
+import 'package:attendee/application/app_router.dart';
+import 'package:attendee/domain/repositories/auth_repository.dart';
+import 'package:attendee/ui/common_widgets/common_text_field.dart';
+import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
+import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_navigator.dart';
+import 'package:attendee/ui/scenes/unregistered/email_initial/widgets/email_address_banner_widget.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
 
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_bloc.dart";
-import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_event.dart";
-import "package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_bloc.dart';
+import 'package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_event.dart';
+import 'package:attendee/ui/scenes/unregistered/email_initial/bloc/email_initial_state.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class EmailInitialPage extends StatelessWidget {
   const EmailInitialPage({super.key});

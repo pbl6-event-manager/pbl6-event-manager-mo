@@ -1,4 +1,4 @@
-part of "home_filter_bloc.dart";
+part of 'home_filter_bloc.dart';
 
 final class HomeFilterState extends Equatable {
   const HomeFilterState({

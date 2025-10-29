@@ -1,8 +1,8 @@
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:skeletonizer/skeletonizer.dart";
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 /// Event tags that show on the top right of given event
 /// - FEW TICKETS LEFT

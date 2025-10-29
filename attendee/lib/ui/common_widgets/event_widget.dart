@@ -1,13 +1,13 @@
-import "package:attendee/domain/models/event.dart";
-import "package:attendee/ui/common_widgets/common_event_tag.dart";
-import "package:attendee/ui/common_widgets/common_image_carousel.dart";
-import "package:attendee/ui/common_widgets/common_image_widget.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
+import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/ui/common_widgets/common_event_tag.dart';
+import 'package:attendee/ui/common_widgets/common_image_carousel.dart';
+import 'package:attendee/ui/common_widgets/common_image_widget.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
 
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:attendee/utils/extensions/date_time_extension.dart";
-import "package:attendee/utils/extensions/string_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/utils/extensions/string_extension.dart';
+import 'package:flutter/material.dart';
 
 /// A widget showing an event, with ability to share and mark as favourite
 ///
@@ -29,12 +29,12 @@ class EventWidget extends StatelessWidget {
   final Event event;
 
   String get title =>
-      isLoading ? "Loading Event Title Here" : (event.title ?? "");
+      isLoading ? 'Loading Event Title Here' : (event.title ?? '');
 
   DateTime get startTime => event.date ?? DateTime.now();
 
   String get location =>
-      isLoading ? "Loading location here" : (event.city ?? event.address ?? "");
+      isLoading ? 'Loading location here' : (event.city ?? event.address ?? '');
 
   bool get isFree => false;
   int get pricing => 90;
@@ -45,7 +45,7 @@ class EventWidget extends StatelessWidget {
     }
     // Fallback images for loading/empty state
     return [
-      "https://images.unsplash.com/photo-1755357667384-adec9e5cdf84?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      'https://images.unsplash.com/photo-1755357667384-adec9e5cdf84?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ];
   }
 
@@ -71,7 +71,7 @@ class EventWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CommonImageWidget(
-          imageUrl: imageUrls.isNotEmpty ? imageUrls.first : "",
+          imageUrl: imageUrls.isNotEmpty ? imageUrls.first : '',
           aspectRatio: 1,
           width: 90,
         ),
@@ -146,7 +146,7 @@ class EventWidget extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            _isCompact ? "$title\n" : title,
+            _isCompact ? '$title\n' : title,
             style: _isCompact
                 ? context.textPalette.headlineSmall
                 : context.textPalette.headlineLarge,

@@ -1,4 +1,4 @@
-part of "home_search_bloc.dart";
+part of 'home_search_bloc.dart';
 
 sealed class HomeSearchEvent extends Equatable {
   const HomeSearchEvent();

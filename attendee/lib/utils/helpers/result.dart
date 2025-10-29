@@ -37,7 +37,7 @@ final class Ok<T> extends Result<T> {
   final T value;
 
   @override
-  String toString() => "Result<$T>.ok($value)";
+  String toString() => 'Result<$T>.ok($value)';
 }
 
 /// An error [Result] with a resulting [error].
@@ -48,5 +48,5 @@ final class Error<T> extends Result<T> {
   final Exception error;
 
   @override
-  String toString() => "Result<$T>.error($error)";
+  String toString() => 'Result<$T>.error($error)';
 }

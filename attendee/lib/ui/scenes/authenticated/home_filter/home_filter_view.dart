@@ -1,17 +1,17 @@
-import "package:attendee/application/app_router.dart";
-import "package:attendee/domain/models/event_category.dart";
-import "package:attendee/domain/repositories/category_repository.dart";
-import "package:attendee/ui/scenes/authenticated/home_filter/bloc/home_filter_bloc.dart";
-import "package:attendee/ui/scenes/authenticated/home_filter/home_filter_navigator.dart";
-import "package:attendee/ui/scenes/authenticated/home_filter/widgets/home_filter_appbar.dart";
-import "package:attendee/ui/scenes/authenticated/home_filter/widgets/home_filter_date_filter_list.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
-import "package:skeletonizer/skeletonizer.dart";
+import 'package:attendee/application/app_router.dart';
+import 'package:attendee/domain/models/event_category.dart';
+import 'package:attendee/domain/repositories/category_repository.dart';
+import 'package:attendee/ui/scenes/authenticated/home_filter/bloc/home_filter_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_navigator.dart';
+import 'package:attendee/ui/scenes/authenticated/home_filter/widgets/home_filter_appbar.dart';
+import 'package:attendee/ui/scenes/authenticated/home_filter/widgets/home_filter_date_filter_list.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeFilterPage extends StatelessWidget {
   const HomeFilterPage({

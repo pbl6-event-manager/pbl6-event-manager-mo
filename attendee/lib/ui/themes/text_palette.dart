@@ -1,6 +1,6 @@
-import "package:attendee/ui/themes/color_palette.dart";
-import "package:attendee/utils/constants/text_constants.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/ui/themes/color_palette.dart';
+import 'package:attendee/utils/constants/text_constants.dart';
+import 'package:flutter/material.dart';
 
 class TextPalette extends ThemeExtension<TextPalette> {
   final TextStyle displayLarge;

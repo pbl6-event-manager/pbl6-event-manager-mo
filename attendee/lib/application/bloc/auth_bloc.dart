@@ -1,16 +1,16 @@
-import "dart:async";
+import 'dart:async';
 
-import "package:attendee/utils/constants/storage_keys_constants.dart";
-import "package:attendee/utils/enums/auth_status_enum.dart";
-import "package:attendee/domain/repositories/category_repository.dart";
-import "package:attendee/network/repositories/category_repository_implementation.dart";
-import "package:bloc/bloc.dart";
-import "package:equatable/equatable.dart";
-import "package:flutter_secure_storage/flutter_secure_storage.dart";
-import "package:get_it/get_it.dart";
+import 'package:attendee/utils/constants/storage_keys_constants.dart';
+import 'package:attendee/utils/enums/auth_status_enum.dart';
+import 'package:attendee/domain/repositories/category_repository.dart';
+import 'package:attendee/network/repositories/category_repository_implementation.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
 
-part "auth_event.dart";
-part "auth_state.dart";
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 /// Authentication Bloc that manages global authentication state
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

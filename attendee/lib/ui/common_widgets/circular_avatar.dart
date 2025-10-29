@@ -1,6 +1,6 @@
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 class CircularAvatar extends StatelessWidget {
   const CircularAvatar({
@@ -22,7 +22,7 @@ class CircularAvatar extends StatelessWidget {
         height: size,
         child: CachedNetworkImage(
           fit: BoxFit.cover,
-          imageUrl: url ?? "",
+          imageUrl: url ?? '',
           placeholder: (context, string) => _buildDefaultAvatar(context),
           errorWidget: (context, string, object) =>
               _buildDefaultAvatar(context),

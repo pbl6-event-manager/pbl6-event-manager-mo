@@ -1,7 +1,7 @@
-import "package:attendee/domain/models/organizer.dart";
-import "package:json_annotation/json_annotation.dart";
+import 'package:attendee/domain/models/organizer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part "event.g.dart";
+part 'event.g.dart';
 
 @JsonSerializable(createToJson: false)
 class Event {

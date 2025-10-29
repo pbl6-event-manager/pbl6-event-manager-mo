@@ -1,5 +1,5 @@
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:flutter/material.dart';
 
 enum BottomNavigationTabEnum {
   home,

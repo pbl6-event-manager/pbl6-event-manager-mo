@@ -1,18 +1,18 @@
-import "package:attendee/application/bloc/auth_bloc.dart";
-import "package:attendee/domain/repositories/auth_repository.dart";
-import "package:attendee/ui/common_widgets/mix_text.dart";
-import "package:attendee/ui/scenes/unregistered/sign_up/bloc/sign_up_bloc.dart";
-import "package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_field_list.dart";
-import "package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_password_strength_row.dart";
-import "package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_submit_button.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/enums/password_strength_enum.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:attendee/utils/string_utils.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
+import 'package:attendee/application/bloc/auth_bloc.dart';
+import 'package:attendee/domain/repositories/auth_repository.dart';
+import 'package:attendee/ui/common_widgets/mix_text.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_up/bloc/sign_up_bloc.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_field_list.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_password_strength_row.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_up/widgets/sign_up_submit_button.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/enums/password_strength_enum.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:attendee/utils/string_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key, required this.email});

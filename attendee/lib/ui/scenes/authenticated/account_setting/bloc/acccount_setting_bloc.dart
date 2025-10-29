@@ -1,12 +1,12 @@
-import "package:attendee/utils/helpers/nullable.dart";
-import "package:attendee/utils/validation_utils.dart";
+import 'package:attendee/utils/helpers/nullable.dart';
+import 'package:attendee/utils/validation_utils.dart';
 
-import "package:bloc/bloc.dart";
-import "package:equatable/equatable.dart";
-import "package:image_picker/image_picker.dart";
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 
-part "acccount_setting_event.dart";
-part "acccount_setting_state.dart";
+part 'acccount_setting_event.dart';
+part 'acccount_setting_state.dart';
 
 class AccountSettingBloc
     extends Bloc<AccountSettingEvent, AccountSettingState> {

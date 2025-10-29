@@ -1,6 +1,6 @@
-import "package:json_annotation/json_annotation.dart";
+import 'package:json_annotation/json_annotation.dart';
 
-part "organizer.g.dart";
+part 'organizer.g.dart';
 
 @JsonSerializable(createToJson: false)
 class Organizer {
