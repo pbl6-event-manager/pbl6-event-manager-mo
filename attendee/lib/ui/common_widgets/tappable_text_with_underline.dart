@@ -1,5 +1,5 @@
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 /// A tappable text with adjustable height between the text and underline
 class TappableTextWithUnderline extends StatelessWidget {

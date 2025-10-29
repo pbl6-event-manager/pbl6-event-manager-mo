@@ -1,4 +1,4 @@
-part of "account_bloc.dart";
+part of 'account_bloc.dart';
 
 final class AccountState extends Equatable {
   final ViewStatusEnum status;

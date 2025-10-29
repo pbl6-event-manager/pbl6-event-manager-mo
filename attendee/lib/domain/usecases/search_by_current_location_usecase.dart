@@ -1,7 +1,7 @@
-import "package:attendee/domain/models/event.dart";
-import "package:attendee/domain/repositories/event_repository.dart";
-import "package:attendee/utils/helpers/result.dart";
-import "package:geolocator/geolocator.dart";
+import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/repositories/event_repository.dart';
+import 'package:attendee/utils/helpers/result.dart';
+import 'package:geolocator/geolocator.dart';
 
 /// Search using current location
 abstract class SearchByCurrentLocationUsecase {
@@ -36,13 +36,13 @@ final class SearchByCurrentLocationUsecaseImplementation
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        throw Exception("Location permissions are denied");
+        throw Exception('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       throw Exception(
-        "Location permissions are permanently denied, we cannot request permissions.",
+        'Location permissions are permanently denied, we cannot request permissions.',
       );
     }
 

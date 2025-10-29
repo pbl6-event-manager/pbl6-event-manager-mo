@@ -1,14 +1,14 @@
-import "package:attendee/domain/models/event.dart";
-import "package:attendee/domain/repositories/event_repository.dart";
-import "package:attendee/domain/usecases/search_by_current_location_usecase.dart";
-import "package:attendee/utils/enums/view_status_enum.dart";
-import "package:attendee/utils/helpers/nullable.dart";
-import "package:attendee/utils/helpers/result.dart";
-import "package:bloc/bloc.dart";
-import "package:equatable/equatable.dart";
+import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/repositories/event_repository.dart';
+import 'package:attendee/domain/usecases/search_by_current_location_usecase.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
+import 'package:attendee/utils/helpers/nullable.dart';
+import 'package:attendee/utils/helpers/result.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
-part "home_event.dart";
-part "home_state.dart";
+part 'home_event.dart';
+part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final EventRepository _eventRepository;

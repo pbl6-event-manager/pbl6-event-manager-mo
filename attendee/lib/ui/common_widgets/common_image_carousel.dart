@@ -1,8 +1,8 @@
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
-import "package:skeletonizer/skeletonizer.dart";
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 /// A image carousel with page indicator
 ///
@@ -162,7 +162,7 @@ class _CommonImageCarouselState extends State<CommonImageCarousel> {
 
     // For many images, show counter text instead
     return Text(
-      "${_currentIndex + 1}/$imageCount",
+      '${_currentIndex + 1}/$imageCount',
       style: TextStyle(
         color: context.colorPalette.invertedText,
         fontSize: 12,

@@ -1,14 +1,14 @@
-import "dart:async";
+import 'dart:async';
 
-import "package:attendee/application/bloc/auth_bloc.dart";
-import "package:attendee/domain/repositories/auth_repository.dart";
-import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart";
-import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/enums/view_status_enum.dart";
-import "package:attendee/utils/helpers/result.dart";
-import "package:attendee/utils/validation_utils.dart";
-import "package:bloc/bloc.dart";
+import 'package:attendee/application/bloc/auth_bloc.dart';
+import 'package:attendee/domain/repositories/auth_repository.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
+import 'package:attendee/utils/helpers/result.dart';
+import 'package:attendee/utils/validation_utils.dart';
+import 'package:bloc/bloc.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthBloc _authBloc;

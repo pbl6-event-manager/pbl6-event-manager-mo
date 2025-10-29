@@ -1,4 +1,4 @@
-import "package:dio/dio.dart";
+import 'package:dio/dio.dart';
 
 class ResponseInterceptor extends Interceptor {
   const ResponseInterceptor();
@@ -10,10 +10,10 @@ class ResponseInterceptor extends Interceptor {
         response.statusCode! >= 200 &&
         response.statusCode! <= 299 &&
         response.data is Map<String, dynamic> &&
-        (response.data as Map<String, dynamic>).containsKey("data")) {
+        (response.data as Map<String, dynamic>).containsKey('data')) {
       // Extract the nested data field and create a new response
       final responseData = response.data as Map<String, dynamic>;
-      final extractedData = responseData["data"];
+      final extractedData = responseData['data'];
 
       // Create a new response with the extracted data
       final modifiedResponse = Response(

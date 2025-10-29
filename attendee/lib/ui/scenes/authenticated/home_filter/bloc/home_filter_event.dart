@@ -1,4 +1,4 @@
-part of "home_filter_bloc.dart";
+part of 'home_filter_bloc.dart';
 
 sealed class HomeFilterEvent extends Equatable {
   const HomeFilterEvent();

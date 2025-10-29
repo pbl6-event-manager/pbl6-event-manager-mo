@@ -1,12 +1,12 @@
-import "dart:io";
+import 'dart:io';
 
-import "package:attendee/ui/common_widgets/tappable_text_with_underline.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:attendee/utils/string_utils.dart";
-import "package:flutter/material.dart";
-import "package:cached_network_image/cached_network_image.dart";
-import "package:image_picker/image_picker.dart";
+import 'package:attendee/ui/common_widgets/tappable_text_with_underline.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:attendee/utils/string_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AccountSettingAvatarWidget extends StatelessWidget {
   const AccountSettingAvatarWidget({
@@ -84,8 +84,8 @@ class AccountSettingAvatarWidget extends StatelessWidget {
       child: Center(
         child: Text(
           StringUtils.getNameInitals(
-            firstName: firstName ?? "",
-            lastName: lastName ?? "",
+            firstName: firstName ?? '',
+            lastName: lastName ?? '',
           ),
           style: context.textPalette.displayLarge.copyWith(
             fontSize: 28,

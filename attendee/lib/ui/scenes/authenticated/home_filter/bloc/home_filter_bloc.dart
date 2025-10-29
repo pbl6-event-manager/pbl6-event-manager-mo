@@ -1,15 +1,15 @@
-import "package:attendee/domain/models/event_category.dart";
-import "package:attendee/domain/repositories/category_repository.dart";
-import "package:attendee/utils/enums/date_filter_enums.dart";
-import "package:attendee/utils/enums/view_status_enum.dart";
-import "package:attendee/utils/extensions/date_time_extension.dart";
-import "package:attendee/utils/helpers/nullable.dart";
-import "package:attendee/utils/helpers/result.dart";
-import "package:bloc/bloc.dart";
-import "package:equatable/equatable.dart";
+import 'package:attendee/domain/models/event_category.dart';
+import 'package:attendee/domain/repositories/category_repository.dart';
+import 'package:attendee/utils/enums/date_filter_enums.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
+import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/utils/helpers/nullable.dart';
+import 'package:attendee/utils/helpers/result.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
-part "home_filter_event.dart";
-part "home_filter_state.dart";
+part 'home_filter_event.dart';
+part 'home_filter_state.dart';
 
 class HomeFilterBloc extends Bloc<HomeFilterEvent, HomeFilterState> {
   final CategoryRepository _categoryRepository;

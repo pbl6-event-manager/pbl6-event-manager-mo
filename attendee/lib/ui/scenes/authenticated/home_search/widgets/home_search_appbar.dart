@@ -1,8 +1,8 @@
-import "package:attendee/ui/scenes/authenticated/home_search/widgets/focus_aware_text_field.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:attendee/ui/scenes/authenticated/home_search/bloc/home_search_bloc.dart";
+import 'package:attendee/ui/scenes/authenticated/home_search/widgets/focus_aware_text_field.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/home_search/bloc/home_search_bloc.dart';
 
 class HomeSearchAppbar extends StatelessWidget {
   const HomeSearchAppbar({
@@ -34,7 +34,7 @@ class HomeSearchAppbar extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Text("Search", style: context.textPalette.displayMedium),
+              child: Text('Search', style: context.textPalette.displayMedium),
             ),
 
             IconButton(
@@ -48,7 +48,7 @@ class HomeSearchAppbar extends StatelessWidget {
         FocusAwareTextField(
           initialValue: initialSearchValue,
           prefixIcon: Icons.search,
-          hintText: "Search",
+          hintText: 'Search',
           onChanged: (value) => onEventSearchChanged(value),
           onFocusChanged: (hasFocus) {
             if (hasFocus) {
@@ -64,7 +64,7 @@ class HomeSearchAppbar extends StatelessWidget {
         FocusAwareTextField(
           initialValue: initialLocationValue,
           prefixIcon: Icons.location_on_outlined,
-          hintText: "Search for a city...",
+          hintText: 'Search for a city...',
 
           onChanged: (value) => onLocationSearchChanged(value),
           onFocusChanged: (hasFocus) {

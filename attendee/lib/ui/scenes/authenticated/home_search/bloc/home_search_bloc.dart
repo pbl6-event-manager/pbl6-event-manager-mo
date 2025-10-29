@@ -1,11 +1,11 @@
-import "package:attendee/domain/repositories/location_repository.dart";
-import "package:attendee/utils/helpers/nullable.dart";
-import "package:attendee/utils/helpers/result.dart";
-import "package:bloc/bloc.dart";
-import "package:equatable/equatable.dart";
+import 'package:attendee/domain/repositories/location_repository.dart';
+import 'package:attendee/utils/helpers/nullable.dart';
+import 'package:attendee/utils/helpers/result.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
-part "home_search_event.dart";
-part "home_search_state.dart";
+part 'home_search_event.dart';
+part 'home_search_state.dart';
 
 class HomeSearchBloc extends Bloc<HomeSearchEvent, HomeSearchState> {
   final LocationRepository _locationRepository;
@@ -118,7 +118,7 @@ class HomeSearchBloc extends Bloc<HomeSearchEvent, HomeSearchState> {
     emit(
       state.copyWith(
         selectedCity: Nullable(event.city),
-        locationQuery: "${event.city}, ${state.selectedCountry}",
+        locationQuery: '${event.city}, ${state.selectedCountry}',
       ),
     );
   }

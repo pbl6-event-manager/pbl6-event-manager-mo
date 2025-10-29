@@ -1,4 +1,4 @@
-import "package:attendee/utils/enums/password_strength_enum.dart";
+import 'package:attendee/utils/enums/password_strength_enum.dart';
 
 abstract class StringUtils {
   static PasswordStrengthEnum calculatePasswordStrength(String password) {
@@ -10,16 +10,16 @@ abstract class StringUtils {
     if (password.length >= 10) score += 1;
 
     // Numbers check
-    if (password.contains(RegExp(r"[0-9]"))) score += 1;
+    if (password.contains(RegExp(r'[0-9]'))) score += 1;
 
     // Special characters check
     if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) score += 1;
 
     // Uppercase check
-    if (password.contains(RegExp(r"[A-Z]"))) score += 1;
+    if (password.contains(RegExp(r'[A-Z]'))) score += 1;
 
     // Lowercase check
-    if (password.contains(RegExp(r"[a-z]"))) score += 1;
+    if (password.contains(RegExp(r'[a-z]'))) score += 1;
 
     switch (score) {
       case 0:
@@ -44,7 +44,7 @@ abstract class StringUtils {
     try {
       return firstName.substring(0, 1) + lastName.substring(0, 1);
     } catch (error) {
-      return "";
+      return '';
     }
   }
 }

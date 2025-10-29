@@ -1,7 +1,7 @@
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 /// Showing an image with rounded corners and tag
 class CommonImageWidget extends StatelessWidget {
@@ -16,7 +16,7 @@ class CommonImageWidget extends StatelessWidget {
     this.topRightTag,
   }) : assert(
          !(width != null && height != null),
-         "Set either width or height, not both",
+         'Set either width or height, not both',
        );
 
   final String imageUrl;

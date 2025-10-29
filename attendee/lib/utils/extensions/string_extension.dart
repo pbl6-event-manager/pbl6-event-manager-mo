@@ -1,3 +1,3 @@
 extension StringExtension on String {
-  String withDot(String otherString) => "$this • $otherString";
+  String withDot(String otherString) => '$this • $otherString';
 }

@@ -1,19 +1,19 @@
-import "package:attendee/application/app_router.dart";
-import "package:attendee/domain/models/user.dart";
-import "package:attendee/ui/common_widgets/tappable_text_with_underline.dart";
-import "package:attendee/ui/scenes/authenticated/account_setting/account_setting_navigator.dart";
-import "package:attendee/ui/scenes/authenticated/account_setting/bloc/acccount_setting_bloc.dart";
-import "package:attendee/ui/scenes/authenticated/account_setting/enums/account_setting_picture_options.dart";
-import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_avatar_widget.dart";
-import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_field_list.dart";
-import "package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_picture_options_modal.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
-import "package:image_picker/image_picker.dart";
+import 'package:attendee/application/app_router.dart';
+import 'package:attendee/domain/models/user.dart';
+import 'package:attendee/ui/common_widgets/tappable_text_with_underline.dart';
+import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting_navigator.dart';
+import 'package:attendee/ui/scenes/authenticated/account_setting/bloc/acccount_setting_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/account_setting/enums/account_setting_picture_options.dart';
+import 'package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_avatar_widget.dart';
+import 'package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_field_list.dart';
+import 'package:attendee/ui/scenes/authenticated/account_setting/widgets/account_setting_picture_options_modal.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AccountSettingPage extends StatelessWidget {
   const AccountSettingPage({super.key, required this.user});
@@ -68,9 +68,9 @@ class _AccountSettingViewState extends State<AccountSettingView> {
   @override
   void initState() {
     super.initState();
-    _firstNameController = TextEditingController(text: firstName ?? "");
-    _lastNameController = TextEditingController(text: lastName ?? "");
-    _phoneController = TextEditingController(text: phone ?? "");
+    _firstNameController = TextEditingController(text: firstName ?? '');
+    _lastNameController = TextEditingController(text: lastName ?? '');
+    _phoneController = TextEditingController(text: phone ?? '');
 
     _firstNameController.addListener(
       () => _onFirstNameChanged(value: _firstNameController.text),

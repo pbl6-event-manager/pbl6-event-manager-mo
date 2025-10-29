@@ -1,6 +1,6 @@
-import "package:json_annotation/json_annotation.dart";
+import 'package:json_annotation/json_annotation.dart';
 
-part "event_category.g.dart";
+part 'event_category.g.dart';
 
 @JsonSerializable(createToJson: false)
 class EventCategory {
@@ -18,6 +18,6 @@ class EventCategory {
 
   static List<EventCategory> dummy = List.filled(
     5,
-    EventCategory(id: 1, name: "Data", description: null),
+    EventCategory(id: 1, name: 'Data', description: null),
   );
 }

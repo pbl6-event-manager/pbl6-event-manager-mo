@@ -1,8 +1,8 @@
-import "package:attendee/domain/models/event_category.dart";
-import "package:attendee/domain/repositories/category_repository.dart";
-import "package:attendee/network/datasources/category_datasource.dart";
-import "package:attendee/utils/helpers/cache_object.dart";
-import "package:attendee/utils/helpers/result.dart";
+import 'package:attendee/domain/models/event_category.dart';
+import 'package:attendee/domain/repositories/category_repository.dart';
+import 'package:attendee/network/datasources/category_datasource.dart';
+import 'package:attendee/utils/helpers/cache_object.dart';
+import 'package:attendee/utils/helpers/result.dart';
 
 final class CategoryRepositoryImplementation implements CategoryRepository {
   final CategoryDatasource _datasource;

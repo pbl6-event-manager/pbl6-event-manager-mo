@@ -1,25 +1,25 @@
-import "dart:async";
+import 'dart:async';
 
-import "package:attendee/application/app_router.dart";
-import "package:attendee/application/bloc/auth_bloc.dart";
-import "package:attendee/domain/models/user.dart";
-import "package:attendee/domain/repositories/user_repository.dart";
-import "package:attendee/ui/managers/ui_message_manager.dart";
-import "package:attendee/ui/scenes/authenticated/account/account_navigator.dart";
-import "package:attendee/ui/scenes/authenticated/account/bloc/account_bloc.dart";
-import "package:attendee/ui/scenes/authenticated/account/enums/account_options.dart";
-import "package:attendee/ui/scenes/authenticated/account/widgets/account_app_bar.dart";
-import "package:attendee/ui/scenes/authenticated/account/widgets/account_general_info_card.dart";
-import "package:attendee/ui/scenes/authenticated/account/widgets/account_option_list.dart";
-import "package:attendee/ui/scenes/authenticated/account/widgets/app_version_row.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/enums/view_status_enum.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
-import "package:skeletonizer/skeletonizer.dart";
+import 'package:attendee/application/app_router.dart';
+import 'package:attendee/application/bloc/auth_bloc.dart';
+import 'package:attendee/domain/models/user.dart';
+import 'package:attendee/domain/repositories/user_repository.dart';
+import 'package:attendee/ui/managers/ui_message_manager.dart';
+import 'package:attendee/ui/scenes/authenticated/account/account_navigator.dart';
+import 'package:attendee/ui/scenes/authenticated/account/bloc/account_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/account/enums/account_options.dart';
+import 'package:attendee/ui/scenes/authenticated/account/widgets/account_app_bar.dart';
+import 'package:attendee/ui/scenes/authenticated/account/widgets/account_general_info_card.dart';
+import 'package:attendee/ui/scenes/authenticated/account/widgets/account_option_list.dart';
+import 'package:attendee/ui/scenes/authenticated/account/widgets/app_version_row.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -97,8 +97,8 @@ class _AccountViewState extends State<AccountView> {
                 child: _buildBody(
                   context,
                   isLoading: isLoading,
-                  firstName: user?.firstName ?? "First",
-                  lastName: user?.lastName ?? "Last",
+                  firstName: user?.firstName ?? 'First',
+                  lastName: user?.lastName ?? 'Last',
                   address: null,
                   attendedEventCount: null,
                   imageUrl: user?.avatarUrl,

@@ -1,4 +1,4 @@
-part of "home_bloc.dart";
+part of 'home_bloc.dart';
 
 final class HomeState extends Equatable {
   final ViewStatusEnum status;

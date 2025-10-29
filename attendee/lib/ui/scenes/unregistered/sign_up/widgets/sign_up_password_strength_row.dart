@@ -1,7 +1,7 @@
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/enums/password_strength_enum.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/enums/password_strength_enum.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 class SignUpPasswordStrengthRow extends StatelessWidget {
   const SignUpPasswordStrengthRow({

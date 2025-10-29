@@ -1,8 +1,8 @@
-import "package:attendee/application/base_navigator.dart";
-import "package:attendee/domain/models/user.dart";
-import "package:attendee/utils/enums/app_route_enum.dart";
-import "package:go_router/go_router.dart";
-import "package:image_picker/image_picker.dart";
+import 'package:attendee/application/base_navigator.dart';
+import 'package:attendee/domain/models/user.dart';
+import 'package:attendee/utils/enums/app_route_enum.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class AccountNavigator extends BaseNavigator {
   Future<void> goToAccountSetting({

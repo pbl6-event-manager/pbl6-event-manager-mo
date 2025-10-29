@@ -1,15 +1,15 @@
-import "package:attendee/application/bloc/auth_bloc.dart";
-import "package:attendee/domain/models/user.dart";
-import "package:attendee/domain/repositories/user_repository.dart";
-import "package:attendee/utils/enums/view_status_enum.dart";
-import "package:attendee/utils/helpers/result.dart";
-import "package:bloc/bloc.dart";
-import "package:dio/dio.dart";
-import "package:equatable/equatable.dart";
-import "package:image_picker/image_picker.dart";
+import 'package:attendee/application/bloc/auth_bloc.dart';
+import 'package:attendee/domain/models/user.dart';
+import 'package:attendee/domain/repositories/user_repository.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
+import 'package:attendee/utils/helpers/result.dart';
+import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 
-part "account_event.dart";
-part "account_state.dart";
+part 'account_event.dart';
+part 'account_state.dart';
 
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
   final UserRepository _userRepository;

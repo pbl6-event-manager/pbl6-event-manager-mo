@@ -1,6 +1,6 @@
-import "package:attendee/domain/repositories/location_repository.dart";
-import "package:attendee/network/datasources/location_datasource.dart";
-import "package:attendee/utils/helpers/result.dart";
+import 'package:attendee/domain/repositories/location_repository.dart';
+import 'package:attendee/network/datasources/location_datasource.dart';
+import 'package:attendee/utils/helpers/result.dart';
 
 class LocationRepositoryImplementation implements LocationRepository {
   final LocationDatasource _locationDatasource;
@@ -31,12 +31,12 @@ class LocationRepositoryImplementation implements LocationRepository {
       final List<dynamic> data = body;
       final List<String> countryList = data
           .whereType<Map>()
-          .map((countryItem) => countryItem["country"])
+          .map((countryItem) => countryItem['country'])
           .whereType<String>()
           .toList();
       return Result.ok(countryList);
     }
 
-    return Result.error(Exception("Cannot fetch country list"));
+    return Result.error(Exception('Cannot fetch country list'));
   }
 }

@@ -1,6 +1,6 @@
-import "package:attendee/ui/scenes/authenticated/account_setting/enums/account_setting_picture_options.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/ui/scenes/authenticated/account_setting/enums/account_setting_picture_options.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 class AccountSettingPictureOptionsModal extends StatelessWidget {
   const AccountSettingPictureOptionsModal({

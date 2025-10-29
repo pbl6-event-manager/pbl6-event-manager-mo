@@ -1,4 +1,4 @@
-import "package:attendee/utils/helpers/result.dart";
+import 'package:attendee/utils/helpers/result.dart';
 
 abstract class LocationRepository {
   Future<Result<List<String>>> getCountries();

@@ -1,4 +1,4 @@
-import "package:attendee/utils/constants/app_string_constants.dart";
+import 'package:attendee/utils/constants/app_string_constants.dart';
 
 enum DateFilterEnums {
   any,

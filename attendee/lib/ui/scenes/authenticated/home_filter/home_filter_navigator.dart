@@ -1,5 +1,5 @@
-import "package:attendee/application/base_navigator.dart";
-import "package:go_router/go_router.dart";
+import 'package:attendee/application/base_navigator.dart';
+import 'package:go_router/go_router.dart';
 
 abstract class HomeFilterNavigator extends BaseNavigator {
   void returnToHome({required (DateTime?, DateTime?, Set<int>)? filterData});

@@ -1,6 +1,6 @@
-import "package:attendee/domain/models/event.dart";
-import "package:attendee/ui/common_widgets/event_widget.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/ui/common_widgets/event_widget.dart';
+import 'package:flutter/material.dart';
 
 /// A section of events, using [EventWidget]
 class HomeEventSection extends StatelessWidget {

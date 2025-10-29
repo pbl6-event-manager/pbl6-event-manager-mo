@@ -1,9 +1,9 @@
-import "package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_tab_enum.dart";
-import "package:attendee/ui/themes/color_palette.dart";
-import "package:attendee/ui/themes/text_palette.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:go_router/go_router.dart";
+import 'package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_tab_enum.dart';
+import 'package:attendee/ui/themes/color_palette.dart';
+import 'package:attendee/ui/themes/text_palette.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavigationPage extends StatelessWidget {
   const BottomNavigationPage({super.key, required this.navigationShell});

@@ -1,18 +1,18 @@
-import "package:attendee/application/bloc/auth_bloc.dart";
-import "package:attendee/domain/repositories/auth_repository.dart";
-import "package:attendee/ui/common_widgets/common_button_with_loading.dart";
-import "package:attendee/ui/common_widgets/common_text_field.dart";
-import "package:attendee/ui/common_widgets/circular_avatar.dart";
-import "package:attendee/ui/common_widgets/tappable_text_with_underline.dart";
-import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_bloc.dart";
-import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart";
-import "package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
+import 'package:attendee/application/bloc/auth_bloc.dart';
+import 'package:attendee/domain/repositories/auth_repository.dart';
+import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
+import 'package:attendee/ui/common_widgets/common_text_field.dart';
+import 'package:attendee/ui/common_widgets/circular_avatar.dart';
+import 'package:attendee/ui/common_widgets/tappable_text_with_underline.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_bloc.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart';
+import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 // TODO: Handle when password is incorrect
 class SignInPage extends StatelessWidget {
@@ -29,7 +29,7 @@ class SignInPage extends StatelessWidget {
       ),
 
       // TODO: Call API to get image here
-      child: SignInView(email: email, imageUrl: "null"),
+      child: SignInView(email: email, imageUrl: 'null'),
     );
   }
 }

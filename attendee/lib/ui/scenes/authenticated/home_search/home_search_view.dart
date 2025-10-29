@@ -1,17 +1,17 @@
-import "package:attendee/application/app_router.dart";
-import "package:attendee/domain/repositories/location_repository.dart";
+import 'package:attendee/application/app_router.dart';
+import 'package:attendee/domain/repositories/location_repository.dart';
 
-import "package:attendee/ui/scenes/authenticated/home_search/home_search_navigator.dart";
-import "package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_appbar.dart";
-import "package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_list_tile.dart";
-import "package:attendee/ui/scenes/authenticated/home_search/bloc/home_search_bloc.dart";
-import "package:attendee/ui/scenes/authenticated/home_search/widgets/location_dropdown.dart";
-import "package:attendee/utils/constants/app_string_constants.dart";
-import "package:attendee/utils/constants/ui_constants.dart";
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:get_it/get_it.dart";
+import 'package:attendee/ui/scenes/authenticated/home_search/home_search_navigator.dart';
+import 'package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_appbar.dart';
+import 'package:attendee/ui/scenes/authenticated/home_search/widgets/home_search_list_tile.dart';
+import 'package:attendee/ui/scenes/authenticated/home_search/bloc/home_search_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/home_search/widgets/location_dropdown.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class HomeSearchPage extends StatelessWidget {
   const HomeSearchPage({super.key, this.isUsingCurrentLocation});

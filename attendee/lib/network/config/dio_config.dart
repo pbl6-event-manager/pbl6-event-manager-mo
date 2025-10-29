@@ -1,8 +1,8 @@
-import "package:attendee/network/constants/api_endpoint_constants.dart";
-import "package:attendee/network/interceptors/auth_interceptor.dart";
-import "package:attendee/network/interceptors/response_interceptor.dart";
-import "package:dio/dio.dart";
-import "package:flutter_secure_storage/flutter_secure_storage.dart";
+import 'package:attendee/network/constants/api_endpoint_constants.dart';
+import 'package:attendee/network/interceptors/auth_interceptor.dart';
+import 'package:attendee/network/interceptors/response_interceptor.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class DioConfig {
   const DioConfig._();

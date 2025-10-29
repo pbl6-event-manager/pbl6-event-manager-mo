@@ -1,7 +1,7 @@
-import "package:attendee/application/base_navigator.dart";
-import "package:attendee/utils/enums/app_route_enum.dart";
+import 'package:attendee/application/base_navigator.dart';
+import 'package:attendee/utils/enums/app_route_enum.dart';
 
-import "package:go_router/go_router.dart";
+import 'package:go_router/go_router.dart';
 
 abstract class EmailInitialNavigator extends BaseNavigator {
   void goToSignIn({required String email});
@@ -17,7 +17,7 @@ class EmailInitialNavigatorImplementation implements EmailInitialNavigator {
   void goToSignIn({required String email}) {
     goRouter.pushNamed(
       AppRouteEnum.signIn.name,
-      queryParameters: {"email": email},
+      queryParameters: {'email': email},
     );
   }
 
@@ -25,7 +25,7 @@ class EmailInitialNavigatorImplementation implements EmailInitialNavigator {
   void goToSignUp({required String email}) {
     goRouter.pushNamed(
       AppRouteEnum.signUp.name,
-      queryParameters: {"email": email},
+      queryParameters: {'email': email},
     );
   }
 }

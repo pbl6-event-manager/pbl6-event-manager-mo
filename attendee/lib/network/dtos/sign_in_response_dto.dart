@@ -1,4 +1,4 @@
-import "package:json_annotation/json_annotation.dart";
+import 'package:json_annotation/json_annotation.dart';
 
 part 'sign_in_response_dto.g.dart';
 

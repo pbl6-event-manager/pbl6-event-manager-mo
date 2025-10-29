@@ -1,5 +1,5 @@
-import "package:attendee/utils/extensions/context_extension.dart";
-import "package:flutter/material.dart";
+import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 
 class FocusAwareTextField extends StatefulWidget {
   const FocusAwareTextField({
@@ -34,7 +34,7 @@ class FocusAwareTextFieldState extends State<FocusAwareTextField> {
     _focusNode.addListener(() {
       widget.onFocusChanged?.call(_focusNode.hasFocus);
     });
-    _controller = TextEditingController(text: widget.initialValue ?? "");
+    _controller = TextEditingController(text: widget.initialValue ?? '');
   }
 
   @override
@@ -47,7 +47,7 @@ class FocusAwareTextFieldState extends State<FocusAwareTextField> {
   @override
   void didUpdateWidget(covariant FocusAwareTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final String newText = widget.initialValue ?? "";
+    final String newText = widget.initialValue ?? '';
     if (_controller.text != newText) {
       _controller.value = TextEditingValue(
         text: newText,
