@@ -4,7 +4,9 @@ import "package:attendee/domain/repositories/user_repository.dart";
 import "package:attendee/utils/enums/view_status_enum.dart";
 import "package:attendee/utils/helpers/result.dart";
 import "package:bloc/bloc.dart";
+import "package:dio/dio.dart";
 import "package:equatable/equatable.dart";
+import "package:image_picker/image_picker.dart";
 
 part "account_event.dart";
 part "account_state.dart";
@@ -20,8 +22,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
        _authBloc = authBloc,
        super(const AccountState.initial()) {
     on<AccountLoad>(_onAccountLoad);
-    on<AccountReload>(_onAccountReload);
+    on<AccountRefresh>(_onAccountReload);
     on<AccountLogout>(_onAccountLogout);
+    on<AccountUpdateUserInfo>(_onAccountUpdateData);
   }
 
   Future<void> _onAccountLoad(
@@ -33,7 +36,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   }
 
   Future<void> _onAccountReload(
-    AccountReload event,
+    AccountRefresh event,
     Emitter<AccountState> emit,
   ) async {
     emit(state.copyWith(status: ViewStatusEnum.loading));
@@ -63,5 +66,56 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
   void _onAccountLogout(AccountLogout event, Emitter<AccountState> emit) {
     _authBloc.add(const AuthTokenRemoved());
+  }
+
+  Future<void> _onAccountUpdateData(
+    AccountUpdateUserInfo event,
+    Emitter<AccountState> emit,
+  ) async {
+    // If all field null  => returns
+    if (event.userUpdateData.firstName == null &&
+        event.userUpdateData.lastName == null &&
+        event.userUpdateData.phoneNumber == null &&
+        event.userUpdateData.profilePhoto == null) {
+      return;
+    }
+
+    emit(state.copyWith(isUpdatingAcount: true));
+
+    // Convert XFile to MultipartFile if available
+    MultipartFile? avatarFile;
+    if (event.userUpdateData.profilePhoto != null) {
+      final XFile imageFile = event.userUpdateData.profilePhoto!;
+      avatarFile = await MultipartFile.fromFile(
+        imageFile.path,
+        filename: imageFile.name,
+      );
+    }
+
+    final Result<User> userResponse = await _userRepository.editUserInfo(
+      firstName: event.userUpdateData.firstName,
+      lastName: event.userUpdateData.lastName,
+      phoneNumber: event.userUpdateData.phoneNumber,
+      avatarBinary: avatarFile,
+    );
+
+    switch (userResponse) {
+      case Ok<User>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            user: userResponse.value,
+            isUpdatingAcount: false,
+          ),
+        );
+      case Error<User>(error: final error):
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: error.toString(),
+            isUpdatingAcount: false,
+          ),
+        );
+    }
   }
 }

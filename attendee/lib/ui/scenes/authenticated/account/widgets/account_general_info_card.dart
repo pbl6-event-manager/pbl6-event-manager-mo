@@ -3,6 +3,7 @@ import "package:attendee/utils/extensions/context_extension.dart";
 import "package:attendee/utils/string_utils.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:skeletonizer/skeletonizer.dart";
 
 class AccountGeneralInfoCard extends StatelessWidget {
   const AccountGeneralInfoCard({
@@ -78,11 +79,16 @@ class AccountGeneralInfoCard extends StatelessWidget {
       width: 80,
       height: 80,
       child: Center(
-        child: Text(
-          StringUtils.getNameInitals(firstName: firstName, lastName: lastName),
-          style: context.textPalette.displayLarge.copyWith(
-            fontSize: 28,
-            color: context.colorPalette.onPrimary,
+        child: Skeleton.ignore(
+          child: Text(
+            StringUtils.getNameInitals(
+              firstName: firstName,
+              lastName: lastName,
+            ),
+            style: context.textPalette.displayLarge.copyWith(
+              fontSize: 28,
+              color: context.colorPalette.onPrimary,
+            ),
           ),
         ),
       ),

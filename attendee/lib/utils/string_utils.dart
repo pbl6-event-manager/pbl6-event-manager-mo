@@ -41,6 +41,10 @@ abstract class StringUtils {
     required String firstName,
     required String lastName,
   }) {
-    return firstName.substring(0, 1) + lastName.substring(0, 1);
+    try {
+      return firstName.substring(0, 1) + lastName.substring(0, 1);
+    } catch (error) {
+      return "";
+    }
   }
 }

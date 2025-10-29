@@ -3,6 +3,7 @@ import "package:attendee/ui/themes/text_palette.dart";
 import "package:attendee/utils/constants/ui_constants.dart";
 import "package:attendee/utils/extensions/context_extension.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 /// Text field with placeholder labels automatically moves up without also hiding the border
 ///
@@ -24,6 +25,7 @@ class CommonTextField extends StatelessWidget {
     this.onTrailingTapped,
     this.focusNode,
     this.inputAction = TextInputAction.done,
+    this.maxCharCount,
   });
 
   final String hintText;
@@ -43,6 +45,10 @@ class CommonTextField extends StatelessWidget {
   final Widget? trailingIcon;
   final VoidCallback? onTrailingTapped;
   final String? initialValue;
+
+  // Optional max char count
+  // If not given => no char count limit
+  final int? maxCharCount;
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +99,9 @@ class CommonTextField extends StatelessWidget {
       children: [
         Expanded(
           child: TextFormField(
+            inputFormatters: (maxCharCount != null)
+                ? [LengthLimitingTextInputFormatter(maxCharCount)]
+                : null,
             textInputAction: inputAction,
             focusNode: focusNode,
             readOnly: isReadOnly,

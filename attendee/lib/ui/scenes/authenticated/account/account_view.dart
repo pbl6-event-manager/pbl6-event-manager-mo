@@ -4,6 +4,7 @@ import "package:attendee/application/app_router.dart";
 import "package:attendee/application/bloc/auth_bloc.dart";
 import "package:attendee/domain/models/user.dart";
 import "package:attendee/domain/repositories/user_repository.dart";
+import "package:attendee/ui/managers/ui_message_manager.dart";
 import "package:attendee/ui/scenes/authenticated/account/account_navigator.dart";
 import "package:attendee/ui/scenes/authenticated/account/bloc/account_bloc.dart";
 import "package:attendee/ui/scenes/authenticated/account/enums/account_options.dart";
@@ -44,22 +45,21 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-class AccountView extends StatelessWidget {
+class AccountView extends StatefulWidget {
   const AccountView({super.key});
+
+  @override
+  State<AccountView> createState() => _AccountViewState();
+}
+
+class _AccountViewState extends State<AccountView> {
+  bool _wasUpdating = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AccountBloc, AccountState>(
       listener: (context, state) {
-        if (state.status == ViewStatusEnum.failure &&
-            state.errorMessage != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppStringConstants.genericErrors.tryAgainMessage),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
+        _stateListener(state, context);
       },
       builder: (context, state) {
         final isLoading =
@@ -83,7 +83,7 @@ class AccountView extends StatelessWidget {
                     completer.complete();
                   }
                 });
-                context.read<AccountBloc>().add(const AccountReload());
+                context.read<AccountBloc>().add(const AccountRefresh());
                 await completer.future.timeout(
                   const Duration(seconds: 10),
                   onTimeout: () {},
@@ -120,50 +120,50 @@ class AccountView extends StatelessWidget {
     required int? attendedEventCount,
     required String? imageUrl,
   }) {
-    return Skeletonizer(
-      enabled: isLoading,
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          const SizedBox(height: 20),
-          AccountGeneralInfoCard(
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        const SizedBox(height: 20),
+        Skeletonizer(
+          enabled: isLoading,
+          child: AccountGeneralInfoCard(
             imageUrl: imageUrl,
             firstName: firstName,
             lastName: lastName,
             address: address,
             attendedEventCount: attendedEventCount,
           ),
-          const SizedBox(height: 20),
-          _buildOptionSectionWithTitle(
-            context,
-            title: AppStringConstants.account.preferencesSection,
-            child: AccountOptionList<AccountPreferenceOptions>(
-              options: AccountPreferenceOptions.values,
-              onOptionTapped: _onPreferenceOptionTapped,
-            ),
+        ),
+        const SizedBox(height: 20),
+        _buildOptionSectionWithTitle(
+          context,
+          title: AppStringConstants.account.preferencesSection,
+          child: AccountOptionList<AccountPreferenceOptions>(
+            options: AccountPreferenceOptions.values,
+            onOptionTapped: _onPreferenceOptionTapped,
           ),
-          const SizedBox(height: 20),
-          _buildOptionSectionWithTitle(
-            context,
-            title: AppStringConstants.account.helpSection,
-            child: _buildHelpCenterListTile(context),
+        ),
+        const SizedBox(height: 20),
+        _buildOptionSectionWithTitle(
+          context,
+          title: AppStringConstants.account.helpSection,
+          child: _buildHelpCenterListTile(context),
+        ),
+        const SizedBox(height: 20),
+        _buildOptionSectionWithTitle(
+          context,
+          title: AppStringConstants.account.legalSection,
+          child: AccountOptionList<AccountLegalOptions>(
+            options: AccountLegalOptions.values,
+            onOptionTapped: _onLegalOptionTapped,
           ),
-          const SizedBox(height: 20),
-          _buildOptionSectionWithTitle(
-            context,
-            title: AppStringConstants.account.legalSection,
-            child: AccountOptionList<AccountLegalOptions>(
-              options: AccountLegalOptions.values,
-              onOptionTapped: _onLegalOptionTapped,
-            ),
-          ),
-          const SizedBox(height: 12),
-          const AppVersionRow(),
-          const SizedBox(height: 20),
-          _buildLogoutTile(context),
-          const SizedBox(height: 40),
-        ],
-      ),
+        ),
+        const SizedBox(height: 12),
+        const AppVersionRow(),
+        const SizedBox(height: 20),
+        _buildLogoutTile(context),
+        const SizedBox(height: 40),
+      ],
     );
   }
 
@@ -216,7 +216,8 @@ class AccountView extends StatelessWidget {
     navigator.goToAccountSetting(
       user: user,
 
-      onReloadNeeded: () => bloc.add(AccountReload()),
+      onReloadNeeded: (userUpdateData) =>
+          bloc.add(AccountUpdateUserInfo(userUpdateData: userUpdateData)),
     );
   }
 
@@ -252,5 +253,30 @@ class AccountView extends StatelessWidget {
 
   void _onLogoutPressed(BuildContext context) {
     context.read<AccountBloc>().add(const AccountLogout());
+  }
+
+  void _stateListener(AccountState state, BuildContext context) {
+    // Show loading dialog when update starts
+    if (state.isUpdatingAcount && !_wasUpdating) {
+      UiMessageManager.showLoadingDialog(context: context);
+    }
+
+    // Dismiss loading dialog when update completes
+    if (!state.isUpdatingAcount && _wasUpdating) {
+      UiMessageManager.dismissLoadingDialog(context);
+    }
+
+    // Track the loading state for next comparison
+    _wasUpdating = state.isUpdatingAcount;
+
+    // Handle errors
+    if (state.status == ViewStatusEnum.failure && state.errorMessage != null) {
+      UiMessageManager.showErrorSnackBar(
+        context: context,
+        message:
+            state.errorMessage ??
+            AppStringConstants.genericErrors.tryAgainMessage,
+      );
+    }
   }
 }
