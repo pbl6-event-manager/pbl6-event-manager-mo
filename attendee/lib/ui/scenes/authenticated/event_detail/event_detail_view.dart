@@ -1,4 +1,5 @@
 import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailPage extends StatelessWidget {
@@ -13,7 +14,7 @@ class EventDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const EventDetailView();
+    return eventId == null ? ErrorPage() : EventDetailView();
   }
 }
 
