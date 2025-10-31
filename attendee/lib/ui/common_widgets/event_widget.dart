@@ -15,14 +15,21 @@ import 'package:flutter/material.dart';
 /// - Normal: Big image with share button: [EventWidget]
 /// - Compact: Small image without share button and single image only (first image of the list) [EventWidget.compact]
 class EventWidget extends StatelessWidget {
-  const EventWidget({super.key, this.isLoading = false, required this.event})
-    : _isCompact = false;
+  const EventWidget({
+    super.key,
+    this.isLoading = false,
+    required this.event,
+    required this.onTapped,
+  }) : _isCompact = false;
 
   const EventWidget.compact({
     super.key,
     this.isLoading = false,
     required this.event,
+    required this.onTapped,
   }) : _isCompact = true;
+
+  final VoidCallback? onTapped;
 
   final bool _isCompact;
   final bool isLoading;
@@ -61,9 +68,12 @@ class EventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _isCompact
-        ? _buildCompactEventItem(context)
-        : _buildFullSizeEventItem(context);
+    return InkWell(
+      onTap: onTapped,
+      child: _isCompact
+          ? _buildCompactEventItem(context)
+          : _buildFullSizeEventItem(context),
+    );
   }
 
   Widget _buildCompactEventItem(BuildContext context) {

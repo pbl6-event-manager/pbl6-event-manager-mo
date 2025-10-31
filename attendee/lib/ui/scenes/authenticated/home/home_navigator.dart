@@ -1,4 +1,5 @@
 import 'package:attendee/application/base_navigator.dart';
+import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/utils/enums/app_route_enum.dart';
 
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,8 @@ abstract class HomeNavigator extends BaseNavigator {
     Set<int> selectedCategories = const {},
     required void Function((DateTime?, DateTime?, Set<int>)?) onFilterApplied,
   });
+
+  void goToEventDetail({required Event event});
 }
 
 class HomeNavigatorImplementation implements HomeNavigator {
@@ -59,5 +62,14 @@ class HomeNavigatorImplementation implements HomeNavigator {
     if (filterData != null && filterData is (DateTime?, DateTime?, Set<int>)) {
       onFilterApplied(filterData);
     }
+  }
+
+  @override
+  void goToEventDetail({required Event event}) {
+    goRouter.pushNamed(
+      AppRouteEnum.eventDetail.name,
+      pathParameters: {'id': event.id.toString()},
+      extra: event,
+    );
   }
 }
