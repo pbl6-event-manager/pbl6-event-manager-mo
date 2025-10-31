@@ -64,6 +64,15 @@ final class AppTheme {
             ),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            textStyle: textPalette.button,
+
+            foregroundColor: colorPalette.primary,
+          ),
+        ),
         dividerTheme: DividerThemeData(color: colorPalette.divider),
+
+        textTheme: TextTheme(bodyMedium: textPalette.bodyMedium),
       );
 }

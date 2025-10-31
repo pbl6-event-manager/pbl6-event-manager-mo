@@ -38,4 +38,9 @@ class Event {
   });
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  String get cityAndCountryLabel => [
+    city,
+    country,
+  ].where((string) => string != null && string.isNotEmpty).join(', ');
 }

@@ -15,6 +15,8 @@ abstract class AppStringConstants {
   static HomeSearchAppStrings get homeSearch => HomeSearchAppStrings._();
   static HomeFilterAppStrings get homeFilter => HomeFilterAppStrings._();
   static AccountAppStrings get account => AccountAppStrings._();
+
+  static EventDetailAppStrings get eventDetail => EventDetailAppStrings();
 }
 
 final class BottomNavigationAppString {
@@ -193,4 +195,16 @@ final class AccountAppStrings {
   String get photoLibraryLabel => 'Choose from library';
   String get deteleLabel => 'Delete';
   String get cancelLabel => 'Cancel';
+}
+
+final class EventDetailAppStrings {
+  String get overviewSection => 'Overview';
+  String get locationSection => 'Location';
+  String get organizerSection => 'Organizer';
+  String get relatedEventsSection => 'You may also like ...';
+
+  // Organizer card
+  String get followButton => 'Follow';
+  String get contactButton => 'Contact';
+  String hostedForYears(int years) => 'Hosted for $years years';
 }
