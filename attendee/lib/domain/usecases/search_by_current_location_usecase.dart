@@ -21,10 +21,12 @@ final class SearchByCurrentLocationUsecaseImplementation
     try {
       final position = await _getDeviceCurrentPosition();
 
-      return _eventRemoteRepository.getEventsNearby(
+      final result = await _eventRemoteRepository.getEventsNearby(
         lat: position.lat,
         long: position.long,
       );
+
+      return result;
     } catch (error) {
       return Result.error(error);
     }

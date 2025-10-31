@@ -36,7 +36,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onHomeReload(HomeReload event, Emitter<HomeState> emit) async {
     {
       emit(state.copyWith(status: ViewStatusEnum.loading));
-      await _fetchAllEvents(emit);
+
+      final eventsResponse = (state.isUsingCurrentLocation)
+          ? await _searchByCurrentLocationUsecase.execute()
+          : await _eventRepository.searchEvents(
+              keyword: state.currentSearchQuery,
+              location: state.currentLocation,
+            );
+
+      switch (eventsResponse) {
+        case Ok<List<Event>>():
+          emit(
+            state.copyWith(
+              status: ViewStatusEnum.success,
+              events: eventsResponse.value,
+            ),
+          );
+        case Error<List<Event>>(error: final error):
+          emit(
+            state.copyWith(
+              status: ViewStatusEnum.failure,
+              errorMessage: error.toString(),
+            ),
+          );
+      }
     }
   }
 

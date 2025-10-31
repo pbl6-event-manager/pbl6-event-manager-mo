@@ -15,7 +15,7 @@ abstract class EventDatasource {
   @GET(ApiEndpointConstants.eventsNearby)
   Future<List<Event>> getEventsNearby({
     @Query('latitude') required double latitude,
-    @Query('longtitue') required double longitude,
+    @Query('longitude') required double longitude,
     @Query('radius') required double radiusInMeter,
   });
 
