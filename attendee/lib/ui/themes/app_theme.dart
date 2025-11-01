@@ -73,6 +73,8 @@ final class AppTheme {
         ),
         dividerTheme: DividerThemeData(color: colorPalette.divider),
 
+        appBarTheme: AppBarThemeData(surfaceTintColor: Colors.transparent),
+
         textTheme: TextTheme(bodyMedium: textPalette.bodyMedium),
       );
 }

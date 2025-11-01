@@ -69,7 +69,16 @@ class EventDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: _onShareTapped, icon: Icon(Icons.ios_share)),
+          IconButton(
+            onPressed: _onFavouriteTapped,
+            icon: Icon(Icons.favorite_border),
+          ),
+        ],
+        actionsPadding: EdgeInsets.only(right: UIConstants.horizontalPadding),
+      ),
       body: ListView(
         padding: EdgeInsets.only(bottom: 20),
         children: [
@@ -317,4 +326,8 @@ class EventDetailView extends StatelessWidget {
   void _onRelatedEventTapped(Event event) {}
 
   Future<void> _onRefresh() async {}
+
+  void _onFavouriteTapped() {}
+
+  void _onShareTapped() {}
 }
