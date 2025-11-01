@@ -20,7 +20,14 @@ enum AppRouteEnum {
 
   /// Extra: An optional [User] object fetched from account page
   accountSetting(path: '/accountSetting'),
-  accountSettingPassword(path: 'password');
+  accountSettingPassword(path: 'password'),
+
+  // EVENTS
+
+  /// Path param: {"id": event ID}
+  ///
+  /// Extra object: optional [Event] object
+  eventDetail(path: '/event/:id');
 
   final String path;
   const AppRouteEnum({required this.path});

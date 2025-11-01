@@ -5,6 +5,39 @@ extension DateTimeExtension on DateTime {
   String get shortenStringWithDot =>
       DateFormat('ccc, dd MMM • hh:mm').format(this);
 
+  // 1 Nov at 13:20 PST
+  String get shortString {
+    final String dateString = DateFormat('d MMM \'at\' HH:mm').format(this);
+    final String timezone = _getTimezoneAbbreviation();
+    return '$dateString $timezone';
+  }
+
+  String _getTimezoneAbbreviation() {
+    // Get the timezone offset
+    final offset = timeZoneOffset;
+    final hours = offset.inHours;
+    final minutes = (offset.inMinutes % 60).abs();
+
+    // Try to get a proper timezone abbreviation
+    final tzName = timeZoneName;
+
+    // If timeZoneName is already a readable abbreviation (not just numbers), use it
+    if (tzName.isNotEmpty &&
+        !tzName.startsWith('+') &&
+        !tzName.startsWith('-')) {
+      return tzName;
+    }
+
+    // Otherwise, format as GMT+X or GMT-X
+    final sign = hours >= 0 ? '+' : '-';
+    final absHours = hours.abs();
+    if (minutes == 0) {
+      return 'GMT$sign$absHours';
+    } else {
+      return 'GMT$sign$absHours:${minutes.toString().padLeft(2, '0')}';
+    }
+  }
+
   bool get isToday {
     final DateTime today = DateTime.now();
     return year == today.year && month == today.month && day == today.day;
@@ -36,5 +69,9 @@ extension DateTimeExtension on DateTime {
         ? add(Duration(days: 6 - weekday))
         : subtract(Duration(days: weekday - 6));
     return (saturday, sunday);
+  }
+
+  int yearsBetween(DateTime to) {
+    return (to.difference(this).inDays / 365).floor();
   }
 }

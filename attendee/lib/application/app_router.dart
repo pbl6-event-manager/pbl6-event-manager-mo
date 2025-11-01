@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:attendee/application/bloc/auth_bloc.dart';
+import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/user.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart';
 import 'package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart';
+import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart';
@@ -26,7 +28,12 @@ final class AppRouter {
   AppRouter(this.authBloc);
 
   late final GoRouter router = GoRouter(
-    routes: [_bottomNavigationRoute, _authRoute, _accountSettingRoute],
+    routes: [
+      _bottomNavigationRoute,
+      _authRoute,
+      _accountSettingRoute,
+      _eventDetail,
+    ],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     redirect: _redirectLogic,
@@ -112,6 +119,19 @@ final class AppRouter {
         initialEndDate: endDate,
         initialSelectedCategories: selectedCategories,
       );
+    },
+  );
+
+  // EVENT ROUTES
+
+  // Event detail
+  GoRoute get _eventDetail => GoRoute(
+    path: AppRouteEnum.eventDetail.path,
+    name: AppRouteEnum.eventDetail.name,
+    builder: (context, state) {
+      final int? eventId = int.tryParse(state.pathParameters['id'] ?? '');
+      final Event? event = state.extra is Event ? state.extra as Event : null;
+      return EventDetailPage(eventId: eventId, event: event);
     },
   );
 

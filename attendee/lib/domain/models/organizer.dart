@@ -1,3 +1,4 @@
+import 'package:attendee/utils/extensions/date_time_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'organizer.g.dart';
@@ -13,6 +14,7 @@ class Organizer {
   final String? logoUrl;
   final bool? isActive;
   final int? ownerId;
+  final DateTime? createdAt;
 
   const Organizer({
     required this.id,
@@ -24,7 +26,10 @@ class Organizer {
     this.logoUrl,
     this.isActive,
     this.ownerId,
+    this.createdAt,
   });
   factory Organizer.fromJson(Map<String, dynamic> json) =>
       _$OrganizerFromJson(json);
+
+  int? get yearsHosted => createdAt?.yearsBetween(DateTime.now());
 }

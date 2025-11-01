@@ -1,4 +1,5 @@
 import 'package:attendee/application/app_router.dart';
+import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/repositories/event_repository.dart';
 import 'package:attendee/domain/usecases/search_by_current_location_usecase.dart';
 import 'package:attendee/ui/scenes/authenticated/home/bloc/home_bloc.dart';
@@ -82,12 +83,18 @@ class HomeView extends StatelessWidget {
                     context,
                     title: AppStringConstants.home.personalizedEvents,
                     contentWidget: HomeEventSection.compact(
+                      onTapped: (event) =>
+                          _onEventTapped(context, event: event),
                       isLoading: isLoading,
                       events: state.events,
                     ),
                   ),
 
-                HomeEventSection(isLoading: isLoading, events: state.events),
+                HomeEventSection(
+                  isLoading: isLoading,
+                  events: state.events,
+                  onTapped: (event) => _onEventTapped(context, event: event),
+                ),
               ],
             ),
           ),
@@ -165,5 +172,9 @@ class HomeView extends StatelessWidget {
 
   void _onEventSearchCleared(BuildContext context) {
     context.read<HomeBloc>().add(HomeEventSearchCleared());
+  }
+
+  void _onEventTapped(BuildContext context, {required Event event}) {
+    context.read<HomeNavigator>().goToEventDetail(event: event);
   }
 }

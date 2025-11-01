@@ -6,6 +6,7 @@ abstract class AppStringConstants {
   static ButtonAppStrings get buttons => ButtonAppStrings._();
   static TextFieldAppStrings get textFields => TextFieldAppStrings._();
   static GenericErrorAppStrings get genericErrors => GenericErrorAppStrings._();
+  static ErrorPageAppStrings get errorPage => ErrorPageAppStrings._();
   static SignInAppStrings get signIn => SignInAppStrings._();
   static SignUpAppStrings get signUp => SignUpAppStrings._();
   static EventAppStrings get event => EventAppStrings._();
@@ -14,6 +15,8 @@ abstract class AppStringConstants {
   static HomeSearchAppStrings get homeSearch => HomeSearchAppStrings._();
   static HomeFilterAppStrings get homeFilter => HomeFilterAppStrings._();
   static AccountAppStrings get account => AccountAppStrings._();
+
+  static EventDetailAppStrings get eventDetail => EventDetailAppStrings();
 }
 
 final class BottomNavigationAppString {
@@ -70,6 +73,14 @@ final class GenericErrorAppStrings {
   const GenericErrorAppStrings._();
 
   String get tryAgainMessage => 'An error occurred. Please try again.';
+}
+
+final class ErrorPageAppStrings {
+  const ErrorPageAppStrings._();
+
+  String get defaultTitle => 'Oops! Something went wrong';
+  String get defaultMessage =>
+      'We encountered an unexpected error. Please try again later.';
 }
 
 final class SignInAppStrings {
@@ -184,4 +195,19 @@ final class AccountAppStrings {
   String get photoLibraryLabel => 'Choose from library';
   String get deteleLabel => 'Delete';
   String get cancelLabel => 'Cancel';
+}
+
+final class EventDetailAppStrings {
+  String get overviewSection => 'Overview';
+  String get locationSection => 'Location';
+  String get organizerSection => 'Organizer';
+  String get relatedEventsSection => 'You may also like ...';
+
+  // Organizer card
+  String get followButton => 'Follow';
+  String get contactButton => 'Contact';
+  String hostedForYears(int years) => 'Hosted for $years years';
+
+  // Payment
+  String get getTicketButton => 'Get ticket';
 }
