@@ -207,4 +207,7 @@ final class EventDetailAppStrings {
   String get followButton => 'Follow';
   String get contactButton => 'Contact';
   String hostedForYears(int years) => 'Hosted for $years years';
+
+  // Payment
+  String get getTicketButton => 'Get ticket';
 }

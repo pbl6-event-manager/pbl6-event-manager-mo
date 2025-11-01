@@ -3,10 +3,12 @@ import 'package:attendee/domain/models/organizer.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/common_widgets/event_widget.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_general_info_widget.dart';
+import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/organizer_card.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
+import 'package:attendee/utils/extensions/date_time_extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +71,12 @@ class EventDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // TODO: Get pricing string here
+      bottomNavigationBar: EventDetailBottomBar(
+        onGetTicketTapped: _onGetTicketTapped,
+        dateTimeString: event.date?.shortString,
+        pricingString: "Pricing",
+      ),
       appBar: AppBar(
         actions: [
           IconButton(onPressed: _onShareTapped, icon: Icon(Icons.ios_share)),
@@ -330,4 +338,6 @@ class EventDetailView extends StatelessWidget {
   void _onFavouriteTapped() {}
 
   void _onShareTapped() {}
+
+  void _onGetTicketTapped() {}
 }
