@@ -31,11 +31,20 @@ class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
         bottom: 10,
       ),
       actions: [
-        IconButton(
-          onPressed: onNotificationTapped,
-          icon: Icon(Icons.notifications),
+        Tooltip(
+          message: 'Notifications',
+          child: IconButton(
+            onPressed: onNotificationTapped,
+            icon: Icon(Icons.notifications),
+          ),
         ),
-        IconButton(onPressed: onSettingTapped, icon: Icon(Icons.settings)),
+        Tooltip(
+          message: 'Setting',
+          child: IconButton(
+            onPressed: onSettingTapped,
+            icon: Icon(Icons.settings),
+          ),
+        ),
       ],
     );
   }

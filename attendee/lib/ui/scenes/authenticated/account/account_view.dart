@@ -102,6 +102,7 @@ class _AccountViewState extends State<AccountView> {
                   address: null,
                   attendedEventCount: null,
                   imageUrl: user?.avatarUrl,
+                  phoneNumber: user?.phone,
                 ),
               ),
             ),
@@ -119,6 +120,7 @@ class _AccountViewState extends State<AccountView> {
     required String? address,
     required int? attendedEventCount,
     required String? imageUrl,
+    required String? phoneNumber,
   }) {
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
@@ -127,6 +129,7 @@ class _AccountViewState extends State<AccountView> {
         Skeletonizer(
           enabled: isLoading,
           child: AccountGeneralInfoCard(
+            phoneNumber: phoneNumber,
             imageUrl: imageUrl,
             firstName: firstName,
             lastName: lastName,

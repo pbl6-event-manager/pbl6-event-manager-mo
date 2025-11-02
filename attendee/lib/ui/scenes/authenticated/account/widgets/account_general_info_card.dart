@@ -13,6 +13,7 @@ class AccountGeneralInfoCard extends StatelessWidget {
     required this.attendedEventCount,
     required this.imageUrl,
     required this.lastName,
+    required this.phoneNumber,
   });
 
   final String firstName;
@@ -20,6 +21,7 @@ class AccountGeneralInfoCard extends StatelessWidget {
   final String? address;
   final int? attendedEventCount;
   final String? imageUrl;
+  final String? phoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +50,10 @@ class AccountGeneralInfoCard extends StatelessWidget {
                 spacing: 8,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '$firstName $lastName',
-                    style: context.textPalette.headlineLarge,
-                  ),
+                  Text(firstName, style: context.textPalette.headlineLarge),
+                  Text(lastName, style: context.textPalette.headlineLarge),
                   if (address != null) Text(address!),
+                  if (phoneNumber != null) Text(phoneNumber!),
 
                   if (attendedEventCount != null)
                     Text(

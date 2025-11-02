@@ -60,41 +60,44 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
             child: Material(
               child: InkWell(
                 onTap: () => onDestinationPressed(index),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Divider(height: 0),
+                child: Tooltip(
+                  message: entry.value.title,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Divider(height: 0),
 
-                    // Top indicator
-                    Container(
-                      width: 48,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? colorPalette.branding
-                            : Colors.transparent,
+                      // Top indicator
+                      Container(
+                        width: 48,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? colorPalette.branding
+                              : Colors.transparent,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    // Icon
-                    Icon(
-                      isSelected ? tab.selectedIcon : tab.defaultIcon,
-                      color: isSelected
-                          ? colorPalette.text
-                          : colorPalette.border,
-                      size: 24,
-                    ),
-                    const SizedBox(height: 4),
-                    // Label
-                    Text(
-                      tab.title,
-                      style: textPalette.labelSmall.copyWith(
+                      const SizedBox(height: 8),
+                      // Icon
+                      Icon(
+                        isSelected ? tab.selectedIcon : tab.defaultIcon,
                         color: isSelected
                             ? colorPalette.text
                             : colorPalette.border,
+                        size: 24,
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      // Label
+                      Text(
+                        tab.title,
+                        style: textPalette.labelSmall.copyWith(
+                          color: isSelected
+                              ? colorPalette.text
+                              : colorPalette.border,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -53,44 +53,47 @@ class CommonTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isErrorState = errorText != null;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          constraints: BoxConstraints(minHeight: 56),
-          decoration: BoxDecoration(
-            color: context.colorPalette.surfaceContainer,
-            border: Border.all(
-              color: isErrorState
-                  ? context.colorPalette.error
-                  : context.colorPalette.border,
+    return Tooltip(
+      message: hintText,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            constraints: BoxConstraints(minHeight: 56),
+            decoration: BoxDecoration(
+              color: context.colorPalette.surfaceContainer,
+              border: Border.all(
+                color: isErrorState
+                    ? context.colorPalette.error
+                    : context.colorPalette.border,
+              ),
+              borderRadius: BorderRadius.circular(UIConstants.textFieldRadius),
             ),
-            borderRadius: BorderRadius.circular(UIConstants.textFieldRadius),
-          ),
-          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (controller != null)
-                _buildHintLabelWithListenable(
-                  isErrorState,
-                  controller: controller!,
-                )
-              else
-                _buildSmallHintText(
-                  context.textPalette,
-                  context.colorPalette,
-                  isHidden: initialValue != null,
-                  hintText: hintText,
-                ),
+            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (controller != null)
+                  _buildHintLabelWithListenable(
+                    isErrorState,
+                    controller: controller!,
+                  )
+                else
+                  _buildSmallHintText(
+                    context.textPalette,
+                    context.colorPalette,
+                    isHidden: initialValue != null,
+                    hintText: hintText,
+                  ),
 
-              _buildTextField(context),
-            ],
+                _buildTextField(context),
+              ],
+            ),
           ),
-        ),
-        if (isErrorState) _buildErrorValidationLabel(context),
-      ],
+          if (isErrorState) _buildErrorValidationLabel(context),
+        ],
+      ),
     );
   }
 
@@ -118,11 +121,8 @@ class CommonTextField extends StatelessWidget {
             },
             keyboardType: keyboardType,
             onTapUpOutside: (_) => () {
-              if (onCompleted != null) {
-                onCompleted!();
-              } else {
-                focusNode?.unfocus();
-              }
+              onCompleted?.call();
+              focusNode?.unfocus();
             },
             controller: controller,
             decoration: InputDecoration.collapsed(
