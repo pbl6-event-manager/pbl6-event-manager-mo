@@ -9,58 +9,65 @@ class EventDetailBottomBar extends StatelessWidget {
     required this.onGetTicketTapped,
     required this.dateTimeString,
     required this.pricingString,
+    required this.isHidden,
   });
   final VoidCallback? onGetTicketTapped;
   final String? dateTimeString;
   final String pricingString;
+  final bool isHidden;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      curve: Curves.easeOutSine,
+      duration: Duration(milliseconds: 800),
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: UIConstants.horizontalPadding),
-      height: 80,
+      height: isHidden ? 0 : 80,
 
-      child: Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  pricingString,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textPalette.labelLarge,
-                ),
-                if (dateTimeString != null)
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(top: 16),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    dateTimeString!,
-                    maxLines: 2,
+                    pricingString,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: context.textPalette.labelLarge,
                   ),
-              ],
-            ),
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            flex: 3,
-            child: Align(
-              alignment: AlignmentGeometry.centerRight,
-              child: FilledButton(
-                onPressed: onGetTicketTapped,
-                child: Text(AppStringConstants.eventDetail.getTicketButton),
+                  if (dateTimeString != null)
+                    Text(
+                      dateTimeString!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
               ),
             ),
-          ),
-        ],
+            SizedBox(width: 16),
+            Expanded(
+              flex: 3,
+              child: Align(
+                alignment: AlignmentGeometry.centerRight,
+                child: FilledButton(
+                  onPressed: onGetTicketTapped,
+                  child: Text(AppStringConstants.eventDetail.getTicketButton),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
