@@ -33,7 +33,7 @@ class OrganizerCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(40),
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
-                    imageUrl: organizer.logoUrl!,
+                    imageUrl: organizer.logoUrl ?? '',
                     height: 80,
                     width: 80,
                     errorWidget: (context, url, error) =>

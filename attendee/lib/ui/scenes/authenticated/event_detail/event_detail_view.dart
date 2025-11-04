@@ -1,4 +1,7 @@
 import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/repositories/event_repository.dart';
+import 'package:attendee/domain/repositories/organizer_repository.dart';
+import 'package:attendee/domain/usecases/copy_string_to_clipboard_usecase.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/managers/ui_message_manager.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
@@ -10,6 +13,7 @@ import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class EventDetailPage extends StatelessWidget {
   const EventDetailPage({
@@ -26,9 +30,12 @@ class EventDetailPage extends StatelessWidget {
     return eventId == null
         ? ErrorPage()
         : BlocProvider(
-            create: (context) =>
-                EventDetailBloc()
-                  ..add(EventDetailLoad(eventId: eventId!, event: event)),
+            create: (context) => EventDetailBloc(
+              eventRepository: GetIt.instance<EventRepository>(),
+              organizerRepository: GetIt.instance<OrganizerRepository>(),
+              copyStringToClipboardUsecase:
+                  GetIt.instance<CopyStringToClipboardUsecase>(),
+            )..add(EventDetailLoad(eventId: eventId!, event: event)),
             child: EventDetailView(),
           );
   }
@@ -45,6 +52,15 @@ class EventDetailView extends StatelessWidget {
           UiMessageManager.showErrorSnackBar(
             context: context,
             message: state.errorMessage!,
+          );
+        }
+        if (state.uiMessage != null && state.uiMessage!.isNotEmpty) {
+          UiMessageManager.showSuccessSnackBar(
+            context: context,
+            message: state.uiMessage!,
+          );
+          context.read<EventDetailBloc>().add(
+            const EventDetailUiMessageCleared(),
           );
         }
       },

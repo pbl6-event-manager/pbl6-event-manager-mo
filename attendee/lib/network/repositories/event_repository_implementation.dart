@@ -80,4 +80,30 @@ final class EventRepositoryImplementation implements EventRepository {
     final parts = location.split(', ');
     return (parts.firstOrNull, parts.length >= 2 ? parts[1] : null);
   }
+
+  @override
+  Future<Result<Event>> getEventById({required int id}) async {
+    try {
+      final Event event = await _eventDatasource.getEventById(id: id);
+
+      return Result.ok(event);
+    } catch (error) {
+      return Result.error(error);
+    }
+  }
+
+  @override
+  Future<Result<List<Event>>> getEventsByOrganizerId({
+    required int organizerId,
+  }) async {
+    try {
+      final List<Event> events = await _eventDatasource.getEventsByOrganizerId(
+        id: organizerId,
+      );
+
+      return Result.ok(events);
+    } catch (error) {
+      return Result.error(error);
+    }
+  }
 }

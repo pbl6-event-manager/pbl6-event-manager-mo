@@ -9,11 +9,17 @@ abstract class EventRepository {
     required double long,
   });
 
+  Future<Result<Event>> getEventById({required int id});
+
   Future<Result<List<Event>>> searchEvents({
     String? keyword,
     String? location,
     DateTime? startDate,
     DateTime? endDate,
     Set<int>? categoryIds,
+  });
+
+  Future<Result<List<Event>>> getEventsByOrganizerId({
+    required int organizerId,
   });
 }

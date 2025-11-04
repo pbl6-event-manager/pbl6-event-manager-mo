@@ -3,6 +3,7 @@ part of 'event_detail_bloc.dart';
 final class EventDetailState extends Equatable {
   final ViewStatusEnum status;
   final String? errorMessage;
+  final String? uiMessage;
 
   final Event? event;
   final AsyncValue<Organizer> organizer;
@@ -11,6 +12,7 @@ final class EventDetailState extends Equatable {
   const EventDetailState({
     required this.status,
     required this.errorMessage,
+    required this.uiMessage,
     required this.event,
     required this.organizer,
     required this.suggestedEvents,
@@ -20,7 +22,8 @@ final class EventDetailState extends Equatable {
       event = null,
       organizer = AsyncValue.loading(),
       suggestedEvents = AsyncValue.loading(),
-      errorMessage = null;
+      errorMessage = null,
+      uiMessage = null;
 
   @override
   List<Object?> get props => [
@@ -29,11 +32,13 @@ final class EventDetailState extends Equatable {
     suggestedEvents,
     status,
     errorMessage,
+    uiMessage,
   ];
 
   EventDetailState copyWith({
     ViewStatusEnum? status,
     Nullable<String>? errorMessage,
+    Nullable<String>? uiMessage,
     Nullable<Event>? event,
     AsyncValue<Organizer>? organizer,
     AsyncValue<List<Event>>? suggestedEvents,
@@ -41,6 +46,7 @@ final class EventDetailState extends Equatable {
     return EventDetailState(
       status: status ?? this.status,
       errorMessage: errorMessage?.value,
+      uiMessage: uiMessage?.value,
       event: event != null ? event.value : this.event,
       organizer: organizer ?? this.organizer,
       suggestedEvents: suggestedEvents ?? this.suggestedEvents,
