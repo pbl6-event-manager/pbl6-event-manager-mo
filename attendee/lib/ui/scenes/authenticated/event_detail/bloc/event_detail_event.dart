@@ -57,3 +57,8 @@ final class EventDetailFavoritePressed extends EventDetailEvent {
 }
 
 /// Get ticket pressed
+
+/// Clear UI message (after showing to user)
+final class EventDetailUiMessageCleared extends EventDetailEvent {
+  const EventDetailUiMessageCleared();
+}

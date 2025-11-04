@@ -1,9 +1,13 @@
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/organizer.dart';
+import 'package:attendee/domain/repositories/event_repository.dart';
+import 'package:attendee/domain/repositories/organizer_repository.dart';
+import 'package:attendee/domain/usecases/copy_string_to_clipboard_usecase.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/helpers/async_value.dart';
 import 'package:attendee/utils/helpers/nullable.dart';
+import 'package:attendee/utils/helpers/result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,9 +15,25 @@ part 'event_detail_event.dart';
 part 'event_detail_state.dart';
 
 class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
-  EventDetailBloc() : super(EventDetailState.inital()) {
+  final EventRepository _eventRepository;
+  final OrganizerRepository _organizerRepository;
+  final CopyStringToClipboardUsecase _copyStringToClipboardUsecase;
+
+  int? eventId;
+
+  EventDetailBloc({
+    required EventRepository eventRepository,
+    required OrganizerRepository organizerRepository,
+    required CopyStringToClipboardUsecase copyStringToClipboardUsecase,
+  }) : _eventRepository = eventRepository,
+       _organizerRepository = organizerRepository,
+       _copyStringToClipboardUsecase = copyStringToClipboardUsecase,
+
+       super(EventDetailState.inital()) {
     on<EventDetailLoad>(_onLoaded);
     on<EventDetailRefresh>(_onRefresh);
+    on<EventDetailAddressCopyPressed>(_onCopyAddressToClipboard);
+    on<EventDetailUiMessageCleared>(_onUiMessageCleared);
   }
 
   /// If event is given => update that event to current state and show immediately
@@ -23,29 +43,62 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
     EventDetailLoad event,
     Emitter<EventDetailState> emit,
   ) async {
+    eventId = event.eventId;
     // If event is not null => use that event
     if (event.event != null) {
       emit(
         state.copyWith(
           status: ViewStatusEnum.success,
-          event: Nullable(Event.dummyEvent),
+          event: Nullable(event.event),
         ),
       );
+
+      final int idToLoad = event.event!.id;
+      final Result<Event> fullEventResponse = await _eventRepository
+          .getEventById(id: idToLoad);
+      switch (fullEventResponse) {
+        case Ok<Event>():
+          emit(state.copyWith(event: Nullable(fullEventResponse.value)));
+        case Error<Event>():
+          emit(
+            state.copyWith(
+              errorMessage: Nullable(
+                AppStringConstants.genericErrors.tryAgainMessage,
+              ),
+            ),
+          );
+      }
 
       await Future.wait([_fetchOrganizer(emit), _fetchSuggestedEvents(emit)]);
 
       // Otherwise, load event through ID
     } else {
-      // TODO: REMOVE DUMMY AND CALL API HERE
-      emit(state.copyWith(status: ViewStatusEnum.loading));
-      await Future.delayed(Duration(seconds: 5));
-      emit(
-        state.copyWith(
-          status: ViewStatusEnum.success,
-          event: Nullable(Event.dummyEvent),
-        ),
+      final Result<Event> eventResponse = await _eventRepository.getEventById(
+        id: event.eventId,
       );
-      await Future.wait([_fetchOrganizer(emit), _fetchSuggestedEvents(emit)]);
+
+      switch (eventResponse) {
+        case Ok<Event>():
+          emit(
+            state.copyWith(
+              status: ViewStatusEnum.success,
+              event: Nullable(eventResponse.value),
+            ),
+          );
+          await Future.wait([
+            _fetchOrganizer(emit),
+            _fetchSuggestedEvents(emit),
+          ]);
+        case Error<Event>():
+          emit(
+            state.copyWith(
+              status: ViewStatusEnum.failure,
+              errorMessage: Nullable(
+                AppStringConstants.genericErrors.tryAgainMessage,
+              ),
+            ),
+          );
+      }
     }
   }
 
@@ -53,18 +106,76 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
     EventDetailRefresh event,
     Emitter<EventDetailState> emit,
   ) async {
+    if (eventId == null) {
+      emit(
+        state.copyWith(
+          status: ViewStatusEnum.failure,
+          errorMessage: Nullable(
+            AppStringConstants.genericErrors.tryAgainMessage,
+          ),
+        ),
+      );
+      return;
+    }
+
+    emit(state.copyWith(status: ViewStatusEnum.loading));
+
+    final Result<Event> eventResponse = await _eventRepository.getEventById(
+      id: eventId!,
+    );
+
+    switch (eventResponse) {
+      case Ok<Event>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.success,
+            event: Nullable(eventResponse.value),
+          ),
+        );
+        await Future.wait([_fetchOrganizer(emit), _fetchSuggestedEvents(emit)]);
+      case Error<Event>():
+        emit(
+          state.copyWith(
+            status: ViewStatusEnum.failure,
+            errorMessage: Nullable(
+              AppStringConstants.genericErrors.tryAgainMessage,
+            ),
+          ),
+        );
+    }
+  }
+
+  Future<void> _onCopyAddressToClipboard(
+    EventDetailAddressCopyPressed event,
+    Emitter<EventDetailState> emit,
+  ) async {
+    final hasCopySuccess = await _copyStringToClipboardUsecase.execute(
+      dataToCopy:
+          '${state.event?.address} - ${state.event?.cityAndCountryLabel}',
+    );
+
     emit(
       state.copyWith(
-        status: ViewStatusEnum.success,
-        event: Nullable(Event.dummyEvent),
+        errorMessage: hasCopySuccess == false
+            ? Nullable('Cannot copy address')
+            : null,
+        uiMessage: hasCopySuccess == true
+            ? Nullable('Copied to clipboard')
+            : null,
       ),
     );
-    await Future.wait([_fetchOrganizer(emit), _fetchSuggestedEvents(emit)]);
+  }
+
+  void _onUiMessageCleared(
+    EventDetailUiMessageCleared event,
+    Emitter<EventDetailState> emit,
+  ) {
+    emit(state.copyWith(uiMessage: const Nullable(null)));
   }
 
   Future<void> _fetchOrganizer(Emitter<EventDetailState> emit) async {
-    final ownerId = state.event?.ownerId;
-    if (ownerId == null) {
+    final organizerId = state.event?.organizerId;
+    if (organizerId == null) {
       emit(
         state.copyWith(
           errorMessage: Nullable(
@@ -81,21 +192,58 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
     // Set loading state
     emit(state.copyWith(organizer: AsyncValue.loading()));
 
-    await Future.delayed(Duration(seconds: 2));
-    emit(state.copyWith(organizer: AsyncValue.data(Organizer.dummyOrganizer)));
+    final Result<Organizer> organizerResult = await _organizerRepository
+        .getOrganizerById(organizerId: organizerId);
+
+    switch (organizerResult) {
+      case Ok<Organizer>():
+        emit(state.copyWith(organizer: AsyncValue.data(organizerResult.value)));
+      case Error<Organizer>():
+        emit(
+          state.copyWith(
+            errorMessage: Nullable(
+              AppStringConstants.genericErrors.tryAgainMessage,
+            ),
+            organizer: AsyncValue.error(organizerResult.error.toString()),
+          ),
+        );
+    }
   }
 
   Future<void> _fetchSuggestedEvents(Emitter<EventDetailState> emit) async {
+    if (state.event?.organizerId == null) {
+      emit(
+        state.copyWith(
+          suggestedEvents: const AsyncValue.error('No organizer available'),
+        ),
+      );
+      return;
+    }
+
     emit(state.copyWith(suggestedEvents: AsyncValue.loading()));
-    await Future.delayed(Duration(seconds: 2));
-    emit(
-      state.copyWith(
-        suggestedEvents: AsyncValue.data([
-          Event.dummyEvent,
-          Event.dummyEvent,
-          Event.dummyEvent,
-        ]),
-      ),
-    );
+    final Result<List<Event>> suggestedEventsResult = await _eventRepository
+        .getEventsByOrganizerId(organizerId: state.event!.organizerId!);
+
+    switch (suggestedEventsResult) {
+      case Ok<List<Event>>():
+        emit(
+          state.copyWith(
+            suggestedEvents: AsyncValue.data(
+              suggestedEventsResult.value
+                  .where((event) => event.id != state.event?.id)
+                  .toList(),
+            ),
+          ),
+        );
+
+      case Error<List<Event>>():
+        emit(
+          state.copyWith(
+            suggestedEvents: const AsyncValue.error(
+              'Failed to load suggested events',
+            ),
+          ),
+        );
+    }
   }
 }

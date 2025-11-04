@@ -12,6 +12,9 @@ abstract class EventDatasource {
   @GET(ApiEndpointConstants.events)
   Future<List<Event>> getEvents();
 
+  @GET(ApiEndpointConstants.eventDetail)
+  Future<Event> getEventById({@Path('id') required int id});
+
   @GET(ApiEndpointConstants.eventsNearby)
   Future<List<Event>> getEventsNearby({
     @Query('latitude') required double latitude,
@@ -28,4 +31,7 @@ abstract class EventDatasource {
     @Query('endDate') required String? endDate,
     @Query('categoryIds') required List<int>? categoryIds,
   });
+
+  @GET(ApiEndpointConstants.eventsByOrganizerId)
+  Future<List<Event>> getEventsByOrganizerId({@Path('id') required int id});
 }

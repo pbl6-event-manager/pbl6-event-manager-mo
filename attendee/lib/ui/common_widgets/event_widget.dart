@@ -50,10 +50,7 @@ class EventWidget extends StatelessWidget {
     if (event.bannerImagePath != null && event.bannerImagePath!.isNotEmpty) {
       return [event.bannerImagePath!];
     }
-    // Fallback images for loading/empty state
-    return [
-      'https://images.unsplash.com/photo-1755357667384-adec9e5cdf84?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ];
+    return [];
   }
 
   bool get isFavorite => false;
@@ -81,7 +78,7 @@ class EventWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CommonImageWidget(
-          imageUrl: imageUrls.isNotEmpty ? imageUrls.first : '',
+          imageUrl: imageUrls.firstOrNull ?? '',
           aspectRatio: 1,
           width: 90,
         ),
@@ -117,7 +114,7 @@ class EventWidget extends StatelessWidget {
                 topRightTag: isFewTicketLeft ? CommonEventTag() : null,
               )
             : CommonImageWidget(
-                imageUrl: imageUrls.first,
+                imageUrl: imageUrls.firstOrNull ?? '',
                 topRightTag: isFewTicketLeft ? CommonEventTag() : null,
               ),
         SizedBox(height: 16),
