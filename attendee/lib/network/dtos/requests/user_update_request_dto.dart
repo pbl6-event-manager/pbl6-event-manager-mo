@@ -17,7 +17,7 @@ class UserUpdateRequestDto {
     {
       'firstName': firstName,
       'lastName': lastName,
-      'phoneNumber': phoneNumber,
+      'phone': phoneNumber,
       'avatar': avatarBinary,
     }..removeWhere((key, value) => value == null),
   );

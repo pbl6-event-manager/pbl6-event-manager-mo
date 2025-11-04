@@ -3,6 +3,7 @@ import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class OrganizerCard extends StatelessWidget {
   const OrganizerCard({
@@ -68,16 +69,20 @@ class OrganizerCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: FilledButton(
-                    onPressed: onContactTapped,
-                    child: Text(AppStringConstants.eventDetail.followButton),
+                  child: Skeleton.leaf(
+                    child: FilledButton(
+                      onPressed: onContactTapped,
+                      child: Text(AppStringConstants.eventDetail.followButton),
+                    ),
                   ),
                 ),
                 SizedBox(width: 8),
                 Expanded(
-                  child: OutlinedButton(
-                    onPressed: onContactTapped,
-                    child: Text(AppStringConstants.eventDetail.contactButton),
+                  child: Skeleton.leaf(
+                    child: OutlinedButton(
+                      onPressed: onContactTapped,
+                      child: Text(AppStringConstants.eventDetail.contactButton),
+                    ),
                   ),
                 ),
               ],

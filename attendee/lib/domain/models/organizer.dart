@@ -32,4 +32,18 @@ class Organizer {
       _$OrganizerFromJson(json);
 
   int? get yearsHosted => createdAt?.yearsBetween(DateTime.now());
+
+  static Organizer dummyOrganizer = Organizer(
+    id: 123,
+    name: 'Event Masters',
+    description: 'A leading organization hosting incredible events.',
+    contactEmail: 'contact@eventmasters.com',
+    contactPhone: '+1 123-456-7890',
+    website: 'https://eventmasters.com',
+    logoUrl:
+        'https://images.unsplash.com/photo-1761828122700-11b752d69a88?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1287',
+    isActive: true,
+    ownerId: 1000,
+    createdAt: DateTime(1970),
+  );
 }
