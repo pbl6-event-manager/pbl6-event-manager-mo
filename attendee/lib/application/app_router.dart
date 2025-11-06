@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/user.dart';
+import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart';
@@ -142,10 +143,9 @@ final class AppRouter {
   GoRoute get _booking => GoRoute(
     path: AppRouteEnum.eventBooking.path,
     name: AppRouteEnum.eventBooking.name,
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final int? id = int.tryParse(state.pathParameters['id'] ?? ' ');
-
-      return BookingPage(id: id);
+      return BottomUpPage(destination: BookingPage(id: id));
     },
   );
 
