@@ -1,3 +1,4 @@
+import 'package:attendee/application/app_router.dart';
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/repositories/event_repository.dart';
 import 'package:attendee/domain/repositories/organizer_repository.dart';
@@ -6,6 +7,7 @@ import 'package:attendee/ui/common_widgets/common_image_widget.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/managers/ui_message_manager.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_navigator.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_body.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
@@ -29,13 +31,22 @@ class EventDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return eventId == null
         ? ErrorPage()
-        : BlocProvider(
-            create: (context) => EventDetailBloc(
-              eventRepository: GetIt.instance<EventRepository>(),
-              organizerRepository: GetIt.instance<OrganizerRepository>(),
-              copyStringToClipboardUsecase:
-                  GetIt.instance<CopyStringToClipboardUsecase>(),
-            )..add(EventDetailLoad(eventId: eventId!, event: event)),
+        : MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => EventDetailBloc(
+                  eventRepository: GetIt.instance<EventRepository>(),
+                  organizerRepository: GetIt.instance<OrganizerRepository>(),
+                  copyStringToClipboardUsecase:
+                      GetIt.instance<CopyStringToClipboardUsecase>(),
+                )..add(EventDetailLoad(eventId: eventId!, event: event)),
+              ),
+              RepositoryProvider<EventDetailNavigator>(
+                create: (context) => EventDetailNavigatorImplementation(
+                  goRouter: GetIt.instance<AppRouter>().router,
+                ),
+              ),
+            ],
             child: EventDetailView(),
           );
   }
@@ -46,6 +57,7 @@ class EventDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigator = context.read<EventDetailNavigator>();
     return BlocConsumer<EventDetailBloc, EventDetailState>(
       listener: (context, state) {
         if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
@@ -71,7 +83,7 @@ class EventDetailView extends StatelessWidget {
             isHidden:
                 state.status == ViewStatusEnum.loading ||
                 state.status == ViewStatusEnum.initial,
-            onGetTicketTapped: _onGetTicketTapped,
+            onGetTicketTapped: () => _onGetTicketTapped(navigator, state),
             dateTimeString: state.event?.date?.shortString,
             pricingString: "Pricing",
           ),
@@ -158,5 +170,13 @@ class EventDetailView extends StatelessWidget {
     );
   }
 
-  void _onGetTicketTapped() {}
+  void _onGetTicketTapped(
+    EventDetailNavigator navigator,
+    EventDetailState state,
+  ) {
+    if (state.event == null) {
+      return;
+    }
+    navigator.goToBooking(id: state.event!.id);
+  }
 }

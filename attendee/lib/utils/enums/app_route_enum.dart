@@ -27,7 +27,11 @@ enum AppRouteEnum {
   /// Path param: {"id": event ID}
   ///
   /// Extra object: optional [Event] object
-  eventDetail(path: '/event/:id');
+  eventDetail(path: '/event/:id'),
+
+  // BOOKING
+  /// Path param: {"id": event ID}
+  eventBooking(path: '/event/:id/booking');
 
   final String path;
   const AppRouteEnum({required this.path});
