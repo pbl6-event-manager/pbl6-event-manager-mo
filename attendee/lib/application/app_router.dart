@@ -6,6 +6,7 @@ import 'package:attendee/domain/models/user.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart';
+import 'package:attendee/ui/scenes/authenticated/booking/booking_view.dart';
 import 'package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
@@ -33,6 +34,7 @@ final class AppRouter {
       _authRoute,
       _accountSettingRoute,
       _eventDetail,
+      _booking,
     ],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
@@ -132,6 +134,18 @@ final class AppRouter {
       final int? eventId = int.tryParse(state.pathParameters['id'] ?? '');
       final Event? event = state.extra is Event ? state.extra as Event : null;
       return EventDetailPage(eventId: eventId, event: event);
+    },
+  );
+
+  // BOOKING
+
+  GoRoute get _booking => GoRoute(
+    path: AppRouteEnum.eventBooking.path,
+    name: AppRouteEnum.eventBooking.name,
+    builder: (context, state) {
+      final int? id = int.tryParse(state.pathParameters['id'] ?? ' ');
+
+      return BookingPage(id: id);
     },
   );
 
