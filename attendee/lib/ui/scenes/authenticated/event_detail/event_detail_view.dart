@@ -8,7 +8,6 @@ import 'package:attendee/ui/managers/ui_message_manager.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_body.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
-import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_image.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';

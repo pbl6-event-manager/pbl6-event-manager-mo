@@ -1,4 +1,5 @@
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_map_widget.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -45,14 +46,24 @@ class EventDetailLocationSection extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: onCopyAddressTapped,
-              icon: Icon(Icons.copy),
-            ),
+            IconButton(onPressed: onCopyAddressTapped, icon: Icon(Icons.copy)),
           ],
         ),
+
+        if (state.event?.coordiates != null) ...[
+          SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: SizedBox(
+              height: 200,
+              width: double.infinity,
+              child: EventDetailMapWidget(
+                coordinates: state.event!.coordiates!,
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }
 }
-

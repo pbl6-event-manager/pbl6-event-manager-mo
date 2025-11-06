@@ -55,5 +55,9 @@
 	<string>Library access is needed to select your photo in the photo library</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is needed to capture photo using your device's camera</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Your location helps us show nearby events and provide directions, even when the app is not active.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is used to keep event location updates and recommendations accurate.</string>
 </dict>
 </plist>
