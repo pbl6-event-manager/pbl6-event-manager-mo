@@ -2,7 +2,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class ApiEndpointConstants {
   const ApiEndpointConstants._();
-  static String baseUrl = dotenv.env['BASE_URL'] ?? '';
+  static final String baseUrl = dotenv.env['BASE_URL'] ?? '';
+  static final String _vietMapApiKey = dotenv.env['VIET_MAP_API_KEY'] ?? '';
 
   // AUTH
   static const String checkEmail = '/auth/check-email';
@@ -29,4 +30,8 @@ abstract class ApiEndpointConstants {
   static const String locationCountryList = '/countries';
   // CATEGORIES
   static const String categories = '/categories';
+
+  // VIETMAP
+  static String vietMapTileStyle =
+      'https://maps.vietmap.vn/maps/styles/tm/tiles.json?apikey=$_vietMapApiKey';
 }

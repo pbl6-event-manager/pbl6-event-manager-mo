@@ -19,6 +19,8 @@ class Event {
   final Organizer? organizer;
   final String? status;
   final String? bannerImagePath;
+  final double? latitude;
+  final double? longitude;
 
   const Event({
     required this.id,
@@ -35,11 +37,18 @@ class Event {
     this.organizer,
     this.status,
     this.bannerImagePath,
+    this.latitude,
+    this.longitude,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
   int? get organizerId => organizer?.id;
+
+  ({double lat, double long})? get coordiates =>
+      latitude != null && longitude != null
+      ? (lat: latitude!, long: longitude!)
+      : null;
 
   String get cityAndCountryLabel => [
     city,

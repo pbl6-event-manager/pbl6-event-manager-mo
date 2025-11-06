@@ -50,6 +50,7 @@ class EventDetailBody extends StatelessWidget {
               state: state,
               onCopyAddressTapped: onCopyAddressTapped,
             ),
+
             EventDetailOrganizerSection(
               state: state,
               onContactTapped: onContactTapped,
