@@ -1,14 +1,11 @@
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
-import 'package:attendee/utils/extensions/context_extension.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailImage extends StatelessWidget {
-  const EventDetailImage({
-    super.key,
-    required this.state,
-  });
+  const EventDetailImage({super.key, required this.state});
 
   final EventDetailState state;
 
@@ -19,10 +16,8 @@ class EventDetailImage extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: state.event?.bannerImagePath ?? '',
         fit: BoxFit.cover,
-        errorWidget: (context, url, error) =>
-            ColoredBox(color: context.colorPalette.surfaceContainer),
+        errorWidget: (context, url, error) => SizedBox.shrink(),
       ),
     );
   }
 }
-
