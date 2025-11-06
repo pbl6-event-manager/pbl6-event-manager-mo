@@ -36,8 +36,14 @@ class OrganizerCard extends StatelessWidget {
                     imageUrl: organizer.logoUrl ?? '',
                     height: 80,
                     width: 80,
-                    errorWidget: (context, url, error) =>
-                        ColoredBox(color: context.colorPalette.disabled),
+                    errorWidget: (context, url, error) => Container(
+                      color: context.colorPalette.disabled,
+                      child: Icon(
+                        Icons.person,
+                        color: context.colorPalette.onPrimary,
+                        size: 32,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(width: 16),

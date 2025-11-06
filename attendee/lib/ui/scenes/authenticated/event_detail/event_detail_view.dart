@@ -2,6 +2,7 @@ import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/repositories/event_repository.dart';
 import 'package:attendee/domain/repositories/organizer_repository.dart';
 import 'package:attendee/domain/usecases/copy_string_to_clipboard_usecase.dart';
+import 'package:attendee/ui/common_widgets/common_image_widget.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/managers/ui_message_manager.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
@@ -98,8 +99,14 @@ class EventDetailView extends StatelessWidget {
                   child: ListView(
                     padding: EdgeInsets.only(bottom: 20),
                     children: [
-                      EventDetailImage(state: state),
-                      SizedBox(height: 32),
+                      if (state.event?.bannerImagePath != null &&
+                          state.event!.bannerImagePath!.isNotEmpty) ...[
+                        CommonImageWidget(
+                          imageUrl: state.event!.bannerImagePath!,
+                        ),
+                        SizedBox(height: 32),
+                      ],
+
                       EventDetailBody(
                         state: state,
                         onCopyAddressTapped: () =>

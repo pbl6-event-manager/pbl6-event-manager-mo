@@ -44,11 +44,19 @@ class CommonImageWidget extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) =>
-                    ColoredBox(color: context.colorPalette.surfaceContainer),
+                errorWidget: (context, url, error) => Container(
+                  color: context.colorPalette.border,
+                  child: SizedBox(
+                    child: Icon(
+                      Icons.image,
+                      size: 32,
+                      color: context.colorPalette.onSuccess,
+                    ),
+                  ),
+                ),
 
                 placeholder: (context, url) =>
-                    ColoredBox(color: context.colorPalette.surfaceContainer),
+                    ColoredBox(color: context.colorPalette.border),
               ),
             ),
           ),
