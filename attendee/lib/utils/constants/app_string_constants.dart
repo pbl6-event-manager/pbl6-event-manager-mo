@@ -17,6 +17,7 @@ abstract class AppStringConstants {
   static AccountAppStrings get account => AccountAppStrings._();
 
   static EventDetailAppStrings get eventDetail => EventDetailAppStrings();
+  static BookingAppStrings get booking => BookingAppStrings._();
 }
 
 final class BottomNavigationAppString {
@@ -210,4 +211,18 @@ final class EventDetailAppStrings {
 
   // Payment
   String get getTicketButton => 'Get ticket';
+}
+
+final class BookingAppStrings {
+  const BookingAppStrings._();
+
+  // Buttons
+  String get registerButton => 'Register';
+  String get applyButton => 'Apply';
+
+  String get showMoreButton => 'Show more';
+  String get showLessButton => 'Show less';
+
+  // Text fields
+  String get promoCodePlaceholder => 'Promo code';
 }
