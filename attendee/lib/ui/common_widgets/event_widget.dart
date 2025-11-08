@@ -59,7 +59,7 @@ class EventWidget extends StatelessWidget {
   VoidCallback? get onSharePressed => () {};
 
   String get dateTimeAndLocation =>
-      startTime.shortenStringWithDot.withDot(location);
+      startTime.shortenDateTimeStringWithDot.withDot(location);
 
   VoidCallback? get onFavoritePressed => () {};
 

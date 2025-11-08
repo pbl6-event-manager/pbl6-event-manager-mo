@@ -2,8 +2,11 @@ import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
   // Sun, 21 Sep • 17:30
-  String get shortenStringWithDot =>
+  String get shortenDateTimeStringWithDot =>
       DateFormat('ccc, dd MMM • hh:mm').format(this);
+
+  // Sun, 21 Sep
+  String get shortenDateString => DateFormat('ccc, dd MMM').format(this);
 
   // 1 Nov at 13:20 PST
   String get shortString {

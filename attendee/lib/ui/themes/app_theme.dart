@@ -71,10 +71,14 @@ final class AppTheme {
             foregroundColor: colorPalette.primary,
           ),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            textStyle: textPalette.button,
+            foregroundColor: colorPalette.primary,
+          ),
+        ),
         dividerTheme: DividerThemeData(color: colorPalette.divider),
-
         appBarTheme: AppBarThemeData(surfaceTintColor: Colors.transparent),
-
         textTheme: TextTheme(bodyMedium: textPalette.bodyMedium),
       );
 }

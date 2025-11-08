@@ -10,6 +10,7 @@ import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_
 import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_navigator.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_body.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
@@ -80,10 +81,11 @@ class EventDetailView extends StatelessWidget {
         return Scaffold(
           // TODO: Get pricing string here
           bottomNavigationBar: EventDetailBottomBar(
+            primaryButtonLabel: AppStringConstants.eventDetail.getTicketButton,
             isHidden:
                 state.status == ViewStatusEnum.loading ||
                 state.status == ViewStatusEnum.initial,
-            onGetTicketTapped: () => _onGetTicketTapped(navigator, state),
+            onPrimaryButtonTapped: () => _onGetTicketTapped(navigator, state),
             dateTimeString: state.event?.date?.shortString,
             pricingString: "Pricing",
           ),
