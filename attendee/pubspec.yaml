@@ -52,6 +52,7 @@ dependencies:
   geolocator: ^14.0.2
   image_picker: ^1.2.0
   vietmap_flutter_gl: ^4.1.0
+  collection: ^1.19.1
 
 dev_dependencies:
   flutter_test:

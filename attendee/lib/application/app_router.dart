@@ -144,8 +144,8 @@ final class AppRouter {
     path: AppRouteEnum.eventBooking.path,
     name: AppRouteEnum.eventBooking.name,
     pageBuilder: (context, state) {
-      final int? id = int.tryParse(state.pathParameters['id'] ?? ' ');
-      return BottomUpPage(destination: BookingPage(id: id));
+      final Event? event = state.extra is Event ? state.extra as Event : null;
+      return BottomUpPage(destination: BookingPage(event: event));
     },
   );
 
