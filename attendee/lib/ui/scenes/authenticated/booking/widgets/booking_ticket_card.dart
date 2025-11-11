@@ -2,32 +2,28 @@ import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/domain/models/ticket.dart';
 import 'package:flutter/material.dart';
 
 class BookingTicketCard extends StatefulWidget {
   const BookingTicketCard({
     super.key,
-    required this.ticketName,
-    required this.pricingLabel,
-    required this.ticketDeadline,
-    required this.ticketDescription,
+    required this.ticket,
     required this.selectedTicketQuantity,
     required this.onAddTicket,
     required this.onSubtractTicket,
   });
-  final String ticketName;
-  final String pricingLabel;
-  final DateTime? ticketDeadline;
-  final String? ticketDescription;
+
+  final Ticket ticket;
   final int selectedTicketQuantity;
   final VoidCallback? onAddTicket;
   final VoidCallback? onSubtractTicket;
 
   bool get hasTicket => selectedTicketQuantity > 0;
   bool get shouldShowMoreDescription =>
-      ticketDescription != null &&
-      ticketDescription!.isNotEmpty &&
-      ticketDescription!.length > 100;
+      ticket.description != null &&
+      ticket.description!.isNotEmpty &&
+      ticket.description!.length > 100;
 
   @override
   State<BookingTicketCard> createState() => _BookingTicketCardState();
@@ -48,6 +44,7 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
     final Color borderColor = widget.hasTicket
         ? context.colorPalette.primary
         : context.colorPalette.border;
+    final String pricingLabel = _buildPricingLabel(widget.ticket);
     return Card(
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -71,7 +68,7 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      widget.ticketName,
+                      widget.ticket.name,
                       style: context.textPalette.headlineLarge,
                     ),
                   ),
@@ -86,7 +83,7 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
                           width: 32,
                           height: 32,
                           child: IconButton.outlined(
-                            onPressed: widget.onAddTicket,
+                            onPressed: widget.onSubtractTicket,
                             icon: Icon(Icons.remove),
                           ),
                         ),
@@ -103,7 +100,7 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
                           width: 32,
                           height: 32,
                           child: IconButton.outlined(
-                            onPressed: widget.onSubtractTicket,
+                            onPressed: widget.onAddTicket,
                             icon: Icon(Icons.add),
                           ),
                         ),
@@ -121,23 +118,23 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.pricingLabel,
+                    pricingLabel,
                     style: context.textPalette.bodyLarge.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  if (widget.ticketDeadline != null)
+                  if (widget.ticket.saleEndDate != null)
                     Text(
-                      'Sales end on ${widget.ticketDeadline!.shortenDateString}',
+                      'Sales end on ${widget.ticket.saleEndDate!.shortenDateString}',
                       style: context.textPalette.bodyMedium,
                     ),
-                  if (widget.ticketDescription != null &&
-                      widget.ticketDescription!.isNotEmpty) ...[
+                  if (widget.ticket.description != null &&
+                      widget.ticket.description!.isNotEmpty) ...[
                     SizedBox(height: 8),
                     Text(
                       _isShowingMore
-                          ? widget.ticketDescription!
-                          : '${widget.ticketDescription!.substring(0, 101)}...',
+                          ? widget.ticket.description!
+                          : '${widget.ticket.description!.substring(0, 101)}...',
                       style: context.textPalette.bodyMedium,
                     ),
                     if (widget.shouldShowMoreDescription)
@@ -170,5 +167,16 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
     setState(() {
       _isShowingMore = !_isShowingMore;
     });
+  }
+
+  String _buildPricingLabel(Ticket ticket) {
+    switch (ticket.type) {
+      case TicketType.free:
+        return 'Free';
+      case TicketType.donation:
+        return 'Donation';
+      case TicketType.paid:
+        return '\$${ticket.price.toStringAsFixed(2)}';
+    }
   }
 }

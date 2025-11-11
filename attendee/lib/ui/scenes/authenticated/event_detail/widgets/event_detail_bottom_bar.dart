@@ -10,6 +10,7 @@ class EventDetailBottomBar extends StatelessWidget {
     required this.pricingString,
     required this.isHidden,
     required this.primaryButtonLabel,
+    this.isPrimaryButtonLoading = false,
   }) : _isPrimaryButtonExpanded = false;
 
   const EventDetailBottomBar.expanded({
@@ -19,6 +20,7 @@ class EventDetailBottomBar extends StatelessWidget {
     required this.pricingString,
     required this.isHidden,
     required this.primaryButtonLabel,
+    this.isPrimaryButtonLoading = false,
   }) : _isPrimaryButtonExpanded = true;
 
   final VoidCallback? onPrimaryButtonTapped;
@@ -26,6 +28,7 @@ class EventDetailBottomBar extends StatelessWidget {
   final String pricingString;
   final bool isHidden;
   final String primaryButtonLabel;
+  final bool isPrimaryButtonLoading;
 
   final bool _isPrimaryButtonExpanded;
 
@@ -83,8 +86,14 @@ class EventDetailBottomBar extends StatelessWidget {
           child: Align(
             alignment: AlignmentGeometry.centerRight,
             child: FilledButton(
-              onPressed: onPrimaryButtonTapped,
-              child: Text(primaryButtonLabel),
+              onPressed: isPrimaryButtonLoading ? null : onPrimaryButtonTapped,
+              child: isPrimaryButtonLoading
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(primaryButtonLabel),
             ),
           ),
         ),
@@ -105,8 +114,14 @@ class EventDetailBottomBar extends StatelessWidget {
         SizedBox(height: 12),
 
         FilledButton(
-          onPressed: onPrimaryButtonTapped,
-          child: Text(primaryButtonLabel),
+          onPressed: isPrimaryButtonLoading ? null : onPrimaryButtonTapped,
+          child: isPrimaryButtonLoading
+              ? SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Text(primaryButtonLabel),
         ),
       ],
     );

@@ -179,6 +179,6 @@ class EventDetailView extends StatelessWidget {
     if (state.event == null) {
       return;
     }
-    navigator.goToBooking(id: state.event!.id);
+    navigator.goToBooking(event: state.event!);
   }
 }
