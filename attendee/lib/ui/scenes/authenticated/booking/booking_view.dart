@@ -1,4 +1,5 @@
 import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/repositories/ticket_repository.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:attendee/utils/extensions/context_extension.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BookingPage extends StatelessWidget {
@@ -25,7 +27,8 @@ class BookingPage extends StatelessWidget {
     return event != null
         ? BlocProvider(
             create: (context) =>
-                BookingBloc()..add(BookingEventLoaded(event: event!)),
+                BookingBloc(repository: GetIt.instance<TicketRepository>())
+                  ..add(BookingEventLoaded(event: event!)),
             child: const BookingView(),
           )
         : const ErrorPage();
