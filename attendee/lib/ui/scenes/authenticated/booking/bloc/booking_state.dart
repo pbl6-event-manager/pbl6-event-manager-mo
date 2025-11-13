@@ -7,6 +7,7 @@ final class BookingState extends Equatable {
     required this.promoCodeFieldErrorLabel,
     required this.isPromoCodeSubmitting,
     required this.isRegisterSubmitting,
+    required this.isBookingSuccess,
     required this.eventId,
     required this.event,
     required this.tickets,
@@ -19,6 +20,7 @@ final class BookingState extends Equatable {
       promoCodeFieldErrorLabel = null,
       isPromoCodeSubmitting = false,
       isRegisterSubmitting = false,
+      isBookingSuccess = false,
       eventId = null,
       event = null,
       tickets = const [],
@@ -29,6 +31,7 @@ final class BookingState extends Equatable {
   final String? promoCodeFieldErrorLabel;
   final bool isPromoCodeSubmitting;
   final bool isRegisterSubmitting;
+  final bool isBookingSuccess;
   final int? eventId;
   final Event? event;
   final List<Ticket> tickets;
@@ -68,6 +71,7 @@ final class BookingState extends Equatable {
     Nullable<String>? promoCodeFieldErrorLabel,
     bool? isPromoCodeSubmitting,
     bool? isRegisterSubmitting,
+    bool? isBookingSuccess,
     Nullable<int>? eventId,
     Nullable<Event>? event,
     List<Ticket>? tickets,
@@ -83,6 +87,7 @@ final class BookingState extends Equatable {
       isPromoCodeSubmitting:
           isPromoCodeSubmitting ?? this.isPromoCodeSubmitting,
       isRegisterSubmitting: isRegisterSubmitting ?? this.isRegisterSubmitting,
+      isBookingSuccess: isBookingSuccess ?? this.isBookingSuccess,
       eventId: eventId != null ? eventId.value : this.eventId,
       event: event != null ? event.value : this.event,
       tickets: tickets ?? this.tickets,
@@ -100,6 +105,7 @@ final class BookingState extends Equatable {
     promoCodeFieldErrorLabel,
     isPromoCodeSubmitting,
     isRegisterSubmitting,
+    isBookingSuccess,
     eventId,
     event,
     tickets,

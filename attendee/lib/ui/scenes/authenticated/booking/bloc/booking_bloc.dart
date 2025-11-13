@@ -39,6 +39,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         event: Nullable(event.event),
         eventId: Nullable(event.event.id),
         status: ViewStatusEnum.loading,
+        isBookingSuccess: false,
       ),
     );
     final response = await _repository.getTicketsByEventId(
@@ -54,6 +55,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
               for (var value in response.value) value.id: 0,
             },
             status: ViewStatusEnum.success,
+            isBookingSuccess: false,
           ),
         );
 
@@ -62,6 +64,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           state.copyWith(
             errorMessage: response.error.toString(),
             status: ViewStatusEnum.failure,
+            isBookingSuccess: false,
           ),
         );
     }
@@ -125,6 +128,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           ),
           isPromoCodeSubmitting: false,
           discountedTotalPricing: const Nullable(null),
+          isBookingSuccess: false,
         ),
       );
       return;
@@ -138,6 +142,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           ),
           isPromoCodeSubmitting: false,
           discountedTotalPricing: const Nullable(null),
+          isBookingSuccess: false,
         ),
       );
       return;
@@ -151,6 +156,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           ),
           isPromoCodeSubmitting: false,
           discountedTotalPricing: const Nullable(null),
+          isBookingSuccess: false,
         ),
       );
       return;
@@ -161,6 +167,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         promoCodeFieldErrorLabel: const Nullable(null),
         isPromoCodeSubmitting: true,
         discountedTotalPricing: const Nullable(null),
+        isBookingSuccess: false,
       ),
     );
 
@@ -177,6 +184,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             isPromoCodeSubmitting: false,
             discountedTotalPricing: Nullable(result.value),
             promoCodeFieldErrorLabel: const Nullable(null),
+            isBookingSuccess: false,
           ),
         );
       case Error<double>():
@@ -189,6 +197,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             isPromoCodeSubmitting: false,
             promoCodeFieldErrorLabel: Nullable(errorMessage),
             discountedTotalPricing: const Nullable(null),
+            isBookingSuccess: false,
           ),
         );
     }
@@ -202,11 +211,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       return;
     }
 
-    emit(state.copyWith(isRegisterSubmitting: true));
+    emit(state.copyWith(isRegisterSubmitting: true, isBookingSuccess: false));
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
-    emit(state.copyWith(isRegisterSubmitting: false));
+    emit(state.copyWith(isRegisterSubmitting: false, isBookingSuccess: true));
   }
 
   void _onPromoCodeCleared(
@@ -218,6 +227,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         promoCodeFieldErrorLabel: const Nullable(null),
         isPromoCodeSubmitting: false,
         discountedTotalPricing: const Nullable(null),
+        isBookingSuccess: false,
       ),
     );
   }

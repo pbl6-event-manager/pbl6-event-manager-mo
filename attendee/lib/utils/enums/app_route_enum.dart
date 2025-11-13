@@ -34,7 +34,8 @@ enum AppRouteEnum {
   eventBooking(path: '/booking'),
 
   /// CHECKOUT
-  checkout(path: '/checkout');
+  checkout(path: '/checkout'),
+  checkoutSuccess(path: '/checkoutSuccess');
 
   final String path;
   const AppRouteEnum({required this.path});

@@ -1,3 +1,4 @@
+import 'package:attendee/application/app_router.dart';
 import 'package:attendee/domain/models/ticket.dart';
 import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
@@ -5,9 +6,11 @@ import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart'
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
+import 'package:attendee/utils/enums/app_route_enum.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key, required this.bookingBloc});
@@ -78,7 +81,14 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingBloc, BookingState>(
+    return BlocConsumer<BookingBloc, BookingState>(
+      listener: (context, state) {
+        if (state.isBookingSuccess) {
+          GetIt.instance<AppRouter>().router.goNamed(
+            AppRouteEnum.checkoutSuccess.name,
+          );
+        }
+      },
       builder: (context, state) {
         final BookingBloc bloc = context.read<BookingBloc>();
         final bool hasDiscount = state.currentDiscountPercentage > 0;

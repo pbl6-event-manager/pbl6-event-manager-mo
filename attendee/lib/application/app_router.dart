@@ -11,6 +11,7 @@ import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart'
 import 'package:attendee/ui/scenes/authenticated/booking/booking_view.dart';
 import 'package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart';
 import 'package:attendee/ui/scenes/authenticated/checkout/checkout_view.dart';
+import 'package:attendee/ui/scenes/authenticated/checkout_success/checkout_success_view.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
@@ -39,6 +40,7 @@ final class AppRouter {
       _eventDetail,
       _booking,
       _checkout,
+      _checkoutSuccess,
     ],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
@@ -164,6 +166,13 @@ final class AppRouter {
       }
       return CheckoutPage(bookingBloc: bookingBloc);
     },
+  );
+
+  GoRoute get _checkoutSuccess => GoRoute(
+    path: AppRouteEnum.checkoutSuccess.path,
+    name: AppRouteEnum.checkoutSuccess.name,
+    pageBuilder: (context, state) =>
+        NoTransitionPage(child: CheckoutSuccessPage()),
   );
 
   // ACCOUNT ROUTE

@@ -19,6 +19,8 @@ abstract class AppStringConstants {
   static EventDetailAppStrings get eventDetail => EventDetailAppStrings();
   static BookingAppStrings get booking => BookingAppStrings._();
   static CheckoutAppStrings get checkout => CheckoutAppStrings._();
+  static CheckoutSuccessAppStrings get checkoutSuccess =>
+      CheckoutSuccessAppStrings._();
 }
 
 final class BottomNavigationAppString {
@@ -262,4 +264,13 @@ final class CheckoutAppStrings {
         'You pay \$${payableAmount.toStringAsFixed(2)} '
         '(was \$${originalAmount.toStringAsFixed(2)})';
   }
+}
+
+final class CheckoutSuccessAppStrings {
+  const CheckoutSuccessAppStrings._();
+
+  String get title => 'Your order is confirmed';
+  String get subtitle => 'See you there!';
+  String get viewTicketButtonLabel => 'View your ticket';
+  String get returnHomeButtonLabel => 'Return home';
 }
