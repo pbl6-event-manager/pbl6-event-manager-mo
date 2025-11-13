@@ -8,6 +8,7 @@ import 'package:attendee/domain/repositories/ticket_repository.dart';
 import 'package:attendee/domain/repositories/user_repository.dart';
 import 'package:attendee/domain/usecases/copy_string_to_clipboard_usecase.dart';
 import 'package:attendee/domain/usecases/search_by_current_location_usecase.dart';
+import 'package:attendee/domain/usecases/validate_voucher_usecase.dart';
 import 'package:attendee/network/config/dio_config.dart';
 import 'package:attendee/network/datasources/auth_datasource.dart';
 import 'package:attendee/network/datasources/category_datasource.dart';
@@ -112,16 +113,6 @@ class ServiceLocator {
         locationDatasource: _getIt<LocationDatasource>(),
       ),
     );
-    // Usecases
-    _getIt.registerLazySingleton<SearchByCurrentLocationUsecase>(
-      () => SearchByCurrentLocationUsecaseImplementation(
-        eventRemoteRepository: _getIt<EventRepository>(),
-      ),
-    );
-    _getIt.registerLazySingleton<CopyStringToClipboardUsecase>(
-      () => CopyStringToClipboardUsecaseImplementation(),
-    );
-
     _getIt.registerLazySingleton<CategoryRepository>(
       () => CategoryRepositoryImplementation(
         categoryDatasource: _getIt<CategoryDatasource>(),
@@ -143,6 +134,23 @@ class ServiceLocator {
     _getIt.registerLazySingleton<TicketRepository>(
       () => TicketRepositoryImplementation(
         datasource: _getIt<TicketDatasource>(),
+      ),
+    );
+
+    // Usecases
+    _getIt.registerLazySingleton<SearchByCurrentLocationUsecase>(
+      () => SearchByCurrentLocationUsecaseImplementation(
+        eventRemoteRepository: _getIt<EventRepository>(),
+      ),
+    );
+    _getIt.registerLazySingleton<CopyStringToClipboardUsecase>(
+      () => CopyStringToClipboardUsecaseImplementation(),
+    );
+
+    _getIt.registerLazySingleton<ValidateVoucherUsecase>(
+      () => ValidateVoucherUsecaseImplementation(
+        ticketRepository: _getIt<TicketRepository>(),
+        userRepository: _getIt<UserRepository>(),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart';
+import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/booking_view.dart';
 import 'package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart';
 import 'package:attendee/ui/scenes/authenticated/checkout/checkout_view.dart';
@@ -154,8 +155,15 @@ final class AppRouter {
   GoRoute get _checkout => GoRoute(
     path: AppRouteEnum.checkout.path,
     name: AppRouteEnum.checkout.name,
-
-    builder: (context, state) => CheckoutPage(),
+    builder: (context, state) {
+      final BookingBloc? bookingBloc = state.extra is BookingBloc
+          ? state.extra as BookingBloc
+          : null;
+      if (bookingBloc == null) {
+        return const Placeholder();
+      }
+      return CheckoutPage(bookingBloc: bookingBloc);
+    },
   );
 
   // ACCOUNT ROUTE

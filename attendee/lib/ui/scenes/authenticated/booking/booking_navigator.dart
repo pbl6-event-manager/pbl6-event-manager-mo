@@ -1,10 +1,11 @@
 import 'package:attendee/application/base_navigator.dart';
+import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart';
 import 'package:attendee/utils/enums/app_route_enum.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class BookingNavigator extends BaseNavigator {
   void returnToEventDetail();
-  void goToCheckout();
+  void goToCheckout({required BookingBloc bloc});
 }
 
 final class BookingNavigatorImplementation implements BookingNavigator {
@@ -23,7 +24,10 @@ final class BookingNavigatorImplementation implements BookingNavigator {
   }
 
   @override
-  void goToCheckout() {
-    goRouter.pushNamed(AppRouteEnum.checkout.name);
+  void goToCheckout({required BookingBloc bloc}) {
+    goRouter.pushNamed(
+      AppRouteEnum.checkout.name,
+      extra: bloc,
+    );
   }
 }

@@ -18,6 +18,7 @@ abstract class AppStringConstants {
 
   static EventDetailAppStrings get eventDetail => EventDetailAppStrings();
   static BookingAppStrings get booking => BookingAppStrings._();
+  static CheckoutAppStrings get checkout => CheckoutAppStrings._();
 }
 
 final class BottomNavigationAppString {
@@ -225,4 +226,40 @@ final class BookingAppStrings {
 
   // Text fields
   String get promoCodePlaceholder => 'Promo code';
+
+  // Promo code errors
+  String get promoCodeEmptyError => 'Promo code cannot be empty.';
+  String get promoCodeRequirePaidTicketError =>
+      'Add at least one paid ticket to apply a promo code.';
+  String get promoCodeEventUnavailableError =>
+      'Unable to apply promo code for this event.';
+}
+
+final class CheckoutAppStrings {
+  const CheckoutAppStrings._();
+
+  String get checkoutTitle => 'Checkout';
+  String get orderSummarySectionTitle => 'Order summary';
+  String get paymentMethodSectionTitle => 'Payment method';
+  String get stripePaymentLabel => 'Stripe';
+  String get promoCodeSectionTitle => 'Promo code';
+  String get clearButtonLabel => 'Clear';
+
+  String discountedPricingLabel({
+    required double payableAmount,
+    required double discountPercentage,
+  }) {
+    return '\$${payableAmount.toStringAsFixed(2)} '
+        '(Discount ${discountPercentage.toStringAsFixed(0)}%)';
+  }
+
+  String discountAppliedBannerMessage({
+    required double discountPercentage,
+    required double payableAmount,
+    required double originalAmount,
+  }) {
+    return 'Discount applied: ${discountPercentage.toStringAsFixed(0)}% - '
+        'You pay \$${payableAmount.toStringAsFixed(2)} '
+        '(was \$${originalAmount.toStringAsFixed(2)})';
+  }
 }

@@ -11,4 +11,9 @@ abstract class TicketDatasource {
 
   @GET(ApiEndpointConstants.ticketByEventId)
   Future<List<Ticket>> getTicketsByEventId({@Path('id') required int id});
+
+  @POST(ApiEndpointConstants.validateVoucher)
+  Future<HttpResponse> validateVoucher({
+    @Body() required Map<String, dynamic> data,
+  });
 }

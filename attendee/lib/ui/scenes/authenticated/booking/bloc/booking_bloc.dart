@@ -1,6 +1,8 @@
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/ticket.dart';
 import 'package:attendee/domain/repositories/ticket_repository.dart';
+import 'package:attendee/domain/usecases/validate_voucher_usecase.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/helpers/nullable.dart';
 import 'package:attendee/utils/helpers/result.dart';
@@ -13,9 +15,13 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final TicketRepository _repository;
-  BookingBloc({required TicketRepository repository})
-    : _repository = repository,
-      super(BookingState.initial()) {
+  final ValidateVoucherUsecase _validateVoucherUsecase;
+  BookingBloc({
+    required TicketRepository repository,
+    required ValidateVoucherUsecase validateVoucherUsecase,
+  }) : _repository = repository,
+       _validateVoucherUsecase = validateVoucherUsecase,
+       super(BookingState.initial()) {
     on<BookingEventLoaded>(_onLoaded);
     on<BookingEventTicketAddedByOne>(_onAddTapped);
     on<BookingEventTicketRemovedByOne>(_onSubtractTapped);
@@ -31,6 +37,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(
       state.copyWith(
         event: Nullable(event.event),
+        eventId: Nullable(event.event.id),
         status: ViewStatusEnum.loading,
       ),
     );
@@ -72,7 +79,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     final currentQuantity = newMap[event.ticketId] ?? 0;
     newMap[event.ticketId] = currentQuantity + 1;
 
-    emit(state.copyWith(quantityPerTicketMap: newMap));
+    emit(
+      state.copyWith(
+        quantityPerTicketMap: newMap,
+        discountedTotalPricing: const Nullable(null),
+      ),
+    );
   }
 
   void _onSubtractTapped(
@@ -89,7 +101,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
     newMap[event.ticketId] = currentQuantity - 1;
 
-    emit(state.copyWith(quantityPerTicketMap: newMap));
+    emit(
+      state.copyWith(
+        quantityPerTicketMap: newMap,
+        discountedTotalPricing: const Nullable(null),
+      ),
+    );
   }
 
   Future<void> _onPromoCodeSubmitted(
@@ -97,15 +114,43 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     Emitter<BookingState> emit,
   ) async {
     final String promoCode = event.promoCode.trim().toUpperCase();
+    final double currentTotalPricing = state.currentTotalPricing;
+    final int? eventId = state.eventId ?? state.event?.id;
 
     if (promoCode.isEmpty) {
       emit(
         state.copyWith(
-          promoCodeFieldErrorLabel: const Nullable(
-            'Promo code cannot be empty.',
+          promoCodeFieldErrorLabel: Nullable(
+            AppStringConstants.booking.promoCodeEmptyError,
           ),
           isPromoCodeSubmitting: false,
-          currentDiscountPercentage: 0,
+          discountedTotalPricing: const Nullable(null),
+        ),
+      );
+      return;
+    }
+
+    if (currentTotalPricing <= 0) {
+      emit(
+        state.copyWith(
+          promoCodeFieldErrorLabel: Nullable(
+            AppStringConstants.booking.promoCodeRequirePaidTicketError,
+          ),
+          isPromoCodeSubmitting: false,
+          discountedTotalPricing: const Nullable(null),
+        ),
+      );
+      return;
+    }
+
+    if (eventId == null) {
+      emit(
+        state.copyWith(
+          promoCodeFieldErrorLabel: Nullable(
+            AppStringConstants.booking.promoCodeEventUnavailableError,
+          ),
+          isPromoCodeSubmitting: false,
+          discountedTotalPricing: const Nullable(null),
         ),
       );
       return;
@@ -115,8 +160,38 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       state.copyWith(
         promoCodeFieldErrorLabel: const Nullable(null),
         isPromoCodeSubmitting: true,
+        discountedTotalPricing: const Nullable(null),
       ),
     );
+
+    final result = await _validateVoucherUsecase.execute(
+      currentTotalPricing: currentTotalPricing,
+      voucherCode: promoCode,
+      eventId: eventId,
+    );
+
+    switch (result) {
+      case Ok<double>():
+        emit(
+          state.copyWith(
+            isPromoCodeSubmitting: false,
+            discountedTotalPricing: Nullable(result.value),
+            promoCodeFieldErrorLabel: const Nullable(null),
+          ),
+        );
+      case Error<double>():
+        final errorMessage = result.error.toString().replaceFirst(
+          'Exception: ',
+          '',
+        );
+        emit(
+          state.copyWith(
+            isPromoCodeSubmitting: false,
+            promoCodeFieldErrorLabel: Nullable(errorMessage),
+            discountedTotalPricing: const Nullable(null),
+          ),
+        );
+    }
   }
 
   Future<void> _onRegisterTapped(
@@ -137,5 +212,13 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   void _onPromoCodeCleared(
     BookingPromoCodeCleared event,
     Emitter<BookingState> emit,
-  ) {}
+  ) {
+    emit(
+      state.copyWith(
+        promoCodeFieldErrorLabel: const Nullable(null),
+        isPromoCodeSubmitting: false,
+        discountedTotalPricing: const Nullable(null),
+      ),
+    );
+  }
 }
