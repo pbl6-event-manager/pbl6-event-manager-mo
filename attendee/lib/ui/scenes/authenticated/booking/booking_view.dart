@@ -87,7 +87,8 @@ class _BookingViewState extends State<BookingView> {
             primaryButtonLabel: AppStringConstants.booking.registerButton,
             onPrimaryButtonTapped: state.totalTicketCount == 0
                 ? null
-                : () => _onRegisterTapped(bloc),
+                : () =>
+                      _onRegisterTapped(bloc, context.read<BookingNavigator>()),
             dateTimeString: null,
             pricingString: pricingLabel,
             isHidden: false,
@@ -95,7 +96,7 @@ class _BookingViewState extends State<BookingView> {
           ),
           appBar: BookingAppBar(
             eventName: state.event?.title ?? '',
-            eventDateTime: state.event?.date,
+            eventDateTime: state.event?.startTime,
             onCloseTapped: () =>
                 _onCloseTapped(context.read<BookingNavigator>()),
           ),
@@ -245,10 +246,12 @@ class _BookingViewState extends State<BookingView> {
     bloc.add(const BookingPromoCodeCleared());
   }
 
-  void _onRegisterTapped(BookingBloc bloc) {
+  void _onRegisterTapped(BookingBloc bloc, BookingNavigator navigator) {
     if (bloc.state.isRegisterSubmitting || bloc.state.totalTicketCount == 0) {
       return;
     }
     bloc.add(const BookingEventRegisteredTapped());
+
+    navigator.goToCheckout();
   }
 }

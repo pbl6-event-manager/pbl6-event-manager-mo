@@ -137,13 +137,5 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   void _onPromoCodeCleared(
     BookingPromoCodeCleared event,
     Emitter<BookingState> emit,
-  ) {
-    emit(
-      state.copyWith(
-        promoCodeFieldErrorLabel: const Nullable(null),
-        isPromoCodeSubmitting: false,
-        currentDiscountPercentage: 0,
-      ),
-    );
-  }
+  ) {}
 }

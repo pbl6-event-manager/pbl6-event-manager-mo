@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 abstract class BookingNavigator extends BaseNavigator {
   void returnToEventDetail();
+  void goToCheckout();
 }
 
 final class BookingNavigatorImplementation implements BookingNavigator {
@@ -18,7 +19,11 @@ final class BookingNavigatorImplementation implements BookingNavigator {
       goRouter.pop();
       return;
     }
-
     goRouter.goNamed(AppRouteEnum.home.name);
+  }
+
+  @override
+  void goToCheckout() {
+    goRouter.pushNamed(AppRouteEnum.checkout.name);
   }
 }

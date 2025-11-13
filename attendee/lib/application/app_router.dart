@@ -9,6 +9,7 @@ import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting
 import 'package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/booking_view.dart';
 import 'package:attendee/ui/scenes/authenticated/bottom_navigation/bottom_navigation_view.dart';
+import 'package:attendee/ui/scenes/authenticated/checkout/checkout_view.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
@@ -36,6 +37,7 @@ final class AppRouter {
       _accountSettingRoute,
       _eventDetail,
       _booking,
+      _checkout,
     ],
     initialLocation: AppRouteEnum.auth.path,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
@@ -147,6 +149,13 @@ final class AppRouter {
       final Event? event = state.extra is Event ? state.extra as Event : null;
       return BottomUpPage(destination: BookingPage(event: event));
     },
+  );
+
+  GoRoute get _checkout => GoRoute(
+    path: AppRouteEnum.checkout.path,
+    name: AppRouteEnum.checkout.name,
+
+    builder: (context, state) => CheckoutPage(),
   );
 
   // ACCOUNT ROUTE

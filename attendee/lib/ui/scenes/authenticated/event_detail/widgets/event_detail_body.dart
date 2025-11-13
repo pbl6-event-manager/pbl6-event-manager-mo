@@ -42,7 +42,7 @@ class EventDetailBody extends StatelessWidget {
               title: state.event?.title,
               city: state.event?.city,
               address: state.event?.address,
-              date: state.event?.date,
+              date: state.event?.startTime,
             ),
             Divider(height: 32),
             EventDetailOverviewSection(state: state),

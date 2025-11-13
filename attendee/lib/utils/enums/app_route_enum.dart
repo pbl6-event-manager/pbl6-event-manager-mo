@@ -31,7 +31,10 @@ enum AppRouteEnum {
 
   // BOOKING
   /// Extra object: optional [Event] object
-  eventBooking(path: '/booking');
+  eventBooking(path: '/booking'),
+
+  /// CHECKOUT
+  checkout(path: '/checkout');
 
   final String path;
   const AppRouteEnum({required this.path});

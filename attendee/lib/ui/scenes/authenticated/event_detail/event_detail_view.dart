@@ -86,7 +86,7 @@ class EventDetailView extends StatelessWidget {
                 state.status == ViewStatusEnum.loading ||
                 state.status == ViewStatusEnum.initial,
             onPrimaryButtonTapped: () => _onGetTicketTapped(navigator, state),
-            dateTimeString: state.event?.date?.shortString,
+            dateTimeString: state.event?.startTime?.shortString,
             pricingString: "Pricing",
           ),
           appBar: AppBar(

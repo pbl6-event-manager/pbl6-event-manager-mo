@@ -38,7 +38,7 @@ class EventWidget extends StatelessWidget {
   String get title =>
       isLoading ? 'Loading Event Title Here' : (event.title ?? '');
 
-  DateTime get startTime => event.date ?? DateTime.now();
+  DateTime get startTime => event.startTime ?? DateTime.now();
 
   String get location =>
       isLoading ? 'Loading location here' : (event.city ?? event.address ?? '');
