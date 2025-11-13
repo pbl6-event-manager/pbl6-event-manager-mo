@@ -34,11 +34,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         status: ViewStatusEnum.loading,
       ),
     );
-
-    // TODO: Load tickets through API here
-
-    await Future.delayed(Duration(seconds: 2));
-
     final response = await _repository.getTicketsByEventId(
       eventId: event.event.id,
     );
@@ -120,16 +115,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       state.copyWith(
         promoCodeFieldErrorLabel: const Nullable(null),
         isPromoCodeSubmitting: true,
-      ),
-    );
-
-    await Future.delayed(Duration(seconds: 1));
-
-    emit(
-      state.copyWith(
-        promoCodeFieldErrorLabel: const Nullable(null),
-        isPromoCodeSubmitting: false,
-        currentDiscountPercentage: 10,
       ),
     );
   }
