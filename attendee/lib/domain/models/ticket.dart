@@ -3,7 +3,12 @@ import 'package:json_annotation/json_annotation.dart';
 part 'ticket.g.dart';
 
 @JsonEnum(fieldRename: FieldRename.screamingSnake)
-enum TicketType { paid, free, donation }
+enum TicketType {
+  @JsonValue('PAID')
+  paid,
+  @JsonValue('FREE')
+  free,
+}
 
 @JsonSerializable(createToJson: false)
 class Ticket {
@@ -12,7 +17,7 @@ class Ticket {
     required this.eventId,
     required this.name,
     required this.type,
-    required this.price,
+    required this.priceString,
     required this.quantity,
     required this.soldQuantity,
     this.description,
@@ -26,7 +31,8 @@ class Ticket {
   final String name;
   @JsonKey(unknownEnumValue: TicketType.paid)
   final TicketType type;
-  final double price;
+  @JsonKey(name: 'price')
+  final String priceString;
   final int quantity;
   final int soldQuantity;
   final String? description;
@@ -39,6 +45,8 @@ class Ticket {
   int get remainingQuantity => quantity - soldQuantity;
 
   bool get isSoldOut => remainingQuantity <= 0;
+
+  double get price => double.tryParse(priceString) ?? 0;
 
   bool get isSaleActive {
     final DateTime now = DateTime.now();
@@ -53,7 +61,7 @@ class Ticket {
     eventId: 1,
     name: 'General Admission',
     type: TicketType.paid,
-    price: 49.99,
+    priceString: '49.99',
     quantity: 10,
     soldQuantity: 5,
     description: 'Standard access to the event venue.',

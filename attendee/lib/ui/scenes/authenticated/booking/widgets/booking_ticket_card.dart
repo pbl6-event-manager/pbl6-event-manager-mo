@@ -173,8 +173,6 @@ class _BookingTicketCardState extends State<BookingTicketCard> {
     switch (ticket.type) {
       case TicketType.free:
         return 'Free';
-      case TicketType.donation:
-        return 'Donation';
       case TicketType.paid:
         return '\$${ticket.price.toStringAsFixed(2)}';
     }

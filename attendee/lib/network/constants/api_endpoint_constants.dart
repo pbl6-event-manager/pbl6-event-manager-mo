@@ -21,6 +21,8 @@ abstract class ApiEndpointConstants {
   static const String eventsNearby = '/events/nearby';
   static const String eventsSearch = '/events/search';
 
+  static const String ticketByEventId = '/tickets/event/{id}';
+
   // ORGANIZERS
   static const String organizerDetail = '/organizers/{id}';
 

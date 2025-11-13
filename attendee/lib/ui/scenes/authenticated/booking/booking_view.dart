@@ -1,7 +1,10 @@
+import 'package:attendee/application/app_router.dart';
 import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/repositories/ticket_repository.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/booking/booking_navigator.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/widgets/booking_ticket_card.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/widgets/booking_view_app_bar.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
@@ -13,6 +16,7 @@ import 'package:attendee/utils/extensions/context_extension.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BookingPage extends StatelessWidget {
@@ -23,9 +27,19 @@ class BookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return event != null
-        ? BlocProvider(
-            create: (context) =>
-                BookingBloc()..add(BookingEventLoaded(event: event!)),
+        ? MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    BookingBloc(repository: GetIt.instance<TicketRepository>())
+                      ..add(BookingEventLoaded(event: event!)),
+              ),
+              RepositoryProvider<BookingNavigator>(
+                create: (context) => BookingNavigatorImplementation(
+                  goRouter: GetIt.instance<AppRouter>().router,
+                ),
+              ),
+            ],
             child: const BookingView(),
           )
         : const ErrorPage();
@@ -82,7 +96,8 @@ class _BookingViewState extends State<BookingView> {
           appBar: BookingAppBar(
             eventName: state.event?.title ?? '',
             eventDateTime: state.event?.date,
-            onCloseTapped: _onCloseTapped,
+            onCloseTapped: () =>
+                _onCloseTapped(context.read<BookingNavigator>()),
           ),
 
           body: Skeletonizer(
@@ -197,11 +212,11 @@ class _BookingViewState extends State<BookingView> {
     );
   }
 
-  void _onCloseTapped() {}
-
-  void _handlePromoCodeTextChanged() {
-    setState(() {});
+  void _onCloseTapped(BookingNavigator navigator) {
+    navigator.returnToEventDetail();
   }
+
+  void _handlePromoCodeTextChanged() {}
 
   void _onPromoCodeTrailingButtonTapped(BookingBloc bloc) {
     if (bloc.state.isPromoCodeSubmitting) {
