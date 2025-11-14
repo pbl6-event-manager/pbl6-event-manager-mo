@@ -8,9 +8,8 @@ class Event {
   final int id;
   final String? title;
   final String? summary;
-  final DateTime? date;
-  final String? startTime;
-  final String? endTime;
+  final DateTime? startTime;
+  final DateTime? endTime;
   final String? address;
   final String? city;
   final String? country;
@@ -26,7 +25,7 @@ class Event {
     required this.id,
     this.title,
     this.summary,
-    this.date,
+
     this.startTime,
     this.endTime,
     this.address,
@@ -59,9 +58,8 @@ class Event {
     id: 1,
     title: 'Sample Event',
     summary: 'This is a sample event for demonstration purposes.',
-    date: DateTime.now(),
-    startTime: '18:00',
-    endTime: '21:00',
+    startTime: DateTime(1970),
+    endTime: DateTime(1970),
     address: '123 Main Street',
     city: 'Sample City',
     country: 'Sample Country',

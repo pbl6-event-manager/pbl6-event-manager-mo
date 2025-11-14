@@ -20,4 +20,34 @@ final class TicketRepositoryImplementation implements TicketRepository {
       return Result.error(error);
     }
   }
+
+  @override
+  Future<Result<double>> getDiscountedPriceThroughVoucher({
+    required double currentTotalPricing,
+    required String voucherCode,
+    required int eventId,
+    required int userId,
+  }) async {
+    try {
+      final Map<String, dynamic> data = {
+        'code': voucherCode,
+        'orderAmount': currentTotalPricing,
+        'eventId': eventId.toString(),
+        'userId': userId.toString(),
+      };
+      final rawResponse = await _datasource.validateVoucher(data: data);
+
+      final dynamic payload = rawResponse.data;
+
+      if (payload is Map<String, dynamic> &&
+          payload['finalAmount'] != null &&
+          payload['error'] == null) {
+        final finalAmount = (payload['finalAmount'] as num).toDouble();
+        return Result.ok(finalAmount);
+      }
+      return Result.error(Exception(payload['error']));
+    } catch (error) {
+      return Result.error(error);
+    }
+  }
 }

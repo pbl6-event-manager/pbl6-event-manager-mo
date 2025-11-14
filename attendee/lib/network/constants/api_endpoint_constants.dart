@@ -23,6 +23,9 @@ abstract class ApiEndpointConstants {
 
   static const String ticketByEventId = '/tickets/event/{id}';
 
+  // VOUCHER
+  static const String validateVoucher = '/vouchers/validate';
+
   // ORGANIZERS
   static const String organizerDetail = '/organizers/{id}';
 
