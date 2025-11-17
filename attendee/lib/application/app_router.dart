@@ -16,6 +16,7 @@ import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket/ticket_view.dart';
 import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart';
@@ -104,7 +105,7 @@ final class AppRouter {
   GoRoute get _ticketRoute => GoRoute(
     path: AppRouteEnum.tickets.path,
     name: AppRouteEnum.tickets.name,
-    builder: (context, state) => const Placeholder(),
+    builder: (context, state) => const TicketPage(),
   );
 
   GoRoute get _homeFilterRoute => GoRoute(
