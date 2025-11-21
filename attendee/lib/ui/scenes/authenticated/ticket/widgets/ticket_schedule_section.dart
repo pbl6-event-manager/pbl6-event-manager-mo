@@ -1,4 +1,4 @@
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_details.dart';
+import 'package:attendee/domain/models/ticket_details.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_date_column.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class TicketScheduleSection extends StatelessWidget {
   const TicketScheduleSection({super.key, required this.details});
 
-  final TicketDetails details;
+  final TicketDetail details;
 
   @override
   Widget build(BuildContext context) {

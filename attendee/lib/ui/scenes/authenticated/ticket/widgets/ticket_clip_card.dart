@@ -1,4 +1,4 @@
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_details.dart';
+import 'package:attendee/domain/models/ticket_details.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_header.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_location_section.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_qr_section.dart';
@@ -14,7 +14,7 @@ class TicketCard extends StatelessWidget {
     required this.onQrPageChanged,
   });
 
-  final TicketDetails details;
+  final TicketDetail details;
   final ValueChanged<int> onQrPageChanged;
 
   @override

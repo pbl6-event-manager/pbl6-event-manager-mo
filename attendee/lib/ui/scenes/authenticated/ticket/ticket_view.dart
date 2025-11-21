@@ -1,7 +1,7 @@
 import 'package:attendee/domain/models/organizer.dart';
+import 'package:attendee/domain/models/ticket_details.dart';
 import 'package:attendee/ui/common_widgets/ticket_header.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/enums/ticket_option.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_details.dart';
 
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_clip_card.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_option_section.dart';
@@ -24,7 +24,7 @@ class TicketView extends StatelessWidget {
 
   Organizer? get organizer => Organizer.dummyOrganizer;
 
-  TicketDetails get ticketDetails => TicketDetails(
+  TicketDetail get ticketDetails => TicketDetail(
     startDateTime: DateTime.now(),
     endDateTime: DateTime.now(),
     location:

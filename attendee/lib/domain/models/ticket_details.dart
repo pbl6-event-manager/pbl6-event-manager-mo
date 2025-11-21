@@ -1,5 +1,5 @@
-class TicketDetails {
-  TicketDetails({
+class TicketDetail {
+  const TicketDetail({
     required this.startDateTime,
     required this.endDateTime,
     required this.location,
