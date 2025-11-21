@@ -1,4 +1,4 @@
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_details.dart';
+import 'package:attendee/domain/models/ticket_details.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_header.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_location_section.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_qr_section.dart';
@@ -12,10 +12,12 @@ class TicketCard extends StatelessWidget {
     super.key,
     required this.details,
     required this.onQrPageChanged,
+    required this.pageIndexNotifier,
   });
 
-  final TicketDetails details;
+  final TicketDetail details;
   final ValueChanged<int> onQrPageChanged;
+  final ValueNotifier<int> pageIndexNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +30,19 @@ class TicketCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16),
             TicketHeader(details: details),
             if (details.qrCodeImageUrl.isNotEmpty)
               TicketQrSection(
                 imageUrls: details.qrCodeImageUrl,
                 onPageChanged: onQrPageChanged,
+                pageIndexNotifier: pageIndexNotifier,
               ),
             const SizedBox(height: 16),
             TicketScheduleSection(details: details),
             const SizedBox(height: 16),
             TicketLocationSection(location: details.location),
+            const SizedBox(height: 16),
           ],
         ),
       ),

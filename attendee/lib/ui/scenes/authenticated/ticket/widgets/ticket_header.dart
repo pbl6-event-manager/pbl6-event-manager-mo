@@ -1,5 +1,5 @@
+import 'package:attendee/domain/models/ticket_details.dart';
 import 'package:attendee/ui/common_widgets/common_image_widget.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_details.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class TicketHeader extends StatelessWidget {
   const TicketHeader({super.key, required this.details});
 
-  final TicketDetails details;
+  final TicketDetail details;
 
   @override
   Widget build(BuildContext context) {

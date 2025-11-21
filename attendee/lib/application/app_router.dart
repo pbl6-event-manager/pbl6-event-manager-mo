@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/models/event.dart';
+import 'package:attendee/domain/models/ticket_details.dart';
 import 'package:attendee/domain/models/user.dart';
 import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
@@ -16,7 +17,8 @@ import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_view.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket/ticket_detail_view.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_list/tickets_view.dart';
 import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart';
@@ -105,7 +107,20 @@ final class AppRouter {
   GoRoute get _ticketRoute => GoRoute(
     path: AppRouteEnum.tickets.path,
     name: AppRouteEnum.tickets.name,
-    builder: (context, state) => const TicketPage(),
+    builder: (context, state) => const TicketsPage(),
+    routes: [
+      GoRoute(
+        path: AppRouteEnum.ticketDetail.path,
+        name: AppRouteEnum.ticketDetail.name,
+        builder: (context, state) {
+          final TicketDetail? detail = state.extra is TicketDetail
+              ? state.extra as TicketDetail
+              : null;
+
+          return TicketDetailPage(ticketDetail: detail);
+        },
+      ),
+    ],
   );
 
   GoRoute get _homeFilterRoute => GoRoute(

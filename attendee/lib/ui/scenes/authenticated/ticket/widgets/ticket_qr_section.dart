@@ -7,10 +7,12 @@ class TicketQrSection extends StatelessWidget {
     super.key,
     required this.imageUrls,
     required this.onPageChanged,
+    required this.pageIndexNotifier,
   });
 
   final List<String> imageUrls;
   final ValueChanged<int> onPageChanged;
+  final ValueNotifier<int> pageIndexNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class TicketQrSection extends StatelessWidget {
     }
 
     // TODO: Replace with stateful current index once bloc is added
-    const currentPage = 0;
+
     final totalPages = imageUrls.length;
 
     return Column(
@@ -37,7 +39,11 @@ class TicketQrSection extends StatelessWidget {
             onPageChanged: onPageChanged,
           ),
         ),
-        QrPageIndicator(currentPage: currentPage, totalPages: totalPages),
+        ValueListenableBuilder(
+          valueListenable: pageIndexNotifier,
+          builder: (context, value, child) =>
+              QrPageIndicator(currentPage: value, totalPages: totalPages),
+        ),
         const Divider(),
       ],
     );
