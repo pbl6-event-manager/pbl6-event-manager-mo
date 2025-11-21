@@ -8,6 +8,12 @@ extension DateTimeExtension on DateTime {
   // Sun, 21 Sep
   String get shortenDateString => DateFormat('ccc, dd MMM').format(this);
 
+  String get dateStringWithoutYear => DateFormat('dd MMM').format(this);
+
+  String get dateString => DateFormat('ccc, dd MMM yyyy').format(this);
+
+  String get timeString => DateFormat(DateFormat.HOUR_MINUTE).format(this);
+
   // 1 Nov at 13:20 PST
   String get shortString {
     final String dateString = DateFormat('d MMM \'at\' HH:mm').format(this);

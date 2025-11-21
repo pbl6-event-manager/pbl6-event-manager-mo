@@ -1,6 +1,6 @@
 import 'package:attendee/domain/models/organizer.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/bloc/event_detail_bloc.dart';
-import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/organizer_card.dart';
+import 'package:attendee/ui/common_widgets/organizer_card.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -45,4 +45,3 @@ class EventDetailOrganizerSection extends StatelessWidget {
     );
   }
 }
-

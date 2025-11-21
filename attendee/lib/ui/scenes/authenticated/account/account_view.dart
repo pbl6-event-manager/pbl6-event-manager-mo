@@ -7,10 +7,10 @@ import 'package:attendee/domain/repositories/user_repository.dart';
 import 'package:attendee/ui/managers/ui_message_manager.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_navigator.dart';
 import 'package:attendee/ui/scenes/authenticated/account/bloc/account_bloc.dart';
-import 'package:attendee/ui/scenes/authenticated/account/enums/account_options.dart';
+import 'package:attendee/ui/scenes/authenticated/account/enums/account_option.dart';
 import 'package:attendee/ui/scenes/authenticated/account/widgets/account_app_bar.dart';
 import 'package:attendee/ui/scenes/authenticated/account/widgets/account_general_info_card.dart';
-import 'package:attendee/ui/scenes/authenticated/account/widgets/account_option_list.dart';
+import 'package:attendee/ui/common_widgets/option_list.dart';
 import 'package:attendee/ui/scenes/authenticated/account/widgets/app_version_row.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
@@ -138,8 +138,8 @@ class _AccountViewState extends State<AccountView> {
         _buildOptionSectionWithTitle(
           context,
           title: AppStringConstants.account.preferencesSection,
-          child: AccountOptionList<AccountPreferenceOptions>(
-            options: AccountPreferenceOptions.values,
+          child: OptionList<AccountPreferenceOption>(
+            options: AccountPreferenceOption.values,
             onOptionTapped: _onPreferenceOptionTapped,
           ),
         ),
@@ -153,8 +153,8 @@ class _AccountViewState extends State<AccountView> {
         _buildOptionSectionWithTitle(
           context,
           title: AppStringConstants.account.legalSection,
-          child: AccountOptionList<AccountLegalOptions>(
-            options: AccountLegalOptions.values,
+          child: OptionList<AccountLegalOption>(
+            options: AccountLegalOption.values,
             onOptionTapped: _onLegalOptionTapped,
           ),
         ),
@@ -221,30 +221,30 @@ class _AccountViewState extends State<AccountView> {
     );
   }
 
-  void _onPreferenceOptionTapped(AccountPreferenceOptions option) {
+  void _onPreferenceOptionTapped(AccountPreferenceOption option) {
     switch (option) {
-      case AccountPreferenceOptions.interest:
+      case AccountPreferenceOption.interest:
         break;
-      case AccountPreferenceOptions.friends:
+      case AccountPreferenceOption.friends:
         break;
-      case AccountPreferenceOptions.followingOrganizers:
+      case AccountPreferenceOption.followingOrganizers:
         break;
-      case AccountPreferenceOptions.manageNotification:
+      case AccountPreferenceOption.manageNotification:
         break;
-      case AccountPreferenceOptions.linkedAccounts:
+      case AccountPreferenceOption.linkedAccounts:
         break;
     }
   }
 
-  void _onLegalOptionTapped(AccountLegalOptions option) {
+  void _onLegalOptionTapped(AccountLegalOption option) {
     switch (option) {
-      case AccountLegalOptions.termsOfService:
+      case AccountLegalOption.termsOfService:
         break;
-      case AccountLegalOptions.privacy:
+      case AccountLegalOption.privacy:
         break;
-      case AccountLegalOptions.accessibility:
+      case AccountLegalOption.accessibility:
         break;
-      case AccountLegalOptions.cookies:
+      case AccountLegalOption.cookies:
         break;
     }
   }
