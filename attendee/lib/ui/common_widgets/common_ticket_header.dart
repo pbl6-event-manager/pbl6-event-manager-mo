@@ -1,8 +1,8 @@
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:flutter/material.dart';
 
-class TicketHeader extends StatelessWidget {
-  const TicketHeader({
+class CommonTicketHeader extends StatelessWidget {
+  const CommonTicketHeader({
     super.key,
     required this.width,
     this.height = 16,
@@ -10,7 +10,7 @@ class TicketHeader extends StatelessWidget {
     this.borderRadius = UIConstants.cornerRadiusBase,
   }) : isBottomUp = false;
 
-  const TicketHeader.bottomUp({
+  const CommonTicketHeader.bottomUp({
     super.key,
     required this.width,
     this.height = 16,

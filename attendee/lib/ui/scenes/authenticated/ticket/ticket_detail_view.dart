@@ -1,6 +1,7 @@
 import 'package:attendee/domain/models/organizer.dart';
 import 'package:attendee/domain/models/ticket_details.dart';
-import 'package:attendee/ui/common_widgets/ticket_header.dart';
+import 'package:attendee/ui/common_widgets/common_ticket_header.dart';
+import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/scenes/authenticated/ticket/enums/ticket_option.dart';
 
 import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_clip_card.dart';
@@ -10,38 +11,40 @@ import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
-class TicketPage extends StatelessWidget {
-  const TicketPage({super.key});
+class TicketDetailPage extends StatelessWidget {
+  const TicketDetailPage({super.key, required this.ticketDetail});
+  final TicketDetail? ticketDetail;
 
   @override
   Widget build(BuildContext context) {
-    return const TicketView();
+    return ticketDetail == null
+        ? ErrorPage()
+        : TicketDetailView(ticketDetail: ticketDetail!);
   }
 }
 
-class TicketView extends StatelessWidget {
-  const TicketView({super.key});
+class TicketDetailView extends StatefulWidget {
+  const TicketDetailView({super.key, required this.ticketDetail});
+
+  final TicketDetail ticketDetail;
+
+  @override
+  State<TicketDetailView> createState() => _TicketDetailViewState();
+}
+
+class _TicketDetailViewState extends State<TicketDetailView> {
+  late final ValueNotifier<int> pageIndexNotifier = ValueNotifier<int>(0);
 
   Organizer? get organizer => Organizer.dummyOrganizer;
 
-  TicketDetail get ticketDetails => TicketDetail(
-    startDateTime: DateTime.now(),
-    endDateTime: DateTime.now(),
-    location:
-        'Location!fasdjjklfhdaslkjfhasklfhaslkfhaslkdfhdalskfhaslkfhadslkj',
-    eventImageUrl:
-        'https://images.unsplash.com/photo-1763307411477-6bb3254f1496?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    eventName: 'Event name goes here',
-    qrCodeImageUrl: const [
-      'https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png',
-    ],
-  );
+  @override
+  void dispose() {
+    pageIndexNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final ticketDetails = this.ticketDetails;
-    final organizerData = organizer ?? Organizer.dummyOrganizer;
-
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -50,13 +53,17 @@ class TicketView extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            TicketHeader(
+            CommonTicketHeader(
               width: double.infinity,
 
               containerColor: context.colorPalette.surfaceContainer,
             ),
-            TicketCard(details: ticketDetails, onQrPageChanged: _onPageChanged),
-            TicketHeader.bottomUp(
+            TicketCard(
+              details: widget.ticketDetail,
+              onQrPageChanged: _onPageChanged,
+              pageIndexNotifier: pageIndexNotifier,
+            ),
+            CommonTicketHeader.bottomUp(
               width: double.infinity,
               containerColor: context.colorPalette.surfaceContainer,
             ),
@@ -64,11 +71,12 @@ class TicketView extends StatelessWidget {
             TicketOptionSection(onOptionTapped: _onTicketOptionTapped),
             const Divider(),
             const SizedBox(height: 32),
-            TicketOrganizerSection(
-              organizer: organizerData,
-              onContactTapped: _onContactTapped,
-              onFollowTapped: _onFollowTapped,
-            ),
+            if (organizer != null)
+              TicketOrganizerSection(
+                organizer: organizer!,
+                onContactTapped: _onContactTapped,
+                onFollowTapped: _onFollowTapped,
+              ),
             const SizedBox(height: 32),
           ],
         ),
@@ -80,7 +88,9 @@ class TicketView extends StatelessWidget {
 
   void _onFollowTapped() {}
 
-  void _onPageChanged(int value) {}
+  void _onPageChanged(int value) {
+    pageIndexNotifier.value = value;
+  }
 
   void _onTicketOptionTapped(TicketOption option) {}
 }

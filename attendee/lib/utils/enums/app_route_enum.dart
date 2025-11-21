@@ -16,6 +16,8 @@ enum AppRouteEnum {
   homeFilter(path: 'filter'),
 
   tickets(path: '/tickets'),
+  // Extra param: `EventDetail` object
+  ticketDetail(path: 'ticketDetail'),
   account(path: '/account'),
 
   /// Extra: An optional [User] object fetched from account page

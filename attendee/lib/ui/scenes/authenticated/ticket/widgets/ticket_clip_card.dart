@@ -12,10 +12,12 @@ class TicketCard extends StatelessWidget {
     super.key,
     required this.details,
     required this.onQrPageChanged,
+    required this.pageIndexNotifier,
   });
 
   final TicketDetail details;
   final ValueChanged<int> onQrPageChanged;
+  final ValueNotifier<int> pageIndexNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +30,19 @@ class TicketCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16),
             TicketHeader(details: details),
             if (details.qrCodeImageUrl.isNotEmpty)
               TicketQrSection(
                 imageUrls: details.qrCodeImageUrl,
                 onPageChanged: onQrPageChanged,
+                pageIndexNotifier: pageIndexNotifier,
               ),
             const SizedBox(height: 16),
             TicketScheduleSection(details: details),
             const SizedBox(height: 16),
             TicketLocationSection(location: details.location),
+            const SizedBox(height: 16),
           ],
         ),
       ),
