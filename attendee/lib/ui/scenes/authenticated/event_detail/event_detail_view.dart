@@ -53,12 +53,32 @@ class EventDetailPage extends StatelessWidget {
   }
 }
 
-class EventDetailView extends StatelessWidget {
+class EventDetailView extends StatefulWidget {
   const EventDetailView({super.key});
+
+  @override
+  State<EventDetailView> createState() => _EventDetailViewState();
+}
+
+class _EventDetailViewState extends State<EventDetailView> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final navigator = context.read<EventDetailNavigator>();
+    final bloc = context.read<EventDetailBloc>();
     return BlocConsumer<EventDetailBloc, EventDetailState>(
       listener: (context, state) {
         if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
@@ -87,7 +107,7 @@ class EventDetailView extends StatelessWidget {
                 state.status == ViewStatusEnum.initial,
             onPrimaryButtonTapped: () => _onGetTicketTapped(navigator, state),
             dateTimeString: state.event?.startTime?.shortString,
-            pricingString: "Pricing",
+            pricingString: AppStringConstants.eventDetail.pricingLabel,
           ),
           appBar: AppBar(
             actions: [
@@ -110,6 +130,7 @@ class EventDetailView extends StatelessWidget {
                   onRefresh: () async =>
                       context.read<EventDetailBloc>().add(EventDetailRefresh()),
                   child: ListView(
+                    controller: _scrollController,
                     padding: EdgeInsets.only(bottom: 20),
                     children: [
                       if (state.event?.bannerImagePath != null &&
@@ -126,7 +147,8 @@ class EventDetailView extends StatelessWidget {
                             _onCopyAddressTapped(context),
                         onContactTapped: _onContactTapped,
                         onFollowTapped: _onFollowTapped,
-                        onRelatedEventTapped: _onRelatedEventTapped,
+                        onRelatedEventTapped: (event) =>
+                            _onRelatedEventTapped(bloc, event: event),
                       ),
                     ],
                   ),
@@ -140,7 +162,10 @@ class EventDetailView extends StatelessWidget {
 
   void _onContactTapped() {}
 
-  void _onRelatedEventTapped(Event event) {}
+  void _onRelatedEventTapped(EventDetailBloc bloc, {required Event event}) {
+    bloc.add(EventDetailLoad(eventId: event.id, event: event));
+    _scrollController.jumpTo(0);
+  }
 
   void _onFavouriteTapped(BuildContext context) {
     final bloc = context.read<EventDetailBloc>();

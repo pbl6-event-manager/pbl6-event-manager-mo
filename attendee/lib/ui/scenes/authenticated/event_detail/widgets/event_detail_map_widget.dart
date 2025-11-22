@@ -17,6 +17,17 @@ class _EventDetailMapWidgetState extends State<EventDetailMapWidget> {
   bool _styleLoaded = false;
 
   @override
+  void didUpdateWidget(covariant EventDetailMapWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final hasCoordinateChanged =
+        oldWidget.coordinates.lat != widget.coordinates.lat ||
+        oldWidget.coordinates.long != widget.coordinates.long;
+    if (hasCoordinateChanged) {
+      _moveCameraToNewCoordinates();
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
   }
@@ -87,6 +98,22 @@ class _EventDetailMapWidgetState extends State<EventDetailMapWidget> {
         color: context.colorPalette.branding,
       ),
       latLng: LatLng(widget.coordinates.lat, widget.coordinates.long),
+    );
+  }
+
+  Future<void> _moveCameraToNewCoordinates() async {
+    final controller = _controller;
+    if (controller == null || !_styleLoaded) {
+      return;
+    }
+
+    final target = LatLng(widget.coordinates.lat, widget.coordinates.long);
+    final currentZoom = controller.cameraPosition?.zoom ?? 15;
+
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: target, zoom: currentZoom),
+      ),
     );
   }
 }

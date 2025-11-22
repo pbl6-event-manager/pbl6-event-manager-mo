@@ -67,11 +67,11 @@ class _BookingViewState extends State<BookingView> {
         final String pricingLabel = '\$${payableTotal.toStringAsFixed(2)}';
         return Scaffold(
           bottomNavigationBar: EventDetailBottomBar.expanded(
-            primaryButtonLabel: AppStringConstants.booking.registerButton,
+            primaryButtonLabel: AppStringConstants.booking.continueButton,
             onPrimaryButtonTapped: state.totalTicketCount == 0
                 ? null
                 : () =>
-                      _onRegisterTapped(bloc, context.read<BookingNavigator>()),
+                      _onContinueTapped(bloc, context.read<BookingNavigator>()),
             dateTimeString: null,
             pricingString: pricingLabel,
             isHidden: false,
@@ -147,10 +147,11 @@ class _BookingViewState extends State<BookingView> {
     bloc.add(BookingEventTicketAddedByOne(ticketId: id));
   }
 
-  void _onRegisterTapped(BookingBloc bloc, BookingNavigator navigator) {
+  void _onContinueTapped(BookingBloc bloc, BookingNavigator navigator) {
     if (bloc.state.isRegisterSubmitting || bloc.state.totalTicketCount == 0) {
       return;
     }
+    bloc.add(BookingEventContinueTapped());
     navigator.goToCheckout(bloc: bloc);
   }
 }

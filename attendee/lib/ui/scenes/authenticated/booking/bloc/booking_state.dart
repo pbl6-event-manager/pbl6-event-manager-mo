@@ -13,6 +13,7 @@ final class BookingState extends Equatable {
     required this.tickets,
     required this.quantityPerTicketMap,
     required this.discountedTotalPricing,
+    required this.attendeeInfoMap,
   });
   const BookingState.initial()
     : status = ViewStatusEnum.initial,
@@ -25,7 +26,8 @@ final class BookingState extends Equatable {
       event = null,
       tickets = const [],
       quantityPerTicketMap = const {},
-      discountedTotalPricing = null;
+      discountedTotalPricing = null,
+      attendeeInfoMap = const {};
   final ViewStatusEnum status;
   final String? errorMessage;
   final String? promoCodeFieldErrorLabel;
@@ -38,8 +40,21 @@ final class BookingState extends Equatable {
   // Map{ticket id, quantity}
   final Map<int, int> quantityPerTicketMap;
   final double? discountedTotalPricing;
+  final Map<String, TicketAttendeeInfo> attendeeInfoMap;
 
   int get totalTicketCount => quantityPerTicketMap.values.sum;
+
+  List<Ticket> get selectedTickets {
+    List<Ticket> selected = [];
+
+    for (var ticket in tickets) {
+      selected.addAll(
+        List<Ticket>.filled(quantityPerTicketMap[ticket.id] ?? 0, ticket),
+      );
+    }
+
+    return selected;
+  }
 
   double get currentTotalPricing => tickets
       .where((ticket) => ticket.type == TicketType.paid)
@@ -77,6 +92,7 @@ final class BookingState extends Equatable {
     List<Ticket>? tickets,
     Map<int, int>? quantityPerTicketMap,
     Nullable<double>? discountedTotalPricing,
+    Map<String, TicketAttendeeInfo>? attendeeInfoMap,
   }) {
     return BookingState(
       status: status ?? this.status,
@@ -95,8 +111,60 @@ final class BookingState extends Equatable {
       discountedTotalPricing: discountedTotalPricing != null
           ? discountedTotalPricing.value
           : this.discountedTotalPricing,
+      attendeeInfoMap: attendeeInfoMap ?? this.attendeeInfoMap,
     );
   }
+
+  List<({Ticket ticket, String slotKey})> get selectedTicketSlots {
+    final List<({Ticket ticket, String slotKey})> slots = [];
+    for (final ticket in tickets) {
+      final count = quantityPerTicketMap[ticket.id] ?? 0;
+      for (var occurrence = 0; occurrence < count; occurrence++) {
+        slots.add((
+          ticket: ticket,
+          slotKey: BookingState.slotKeyFor(
+            ticketId: ticket.id,
+            occurrence: occurrence,
+          ),
+        ));
+      }
+    }
+    return slots;
+  }
+
+  TicketAttendeeInfo? attendeeInfoForSlot(String slotKey) =>
+      attendeeInfoMap[slotKey];
+
+  TicketAttendeeInfo? attendeeInfoForIndex(int index) {
+    final slots = selectedTicketSlots;
+    if (index < 0 || index >= slots.length) {
+      return null;
+    }
+    return attendeeInfoMap[slots[index].slotKey];
+  }
+
+  String? slotKeyForIndex(int index) {
+    final slots = selectedTicketSlots;
+    if (index < 0 || index >= slots.length) {
+      return null;
+    }
+    return slots[index].slotKey;
+  }
+
+  bool get areAllAttendeesReady {
+    final requiredKeys = selectedTicketSlots
+        .map((slot) => slot.slotKey)
+        .toList();
+    if (requiredKeys.isEmpty) {
+      return false;
+    }
+    return requiredKeys.every(
+      (key) => (attendeeInfoMap[key]?.isComplete ?? false),
+    );
+  }
+
+  static String slotKeyFor({required int ticketId, required int occurrence}) =>
+      '$ticketId-$occurrence';
 
   @override
   List<Object?> get props => [
@@ -111,5 +179,6 @@ final class BookingState extends Equatable {
     tickets,
     quantityPerTicketMap,
     discountedTotalPricing,
+    attendeeInfoMap,
   ];
 }

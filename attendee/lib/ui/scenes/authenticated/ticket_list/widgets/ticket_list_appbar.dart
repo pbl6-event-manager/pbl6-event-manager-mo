@@ -1,3 +1,4 @@
+import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
@@ -13,7 +14,10 @@ class TicketListAppbar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors.transparent,
       title: Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 10),
-        child: Text("Tickets", style: context.textPalette.displayMedium),
+        child: Text(
+          AppStringConstants.ticket.ticketLabel,
+          style: context.textPalette.displayMedium,
+        ),
       ),
       actionsPadding: EdgeInsets.only(
         right: UIConstants.horizontalPadding,

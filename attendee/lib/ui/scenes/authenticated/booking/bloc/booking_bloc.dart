@@ -1,5 +1,6 @@
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/ticket.dart';
+import 'package:attendee/domain/models/ticket_attendee_info.dart';
 import 'package:attendee/domain/repositories/ticket_repository.dart';
 import 'package:attendee/domain/usecases/validate_voucher_usecase.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
@@ -28,6 +29,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<BookingPromoCodeSubmitTapped>(_onPromoCodeSubmitted);
     on<BookingPromoCodeCleared>(_onPromoCodeCleared);
     on<BookingEventRegisteredTapped>(_onRegisterTapped);
+    on<BookingAttendeeInfoChanged>(_onAttendeeInfoChanged);
+    on<BookingEventContinueTapped>(_onContinueTapped);
   }
 
   Future<void> _onLoaded(
@@ -56,6 +59,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             },
             status: ViewStatusEnum.success,
             isBookingSuccess: false,
+            attendeeInfoMap: const {},
           ),
         );
 
@@ -203,11 +207,29 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
+  void _onContinueTapped(
+    BookingEventContinueTapped event,
+    Emitter<BookingState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        attendeeInfoMap: _pruneAttendeeInfo(
+          currentInfo: state.attendeeInfoMap,
+          quantityPerTicketMap: state.quantityPerTicketMap,
+          tickets: state.tickets,
+        ),
+      ),
+    );
+  }
+
   Future<void> _onRegisterTapped(
     BookingEventRegisteredTapped event,
     Emitter<BookingState> emit,
   ) async {
     if (state.isRegisterSubmitting || state.totalTicketCount == 0) {
+      return;
+    }
+    if (!state.areAllAttendeesReady) {
       return;
     }
 
@@ -230,5 +252,54 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         isBookingSuccess: false,
       ),
     );
+  }
+
+  void _onAttendeeInfoChanged(
+    BookingAttendeeInfoChanged event,
+    Emitter<BookingState> emit,
+  ) {
+    final updatedMap = Map<String, TicketAttendeeInfo>.from(
+      state.attendeeInfoMap,
+    );
+    final trimmedName = event.name;
+    final trimmedEmail = event.email;
+
+    if (trimmedName.isEmpty && trimmedEmail.isEmpty) {
+      updatedMap.remove(event.slotKey);
+    } else {
+      updatedMap[event.slotKey] = TicketAttendeeInfo(
+        name: trimmedName,
+        email: trimmedEmail,
+      );
+    }
+
+    emit(state.copyWith(attendeeInfoMap: updatedMap));
+  }
+
+  /// Returns map of slot id and it's respective info
+  ///
+  /// Per each available ticket, see if it has any selection,
+  /// if yes => add slot to [allowedKeys]
+  ///
+  /// On the current list, if there is an existing [allowedKeys] => copy over the new list
+  Map<String, TicketAttendeeInfo> _pruneAttendeeInfo({
+    required Map<String, TicketAttendeeInfo> currentInfo,
+    required Map<int, int> quantityPerTicketMap,
+    required List<Ticket> tickets,
+  }) {
+    final allowedKeys = <String>{};
+    for (final ticket in tickets) {
+      final count = quantityPerTicketMap[ticket.id] ?? 0;
+      for (var occurrence = 0; occurrence < count; occurrence++) {
+        allowedKeys.add(
+          BookingState.slotKeyFor(ticketId: ticket.id, occurrence: occurrence),
+        );
+      }
+    }
+
+    return {
+      for (final entry in currentInfo.entries)
+        if (allowedKeys.contains(entry.key)) entry.key: entry.value,
+    };
   }
 }

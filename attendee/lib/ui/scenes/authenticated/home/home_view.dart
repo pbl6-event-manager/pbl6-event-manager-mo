@@ -86,15 +86,24 @@ class HomeView extends StatelessWidget {
                       onTapped: (event) =>
                           _onEventTapped(context, event: event),
                       isLoading: isLoading,
-                      events: state.events,
+                      events: (state.events.length > 3)
+                          ? state.events.sublist(0, 3)
+                          : state.events,
                     ),
                   ),
 
-                HomeEventSection(
-                  isLoading: isLoading,
-                  events: state.events,
-                  onTapped: (event) => _onEventTapped(context, event: event),
-                ),
+                if (state.events.length > 3)
+                  ..._buildListSectionWithTitle(
+                    context,
+                    title: AppStringConstants.home.highlighedEvents,
+
+                    contentWidget: HomeEventSection(
+                      isLoading: isLoading,
+                      events: state.events.sublist(3),
+                      onTapped: (event) =>
+                          _onEventTapped(context, event: event),
+                    ),
+                  ),
               ],
             ),
           ),
