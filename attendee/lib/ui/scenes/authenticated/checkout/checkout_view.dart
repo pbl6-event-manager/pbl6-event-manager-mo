@@ -3,6 +3,7 @@ import 'package:attendee/domain/models/ticket.dart';
 import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/checkout/widgets/ticket_info_expansion_widget.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
@@ -43,9 +44,6 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   void dispose() {
-    if (mounted) {
-      context.read<BookingBloc>().add(const BookingPromoCodeCleared());
-    }
     _promoCodeController
       ..removeListener(_onPromoCodeChanged)
       ..dispose();
@@ -76,7 +74,21 @@ class _CheckoutViewState extends State<CheckoutView> {
     if (bloc.state.isRegisterSubmitting || bloc.state.totalTicketCount == 0) {
       return;
     }
+    if (!bloc.state.areAllAttendeesReady) {
+      return;
+    }
     bloc.add(const BookingEventRegisteredTapped());
+  }
+
+  void _onAttendeeFieldsChanged({
+    required BookingBloc bloc,
+    required String slotKey,
+    required String name,
+    required String email,
+  }) {
+    bloc.add(
+      BookingAttendeeInfoChanged(slotKey: slotKey, name: name, email: email),
+    );
   }
 
   @override
@@ -109,7 +121,8 @@ class _CheckoutViewState extends State<CheckoutView> {
           ),
           bottomNavigationBar: EventDetailBottomBar.expanded(
             primaryButtonLabel: AppStringConstants.booking.registerButton,
-            onPrimaryButtonTapped: state.totalTicketCount == 0
+            onPrimaryButtonTapped:
+                state.totalTicketCount == 0 || !state.areAllAttendeesReady
                 ? null
                 : () => _onCompleteRegistration(bloc),
             dateTimeString: null,
@@ -130,6 +143,24 @@ class _CheckoutViewState extends State<CheckoutView> {
               const SizedBox(height: 16),
               ..._buildSelectedTicketSummary(context, state),
               const SizedBox(height: 32),
+              Text(
+                AppStringConstants.checkout.ticketInformationTitle,
+                style: context.textPalette.headlineLarge,
+              ),
+              const SizedBox(height: 16),
+              ..._buildTicketInformationList(context, state, bloc),
+              if (state.totalTicketCount > 0 && !state.areAllAttendeesReady)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Text(
+                    AppStringConstants.checkout.attendeeInfoIncompleteHelper,
+                    style: context.textPalette.bodyMedium.copyWith(
+                      color: context.colorPalette.error,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 32),
+
               Text(
                 AppStringConstants.checkout.paymentMethodSectionTitle,
                 style: context.textPalette.headlineLarge,
@@ -197,6 +228,41 @@ class _CheckoutViewState extends State<CheckoutView> {
         );
       },
     );
+  }
+
+  List<Widget> _buildTicketInformationList(
+    BuildContext context,
+    BookingState state,
+    BookingBloc bloc,
+  ) {
+    final slots = state.selectedTicketSlots;
+    if (slots.isEmpty) {
+      return [
+        Text(
+          AppStringConstants.checkout.noTicketsSelectedLabel,
+          style: context.textPalette.bodyMedium,
+        ),
+      ];
+    }
+
+    return slots.asMap().entries.map((entry) {
+      final index = entry.key;
+      final slot = entry.value;
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: TicketInfoExpansionWidget(
+          ticket: slot.ticket,
+          index: index,
+          attendeeInfo: state.attendeeInfoForSlot(slot.slotKey),
+          onChanged: (name, email) => _onAttendeeFieldsChanged(
+            bloc: bloc,
+            slotKey: slot.slotKey,
+            name: name,
+            email: email,
+          ),
+        ),
+      );
+    }).toList();
   }
 
   List<Widget> _buildSelectedTicketSummary(

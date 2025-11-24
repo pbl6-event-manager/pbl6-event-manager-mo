@@ -59,6 +59,7 @@ final class TextFieldAppStrings {
   String get confirmEmailPlaceholder => 'Confirm email address';
   String get firstNamePlaceholder => 'First name';
   String get lastNamePlaceholder => 'Last name';
+  String get namePlaceholder => 'Name';
   String get phoneNumberPlaceHolder => 'Phone number';
 
   String get emailValidationError => 'Please enter a valid email address';
@@ -123,6 +124,7 @@ final class HomeAppStrings {
   String searchAppBarTitle(String location) => 'In $location';
 
   String get personalizedEvents => 'Events for you';
+  String get highlighedEvents => 'Highlighted events';
 }
 
 final class HomeSearchAppStrings {
@@ -215,6 +217,7 @@ final class EventDetailAppStrings {
 
   // Payment
   String get getTicketButton => 'Get ticket';
+  String get pricingLabel => 'Pricing';
 }
 
 final class BookingAppStrings {
@@ -222,6 +225,7 @@ final class BookingAppStrings {
 
   // Buttons
   String get registerButton => 'Register';
+  String get continueButton => 'Continue';
   String get applyButton => 'Apply';
 
   String get showMoreButton => 'Show more';
@@ -247,6 +251,12 @@ final class CheckoutAppStrings {
   String get stripePaymentLabel => 'Stripe';
   String get promoCodeSectionTitle => 'Promo code';
   String get clearButtonLabel => 'Clear';
+  String get ticketInformationTitle => 'Ticket information';
+  String get attendeeNameRequiredError => 'Attendee name is required';
+  String get attendeeEmailRequiredError => 'Attendee email is required';
+  String get attendeeInfoIncompleteHelper =>
+      'Enter attendee info for every ticket to continue.';
+  String get noTicketsSelectedLabel => 'No tickets selected yet.';
 
   String discountedPricingLabel({
     required double payableAmount,
@@ -279,6 +289,7 @@ final class CheckoutSuccessAppStrings {
 final class TicketAppStrings {
   const TicketAppStrings._();
 
+  String get ticketLabel => 'Ticket';
   String get organizerSectionTitle => 'Organized by';
   String get locationSectionTitle => 'Location';
   String get scheduleSectionTitle => 'Date and time';

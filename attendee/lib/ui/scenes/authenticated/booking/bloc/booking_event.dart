@@ -13,6 +13,10 @@ final class BookingEventLoaded extends BookingEvent {
   const BookingEventLoaded({required this.event});
 }
 
+final class BookingEventContinueTapped extends BookingEvent {
+  const BookingEventContinueTapped();
+}
+
 final class BookingEventTicketAddedByOne extends BookingEvent {
   final int ticketId;
 
@@ -36,4 +40,16 @@ final class BookingPromoCodeSubmitTapped extends BookingEvent {
 
 final class BookingPromoCodeCleared extends BookingEvent {
   const BookingPromoCodeCleared();
+}
+
+final class BookingAttendeeInfoChanged extends BookingEvent {
+  final String slotKey;
+  final String name;
+  final String email;
+
+  const BookingAttendeeInfoChanged({
+    required this.slotKey,
+    required this.name,
+    required this.email,
+  });
 }

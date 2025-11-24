@@ -95,7 +95,9 @@ class CheckoutSuccessView extends StatelessWidget {
     );
   }
 
-  void _onViewTicketTapped() {}
+  void _onViewTicketTapped() {
+    GetIt.instance<AppRouter>().router.goNamed(AppRouteEnum.tickets.name);
+  }
 
   void _onReturnToHomeTapped() {
     GetIt.instance<AppRouter>().router.goNamed(AppRouteEnum.home.name);
