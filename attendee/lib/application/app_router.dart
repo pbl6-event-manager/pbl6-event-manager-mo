@@ -187,8 +187,14 @@ final class AppRouter {
   GoRoute get _checkoutSuccess => GoRoute(
     path: AppRouteEnum.checkoutSuccess.path,
     name: AppRouteEnum.checkoutSuccess.name,
-    pageBuilder: (context, state) =>
-        NoTransitionPage(child: CheckoutSuccessPage()),
+    pageBuilder: (context, state) {
+      final String? sessionId =
+          state.uri.queryParameters['session_id'] is String
+          ? state.uri.queryParameters['session_id'] as String
+          : null;
+
+      return NoTransitionPage(child: CheckoutSuccessPage(sessionId: sessionId));
+    },
   );
 
   // ACCOUNT ROUTE

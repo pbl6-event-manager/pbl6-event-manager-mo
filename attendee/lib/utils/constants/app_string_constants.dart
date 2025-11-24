@@ -87,6 +87,8 @@ final class ErrorPageAppStrings {
   String get defaultTitle => 'Oops! Something went wrong';
   String get defaultMessage =>
       'We encountered an unexpected error. Please try again later.';
+
+  String get tryAgain => 'Try again';
 }
 
 final class SignInAppStrings {

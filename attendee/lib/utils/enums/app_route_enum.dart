@@ -2,7 +2,7 @@ enum AppRouteEnum {
   auth(path: '/auth'),
   signIn(path: 'signIn'),
   signUp(path: 'signUp'),
-  home(path: '/home'),
+  home(path: '/'),
 
   /// Contains query param `{"isUsingCurrentLocation": bool}`
   /// - "isUsingCurrentLocation": is using device's GPS to search
@@ -37,7 +37,9 @@ enum AppRouteEnum {
 
   /// CHECKOUT
   checkout(path: '/checkout'),
-  checkoutSuccess(path: '/checkoutSuccess');
+
+  /// Query parameter: `{"session_id": string}`
+  checkoutSuccess(path: '/success');
 
   final String path;
   const AppRouteEnum({required this.path});

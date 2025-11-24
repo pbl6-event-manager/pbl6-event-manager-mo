@@ -2,7 +2,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven(url = uri("https://jitpack.io"))
     }
 }
 
@@ -24,4 +24,3 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
-maven { url "https://jitpack.io" }
