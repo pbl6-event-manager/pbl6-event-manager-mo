@@ -4,11 +4,19 @@ import 'package:flutter/material.dart';
 
 /// A generic error page widget that displays an error title and message
 class ErrorPage extends StatelessWidget {
-  const ErrorPage({super.key, this.title, this.message});
+  const ErrorPage({
+    super.key,
+    this.title,
+    this.message,
+    this.buttonTitle,
+    this.onButtonTapped,
+  });
 
   final String? title;
   final String? message;
+  final String? buttonTitle;
 
+  final VoidCallback? onButtonTapped;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +50,15 @@ class ErrorPage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+
+                SizedBox(height: 16),
+                if (onButtonTapped != null)
+                  FilledButton(
+                    onPressed: onButtonTapped,
+                    child: Text(
+                      buttonTitle ?? AppStringConstants.errorPage.tryAgain,
+                    ),
+                  ),
               ],
             ),
           ),
