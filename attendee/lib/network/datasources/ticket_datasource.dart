@@ -16,4 +16,8 @@ abstract class TicketDatasource {
   Future<HttpResponse> validateVoucher({
     @Body() required Map<String, dynamic> data,
   });
+
+  @POST(ApiEndpointConstants.bookingTicket)
+  // TODO: RETURN PAYMENT LINK LATER
+  Future<HttpResponse> placeOrder({@Body() required Map<String, dynamic> data});
 }

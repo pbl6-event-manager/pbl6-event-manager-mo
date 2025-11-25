@@ -3,6 +3,7 @@ import 'package:attendee/domain/models/ticket.dart';
 import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
 import 'package:attendee/ui/scenes/authenticated/booking/bloc/booking_bloc.dart';
+import 'package:attendee/ui/scenes/authenticated/checkout/checkout_navigator.dart';
 import 'package:attendee/ui/scenes/authenticated/checkout/widgets/ticket_info_expansion_widget.dart';
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
@@ -20,7 +21,17 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(value: bookingBloc, child: const CheckoutView());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: bookingBloc),
+        RepositoryProvider<CheckoutNavigator>(
+          create: (context) => CheckoutNavigatorImplementation(
+            goRouter: GetIt.instance<AppRouter>().router,
+          ),
+        ),
+      ],
+      child: const CheckoutView(),
+    );
   }
 }
 
@@ -70,37 +81,42 @@ class _CheckoutViewState extends State<CheckoutView> {
     bloc.add(const BookingPromoCodeCleared());
   }
 
-  void _onCompleteRegistration(BookingBloc bloc) {
+  void _onCompleteRegistration(BookingBloc bloc, CheckoutNavigator navigator) {
     if (bloc.state.isRegisterSubmitting || bloc.state.totalTicketCount == 0) {
       return;
     }
     if (!bloc.state.areAllAttendeesReady) {
       return;
     }
-    bloc.add(const BookingEventRegisteredTapped());
+    bloc.add(
+      BookingEventRegisteredTapped(
+        (url) => navigator.goToExternalBrowser(withURL: url),
+      ),
+    );
   }
 
   void _onAttendeeFieldsChanged({
     required BookingBloc bloc,
     required String slotKey,
+    required int ticketId,
     required String name,
     required String email,
+    required double price,
   }) {
     bloc.add(
-      BookingAttendeeInfoChanged(slotKey: slotKey, name: name, email: email),
+      BookingAttendeeInfoChanged(
+        slotKey: slotKey,
+        ticketId: ticketId,
+        name: name,
+        email: email,
+        price: price,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BookingBloc, BookingState>(
-      listener: (context, state) {
-        if (state.isBookingSuccess) {
-          GetIt.instance<AppRouter>().router.goNamed(
-            AppRouteEnum.checkoutSuccess.name,
-          );
-        }
-      },
+    return BlocBuilder<BookingBloc, BookingState>(
       builder: (context, state) {
         final BookingBloc bloc = context.read<BookingBloc>();
         final bool hasDiscount = state.currentDiscountPercentage > 0;
@@ -124,7 +140,10 @@ class _CheckoutViewState extends State<CheckoutView> {
             onPrimaryButtonTapped:
                 state.totalTicketCount == 0 || !state.areAllAttendeesReady
                 ? null
-                : () => _onCompleteRegistration(bloc),
+                : () => _onCompleteRegistration(
+                    bloc,
+                    context.read<CheckoutNavigator>(),
+                  ),
             dateTimeString: null,
             pricingString: pricingLabel,
             isHidden: false,
@@ -257,8 +276,10 @@ class _CheckoutViewState extends State<CheckoutView> {
           onChanged: (name, email) => _onAttendeeFieldsChanged(
             bloc: bloc,
             slotKey: slot.slotKey,
+            ticketId: slot.ticket.id,
             name: name,
             email: email,
+            price: slot.ticket.price,
           ),
         ),
       );

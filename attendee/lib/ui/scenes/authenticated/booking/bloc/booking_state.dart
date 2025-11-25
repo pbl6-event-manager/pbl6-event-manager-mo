@@ -14,6 +14,7 @@ final class BookingState extends Equatable {
     required this.quantityPerTicketMap,
     required this.discountedTotalPricing,
     required this.attendeeInfoMap,
+    required this.voucherCode,
   });
   const BookingState.initial()
     : status = ViewStatusEnum.initial,
@@ -27,7 +28,8 @@ final class BookingState extends Equatable {
       tickets = const [],
       quantityPerTicketMap = const {},
       discountedTotalPricing = null,
-      attendeeInfoMap = const {};
+      attendeeInfoMap = const {},
+      voucherCode = null;
   final ViewStatusEnum status;
   final String? errorMessage;
   final String? promoCodeFieldErrorLabel;
@@ -41,6 +43,7 @@ final class BookingState extends Equatable {
   final Map<int, int> quantityPerTicketMap;
   final double? discountedTotalPricing;
   final Map<String, TicketAttendeeInfo> attendeeInfoMap;
+  final String? voucherCode;
 
   int get totalTicketCount => quantityPerTicketMap.values.sum;
 
@@ -93,6 +96,7 @@ final class BookingState extends Equatable {
     Map<int, int>? quantityPerTicketMap,
     Nullable<double>? discountedTotalPricing,
     Map<String, TicketAttendeeInfo>? attendeeInfoMap,
+    Nullable<String>? voucherCode,
   }) {
     return BookingState(
       status: status ?? this.status,
@@ -112,6 +116,7 @@ final class BookingState extends Equatable {
           ? discountedTotalPricing.value
           : this.discountedTotalPricing,
       attendeeInfoMap: attendeeInfoMap ?? this.attendeeInfoMap,
+      voucherCode: voucherCode != null ? voucherCode.value : this.voucherCode,
     );
   }
 
@@ -180,5 +185,6 @@ final class BookingState extends Equatable {
     quantityPerTicketMap,
     discountedTotalPricing,
     attendeeInfoMap,
+    voucherCode,
   ];
 }

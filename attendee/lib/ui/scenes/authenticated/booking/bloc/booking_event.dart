@@ -30,7 +30,8 @@ final class BookingEventTicketRemovedByOne extends BookingEvent {
 }
 
 final class BookingEventRegisteredTapped extends BookingEvent {
-  const BookingEventRegisteredTapped();
+  final void Function(String url) onUrlReturned;
+  const BookingEventRegisteredTapped(this.onUrlReturned);
 }
 
 final class BookingPromoCodeSubmitTapped extends BookingEvent {
@@ -44,12 +45,16 @@ final class BookingPromoCodeCleared extends BookingEvent {
 
 final class BookingAttendeeInfoChanged extends BookingEvent {
   final String slotKey;
+  final int ticketId;
   final String name;
   final String email;
+  final double price;
 
   const BookingAttendeeInfoChanged({
     required this.slotKey,
+    required this.ticketId,
     required this.name,
     required this.email,
+    required this.price,
   });
 }

@@ -1,20 +1,40 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'ticket_attendee_info.g.dart';
+
+@JsonSerializable(createFactory: false)
 class TicketAttendeeInfo extends Equatable {
-  const TicketAttendeeInfo({required this.name, required this.email});
+  const TicketAttendeeInfo({
+    required this.ticketId,
+    required this.fullName,
+    required this.email,
+    required this.price,
+  });
 
-  final String name;
+  final int ticketId;
+  final String fullName;
   final String email;
+  final double price;
 
-  bool get isComplete => name.trim().isNotEmpty && email.trim().isNotEmpty;
+  bool get isComplete => fullName.trim().isNotEmpty && email.trim().isNotEmpty;
 
-  TicketAttendeeInfo copyWith({String? name, String? email}) {
+  TicketAttendeeInfo copyWith({
+    int? ticketId,
+    String? fullName,
+    String? email,
+    double? price,
+  }) {
     return TicketAttendeeInfo(
-      name: name ?? this.name,
+      ticketId: ticketId ?? this.ticketId,
+      fullName: fullName ?? this.fullName,
       email: email ?? this.email,
+      price: price ?? this.price,
     );
   }
 
   @override
-  List<Object?> get props => [name, email];
+  List<Object?> get props => [ticketId, fullName, email, price];
+
+  Map<String, dynamic> toJson() => _$TicketAttendeeInfoToJson(this);
 }

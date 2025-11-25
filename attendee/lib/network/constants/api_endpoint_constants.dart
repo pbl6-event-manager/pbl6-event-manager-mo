@@ -29,6 +29,9 @@ abstract class ApiEndpointConstants {
   // ORGANIZERS
   static const String organizerDetail = '/organizers/{id}';
 
+  // BOOKING TICKET
+  static const String bookingTicket = '/orders';
+
   // External APIs
   static const String locationBaseUrl = 'https://countriesnow.space/api/v0.1';
   static const String locationCityList = '/countries/cities/q';
