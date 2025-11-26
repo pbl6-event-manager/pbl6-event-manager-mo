@@ -31,6 +31,7 @@ abstract class ApiEndpointConstants {
 
   // BOOKING TICKET
   static const String bookingTicket = '/orders';
+  static const String orderValidation = '/orders/status/{id}';
 
   // External APIs
   static const String locationBaseUrl = 'https://countriesnow.space/api/v0.1';

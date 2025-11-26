@@ -8,7 +8,6 @@ import 'package:attendee/ui/scenes/authenticated/checkout/widgets/ticket_info_ex
 import 'package:attendee/ui/scenes/authenticated/event_detail/widgets/event_detail_bottom_bar.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
-import 'package:attendee/utils/enums/app_route_enum.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

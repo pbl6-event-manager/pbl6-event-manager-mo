@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/ticket.dart';
 import 'package:attendee/domain/models/ticket_attendee_info.dart';

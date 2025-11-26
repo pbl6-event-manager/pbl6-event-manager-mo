@@ -1,4 +1,5 @@
 import 'package:attendee/application/app_router.dart';
+import 'package:attendee/domain/repositories/ticket_repository.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
 import 'package:attendee/ui/scenes/authenticated/checkout_success/bloc/checkout_success_bloc.dart';
 import 'package:attendee/ui/scenes/authenticated/checkout_success/checkout_success_navigator.dart';
@@ -13,12 +14,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class CheckoutSuccessPage extends StatelessWidget {
-  const CheckoutSuccessPage({super.key, required this.sessionId});
+  const CheckoutSuccessPage({
+    super.key,
+    required this.sessionId,
+    required this.isFree,
+  });
   final String? sessionId;
+  final bool? isFree;
 
   @override
   Widget build(BuildContext context) {
-    if (sessionId == null || sessionId!.trim().isEmpty) {
+    if ((sessionId == null || sessionId!.trim().isEmpty) && isFree == null) {
       return ErrorPage(
         onButtonTapped: _goToHome,
         buttonTitle: AppStringConstants.checkoutSuccess.returnHomeButtonLabel,
@@ -28,9 +34,11 @@ class CheckoutSuccessPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              CheckoutSuccessBloc(sessionId: sessionId!)
-                ..add(const CheckoutSuccessValidateRequested()),
+          create: (_) => CheckoutSuccessBloc(
+            isFree: isFree ?? false,
+            GetIt.instance<TicketRepository>(),
+            sessionId: sessionId ?? '',
+          )..add(const CheckoutSuccessValidateRequested()),
         ),
         RepositoryProvider<CheckoutSuccessNavigator>(
           create: (context) => CheckoutSuccessNavigatorImplementation(

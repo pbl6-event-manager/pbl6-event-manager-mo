@@ -18,4 +18,6 @@ abstract class TicketRepository {
     double? discountedTotalPrice,
     String? voucherCode,
   });
+
+  Future<Result<void>> validateOrder({required String sessionId});
 }

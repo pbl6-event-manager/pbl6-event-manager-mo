@@ -18,6 +18,8 @@ abstract class TicketDatasource {
   });
 
   @POST(ApiEndpointConstants.bookingTicket)
-  // TODO: RETURN PAYMENT LINK LATER
   Future<HttpResponse> placeOrder({@Body() required Map<String, dynamic> data});
+
+  @GET(ApiEndpointConstants.orderValidation)
+  Future<void> validateOrder({@Path('id') required String sessionId});
 }

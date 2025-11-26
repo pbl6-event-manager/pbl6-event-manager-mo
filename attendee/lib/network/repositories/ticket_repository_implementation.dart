@@ -84,4 +84,14 @@ final class TicketRepositoryImplementation implements TicketRepository {
       return Result.error(error);
     }
   }
+
+  @override
+  Future<Result<void>> validateOrder({required String sessionId}) async {
+    try {
+      await _datasource.validateOrder(sessionId: sessionId);
+      return Result.ok(null);
+    } catch (error) {
+      return Result.error(error);
+    }
+  }
 }
