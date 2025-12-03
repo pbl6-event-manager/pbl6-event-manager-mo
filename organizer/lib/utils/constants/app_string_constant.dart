@@ -2,6 +2,7 @@ abstract class AppStringConstant {
   static ButtonAppStrings get buttons => ButtonAppStrings._();
   static TextFieldAppStrings get textFields => TextFieldAppStrings._();
   static GenericErrorAppStrings get genericErrors => GenericErrorAppStrings._();
+  static ErrorPageAppStrings get errorPage => ErrorPageAppStrings._();
   static SignInAppStrings get signIn => SignInAppStrings._();
 }
 
@@ -55,4 +56,14 @@ final class SignInAppStrings {
 
   // Temporary placeholder for the error banner
   String get errorBanner => 'Cannot sign in, please try again.';
+}
+
+final class ErrorPageAppStrings {
+  const ErrorPageAppStrings._();
+
+  String get defaultTitle => 'Oops! Something went wrong';
+  String get defaultMessage =>
+      'We encountered an unexpected error. Please try again later.';
+
+  String get tryAgain => 'Try again';
 }
