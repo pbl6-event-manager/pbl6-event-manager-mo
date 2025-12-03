@@ -29,6 +29,7 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
 
   final Color success;
   final Color onSuccess;
+  final Color successSurface;
 
   const ColorPalette({
     required this.primary,
@@ -50,12 +51,13 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
     required this.onError,
     required this.success,
     required this.onSuccess,
+    required this.successSurface,
   });
 
   factory ColorPalette.light() => ColorPalette(
     primary: ColorConstant.black,
     onPrimary: ColorConstant.white,
-    secondary: ColorConstant.brandingBlue,
+    secondary: ColorConstant.brandingPurple,
     territory: ColorConstant.brandingBlue,
     branding: ColorConstant.brandingColor,
     disabled: ColorConstant.grey200,
@@ -66,12 +68,13 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
     textPlaceholder: ColorConstant.grey700,
     border: ColorConstant.grey400,
     divider: ColorConstant.grey200,
-    surface: ColorConstant.grey100,
-    surfaceContainer: ColorConstant.white,
+    surface: ColorConstant.white,
+    surfaceContainer: ColorConstant.lightPurple,
     error: ColorConstant.semanticRed,
     onError: ColorConstant.white,
     success: ColorConstant.semanticGreen,
     onSuccess: ColorConstant.white,
+    successSurface: ColorConstant.lightGreen,
   );
 
   @override
@@ -111,6 +114,7 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
       onError: Color.lerp(onError, other.onError, t)!,
       success: Color.lerp(success, other.success, t)!,
       onSuccess: Color.lerp(onSuccess, other.onSuccess, t)!,
+      successSurface: Color.lerp(successSurface, other.successSurface, t)!,
     );
   }
 
@@ -135,6 +139,7 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
     Color? onError,
     Color? success,
     Color? onSuccess,
+    Color? successSurface,
   }) {
     return ColorPalette(
       primary: primary ?? this.primary,
@@ -156,6 +161,7 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
       onError: onError ?? this.onError,
       success: success ?? this.success,
       onSuccess: onSuccess ?? this.onSuccess,
+      successSurface: successSurface ?? this.successSurface,
     );
   }
 }

@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
-import 'package:organizer/ui/scenes/registered/home_view.dart';
+import 'package:organizer/ui/scenes/registered/home/home_view.dart';
+import 'package:organizer/ui/scenes/registered/qr_scan/qr_scan_view.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/sign_in_view.dart';
 import 'package:organizer/utils/enums/app_router_destination.dart';
 import 'package:organizer/utils/enums/auth_status.dart';
@@ -13,15 +14,18 @@ import 'package:organizer/utils/enums/auth_status.dart';
 /// Declare all destinations and parameters to pass through each of the app's screen
 final class AppRouter {
   final AuthBloc authBloc;
+  late final GoRouter _router;
 
-  AppRouter(this.authBloc);
+  AppRouter(this.authBloc) {
+    _router = GoRouter(
+      routes: [_homeRoute, _authRoute],
+      initialLocation: AppRouterDestination.auth.path,
+      refreshListenable: GoRouterRefreshStream(authBloc.stream),
+      redirect: _redirectLogic,
+    );
+  }
 
-  GoRouter get router => GoRouter(
-    routes: [_homeRoute, _authRoute],
-    initialLocation: AppRouterDestination.auth.path,
-    refreshListenable: GoRouterRefreshStream(authBloc.stream),
-    redirect: _redirectLogic,
-  );
+  GoRouter get router => _router;
 
   /// Auth route
   GoRoute get _authRoute => GoRoute(
@@ -43,6 +47,13 @@ final class AppRouter {
     path: AppRouterDestination.home.path,
     name: AppRouterDestination.home.name,
     builder: (context, state) => const HomePage(),
+    routes: [_qrScanRoute],
+  );
+
+  GoRoute get _qrScanRoute => GoRoute(
+    path: AppRouterDestination.scanQr.path,
+    name: AppRouterDestination.scanQr.name,
+    builder: (context, state) => const QrScanPage(),
   );
 
   /// REDIRECT
