@@ -6,6 +6,7 @@ abstract class AppStringConstant {
   static SignInAppStrings get signIn => SignInAppStrings._();
   static TicketAppStrings get ticket => TicketAppStrings._();
   static HomeAppStrings get home => HomeAppStrings._();
+  static EventListAppStrings get eventList => EventListAppStrings._();
 }
 
 final class ButtonAppStrings {
@@ -84,4 +85,10 @@ final class TicketAppStrings {
 final class HomeAppStrings {
   const HomeAppStrings._();
   String get scanQrFABLabel => 'Scan QR';
+}
+
+final class EventListAppStrings {
+  const EventListAppStrings._();
+
+  String get appBarTitle => 'Select an event';
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
+import 'package:organizer/ui/scenes/registered/event_list/event_list_view.dart';
 import 'package:organizer/ui/scenes/registered/home/home_view.dart';
 import 'package:organizer/ui/scenes/registered/qr_scan/qr_scan_view.dart';
 import 'package:organizer/ui/scenes/registered/ticket_detail/ticket_detail.dart';
@@ -49,10 +50,10 @@ final class AppRouter {
     path: AppRouterDestination.home.path,
     name: AppRouterDestination.home.name,
     builder: (context, state) => const HomePage(),
-    routes: [_qrScanRoute, _ticketDetail],
+    routes: [_qrScanRoute, _ticketDetailRoute, _eventListRoute],
   );
 
-  GoRoute get _ticketDetail => GoRoute(
+  GoRoute get _ticketDetailRoute => GoRoute(
     path: AppRouterDestination.ticketDetail.path,
     name: AppRouterDestination.ticketDetail.name,
     builder: (context, state) {
@@ -67,6 +68,12 @@ final class AppRouter {
     path: AppRouterDestination.scanQr.path,
     name: AppRouterDestination.scanQr.name,
     builder: (context, state) => const QrScanPage(),
+  );
+
+  GoRoute get _eventListRoute => GoRoute(
+    path: AppRouterDestination.eventList.path,
+    name: AppRouterDestination.eventList.name,
+    builder: (context, state) => const EventListPage(),
   );
 
   /// REDIRECT
