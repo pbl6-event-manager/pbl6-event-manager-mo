@@ -38,6 +38,7 @@ class HomeView extends StatelessWidget {
         backgroundColor: context.colorPalette.secondary,
         title: _buildAppBar(
           context,
+          onEventNameTapped: () => _onEventNameTapped(navigator),
           eventDateTime: DateTime(1979),
           eventName: "An Event",
         ),
@@ -134,13 +135,14 @@ class HomeView extends StatelessWidget {
 
   Widget _buildAppBar(
     BuildContext context, {
+    required VoidCallback? onEventNameTapped,
     required String eventName,
     required DateTime eventDateTime,
   }) {
     return Ink(
       child: InkWell(
         radius: 8,
-        onTap: () {},
+        onTap: onEventNameTapped,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -186,4 +188,8 @@ class HomeView extends StatelessWidget {
   }
 
   void _onCheckinButtonTapped(BuildContext context, {required int ticketId}) {}
+
+  void _onEventNameTapped(HomeNavigator navigator) {
+    navigator.goToEventList();
+  }
 }

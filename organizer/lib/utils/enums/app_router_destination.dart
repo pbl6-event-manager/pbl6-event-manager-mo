@@ -5,6 +5,10 @@ enum AppRouterDestination {
   home(path: '/home'),
 
   /// Parameters:
+  /// - currentEventId: current event id, query parameter
+  eventList(path: 'eventList'),
+
+  /// Parameters:
   /// - Id: ticket ID, path parameter
   /// - Extra: Optional ticket object
   ticketDetail(path: '/ticket/:id');
