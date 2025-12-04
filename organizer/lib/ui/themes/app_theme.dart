@@ -58,5 +58,11 @@ final class AppTheme {
             ),
           ),
         ),
+
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          backgroundColor: colorPalette.secondary,
+          foregroundColor: colorPalette.invertedText,
+        ),
       );
 }

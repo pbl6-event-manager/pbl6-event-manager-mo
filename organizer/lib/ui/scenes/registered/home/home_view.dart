@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
+import 'package:organizer/ui/common_widgets/check_in_button.dart';
 import 'package:organizer/ui/scenes/registered/home/home_navigator.dart';
+import 'package:organizer/utils/constants/app_string_constant.dart';
 import 'package:organizer/utils/constants/ui_constant.dart';
 
 import 'package:organizer/utils/extensions/context_extension.dart';
+import 'package:organizer/utils/extensions/datetime_extension.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -42,17 +44,34 @@ class HomeView extends StatelessWidget {
         centerTitle: true,
         titleSpacing: UIConstant.horizontalPadding,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _goToScanQr(navigator),
-        backgroundColor: context.colorPalette.branding,
-        child: Icon(Icons.qr_code),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: 120,
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(100),
+          ),
+          onPressed: () => _goToScanQr(navigator),
+          backgroundColor: context.colorPalette.branding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                AppStringConstant.home.scanQrFABLabel,
+                style: context.textPalette.labelLarge,
+              ),
+              SizedBox(width: 8),
+              Icon(Icons.qr_code),
+            ],
+          ),
+        ),
       ),
       body: SafeArea(
         child: ListView.separated(
           separatorBuilder: (context, indext) =>
               Divider(color: context.colorPalette.divider, height: 0),
           itemBuilder: (context, index) =>
-              _buildTile(index, context, dummyString),
+              _buildTile(index, context, navigator, dummyString),
           itemCount: dummyString.length,
         ),
       ),
@@ -62,13 +81,12 @@ class HomeView extends StatelessWidget {
   Widget _buildTile(
     int index,
     BuildContext context,
+    HomeNavigator navigator,
     List<(String, bool)> dummyString,
   ) {
     final bool isReserved = dummyString[index].$2 == true;
     return ListTile(
-      onTap: () {
-        // TODO: IMPLEMENT ON PRESSED
-      },
+      onTap: () => _onTicketTapped(navigator, ticketId: index),
       contentPadding: EdgeInsets.all(0),
       minVerticalPadding: 0,
 
@@ -79,28 +97,14 @@ class HomeView extends StatelessWidget {
       horizontalTitleGap: 8,
       trailing: Padding(
         padding: const EdgeInsets.only(right: 8 + 8),
-        child: FilledButton(
-          style: FilledButton.styleFrom(
-            disabledBackgroundColor: context.colorPalette.disabled,
-            disabledForegroundColor: context.colorPalette.disabledText,
-            textStyle: context.textPalette.button,
-            backgroundColor: isReserved
-                ? context.colorPalette.successSurface
-                : context.colorPalette.surfaceContainer,
-            foregroundColor: isReserved
-                ? context.colorPalette.success
-                : context.colorPalette.secondary,
-            shape: RoundedRectangleBorder(
-              side: isReserved
-                  ? BorderSide.none
-                  : BorderSide(color: context.colorPalette.border),
-              borderRadius: BorderRadius.circular(8),
-            ),
+        child: SizedBox(
+          width: 100,
+          child: CheckInButton(
+            isReserved: isReserved,
+            onTapped: isReserved
+                ? () {}
+                : () => _onCheckinButtonTapped(context, ticketId: index),
           ),
-          onPressed: () {
-            // TODO: ADD ON PRESSED
-          },
-          child: Text("Check in"),
         ),
       ),
 
@@ -153,7 +157,7 @@ class HomeView extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    _formatDate(eventDateTime),
+                    eventDateTime.string,
                     style: context.textPalette.labelLarge.copyWith(
                       color: context.colorPalette.invertedText,
                     ),
@@ -173,12 +177,13 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime dateTime) {
-    final DateFormat dateFormat = DateFormat("EEE, d MMM yyyy 'at' HH:mm");
-    return dateFormat.format(dateTime);
-  }
-
   void _goToScanQr(HomeNavigator navigator) {
     navigator.goToQRScan();
   }
+
+  void _onTicketTapped(HomeNavigator navigator, {required int ticketId}) {
+    navigator.goToTicketDetail(ticketId: ticketId);
+  }
+
+  void _onCheckinButtonTapped(BuildContext context, {required int ticketId}) {}
 }

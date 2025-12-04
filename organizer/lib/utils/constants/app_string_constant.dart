@@ -4,6 +4,8 @@ abstract class AppStringConstant {
   static GenericErrorAppStrings get genericErrors => GenericErrorAppStrings._();
   static ErrorPageAppStrings get errorPage => ErrorPageAppStrings._();
   static SignInAppStrings get signIn => SignInAppStrings._();
+  static TicketAppStrings get ticket => TicketAppStrings._();
+  static HomeAppStrings get home => HomeAppStrings._();
 }
 
 final class ButtonAppStrings {
@@ -34,7 +36,7 @@ final class TextFieldAppStrings {
 final class GenericErrorAppStrings {
   const GenericErrorAppStrings._();
 
-  String get tryAgainMessage => "An error occurred. Please try again.";
+  String get tryAgainMessage => 'An error occurred. Please try again.';
 }
 
 final class SignInAppStrings {
@@ -66,4 +68,20 @@ final class ErrorPageAppStrings {
       'We encountered an unexpected error. Please try again later.';
 
   String get tryAgain => 'Try again';
+}
+
+final class TicketAppStrings {
+  const TicketAppStrings._();
+
+  String get checkInLabel => 'Check in';
+  String get checkedInLabel => 'Checked in';
+  String get attendeeDetailsTitle => 'Attendee Details';
+  String get attendeeLabel => 'Attendee';
+  String get orderNumberLabel => 'Order no.';
+  String get ticketTypeLabel => 'Ticket type';
+}
+
+final class HomeAppStrings {
+  const HomeAppStrings._();
+  String get scanQrFABLabel => 'Scan QR';
 }

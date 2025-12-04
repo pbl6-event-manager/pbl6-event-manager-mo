@@ -4,6 +4,7 @@ import 'package:organizer/utils/enums/app_router_destination.dart';
 
 abstract class HomeNavigator extends BaseNavigator {
   void goToQRScan();
+  void goToTicketDetail({required int ticketId});
 }
 
 final class HomeNavigatorImpl implements HomeNavigator {
@@ -15,5 +16,13 @@ final class HomeNavigatorImpl implements HomeNavigator {
   @override
   void goToQRScan() {
     goRouter.pushNamed(AppRouterDestination.scanQr.name);
+  }
+
+  @override
+  void goToTicketDetail({required int ticketId}) {
+    goRouter.pushNamed(
+      AppRouterDestination.ticketDetail.name,
+      pathParameters: {'id': ticketId.toString()},
+    );
   }
 }

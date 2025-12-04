@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:organizer/ui/scenes/registered/qr_scan/widgets/qr_scan_snackbar.dart';
@@ -81,8 +79,6 @@ class _QrScanViewState extends State<QrScanView> {
   }
 
   void _onBarcodeData(BarcodeCapture? capture) {
-    log(capture?.raw.toString() ?? "NO DATA");
-
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
 import 'package:organizer/ui/scenes/registered/home/home_view.dart';
 import 'package:organizer/ui/scenes/registered/qr_scan/qr_scan_view.dart';
+import 'package:organizer/ui/scenes/registered/ticket_detail/ticket_detail.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/sign_in_view.dart';
 import 'package:organizer/utils/enums/app_router_destination.dart';
 import 'package:organizer/utils/enums/auth_status.dart';
+import 'package:organizer/utils/extensions/object_extension.dart';
 
 /// Centralized routing hub for the whole app
 ///
@@ -47,7 +49,18 @@ final class AppRouter {
     path: AppRouterDestination.home.path,
     name: AppRouterDestination.home.name,
     builder: (context, state) => const HomePage(),
-    routes: [_qrScanRoute],
+    routes: [_qrScanRoute, _ticketDetail],
+  );
+
+  GoRoute get _ticketDetail => GoRoute(
+    path: AppRouterDestination.ticketDetail.path,
+    name: AppRouterDestination.ticketDetail.name,
+    builder: (context, state) {
+      final int? ticketId = int.tryParse(
+        state.pathParameters['id']?.tryCast<String>() ?? '',
+      );
+      return TicketDetailPage(ticketId: ticketId);
+    },
   );
 
   GoRoute get _qrScanRoute => GoRoute(
