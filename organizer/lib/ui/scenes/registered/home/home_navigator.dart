@@ -1,11 +1,12 @@
 import 'package:go_router/go_router.dart';
-import 'package:organizer/utils/constants/helpers/base_navigator.dart';
+import 'package:organizer/utils/extensions/object_extension.dart';
+import 'package:organizer/utils/helpers/base_navigator.dart';
 import 'package:organizer/utils/enums/app_router_destination.dart';
 
 abstract class HomeNavigator extends BaseNavigator {
   void goToQRScan();
   void goToTicketDetail({required int ticketId});
-  void goToEventList();
+  Future<void> goToEventList();
 }
 
 final class HomeNavigatorImpl implements HomeNavigator {
@@ -28,7 +29,9 @@ final class HomeNavigatorImpl implements HomeNavigator {
   }
 
   @override
-  void goToEventList() {
-    goRouter.pushNamed(AppRouterDestination.eventList.name);
+  Future<void> goToEventList() async {
+    final returnValue = await goRouter.pushNamed(
+      AppRouterDestination.eventList.name,
+    );
   }
 }

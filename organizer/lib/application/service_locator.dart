@@ -2,10 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
-import 'package:organizer/domain/auth_repository.dart';
+import 'package:organizer/domain/repositories/auth_repository.dart';
+import 'package:organizer/domain/repositories/event_repository.dart';
 import 'package:organizer/network/config/dio_config.dart';
 import 'package:organizer/network/datasources/auth_datasource.dart';
+import 'package:organizer/network/datasources/event_datasource.dart';
 import 'package:organizer/network/repositories/auth_repository_network_impl.dart';
+import 'package:organizer/network/repositories/event_repository_implementation.dart';
 
 /// Service locator setup for dependency injection
 class ServiceLocator {
@@ -35,9 +38,17 @@ class ServiceLocator {
     _getIt.registerLazySingleton<AuthDatasource>(
       () => AuthDatasource(_getIt<Dio>()),
     );
+    _getIt.registerLazySingleton<EventDatasource>(
+      () => EventDatasource(_getIt<Dio>()),
+    );
 
     _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryNetworkImpl(datasource: _getIt<AuthDatasource>()),
+    );
+    _getIt.registerLazySingleton<EventRepository>(
+      () => EventRepositoryImplementation(
+        eventDatasource: _getIt<EventDatasource>(),
+      ),
     );
   }
 }

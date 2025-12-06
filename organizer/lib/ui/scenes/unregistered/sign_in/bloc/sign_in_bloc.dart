@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
-import 'package:organizer/domain/auth_repository.dart';
-import 'package:organizer/utils/constants/helpers/result.dart';
+import 'package:organizer/domain/repositories/auth_repository.dart';
+import 'package:organizer/utils/helpers/result.dart';
 import 'package:organizer/utils/enums/view_status.dart';
 
 part 'sign_in_event.dart';
