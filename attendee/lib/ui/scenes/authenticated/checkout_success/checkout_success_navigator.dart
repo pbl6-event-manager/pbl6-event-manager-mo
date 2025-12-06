@@ -1,6 +1,6 @@
 import 'package:attendee/application/base_navigator.dart';
 import 'package:attendee/utils/enums/app_route_enum.dart';
-import 'package:go_router/src/router.dart';
+import 'package:go_router/go_router.dart';
 
 abstract class CheckoutSuccessNavigator extends BaseNavigator {
   void goToHome();

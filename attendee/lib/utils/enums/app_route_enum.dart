@@ -38,7 +38,7 @@ enum AppRouteEnum {
   /// CHECKOUT
   checkout(path: '/checkout'),
 
-  /// Query parameter: `{"session_id": string}`
+  /// Query parameter: `{"session_id": string, "is_free": bool}`
   checkoutSuccess(path: '/success');
 
   final String path;

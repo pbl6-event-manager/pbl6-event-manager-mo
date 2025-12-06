@@ -193,7 +193,13 @@ final class AppRouter {
           ? state.uri.queryParameters['session_id'] as String
           : null;
 
-      return NoTransitionPage(child: CheckoutSuccessPage(sessionId: sessionId));
+      final bool? isFree = bool.tryParse(
+        state.uri.queryParameters['is_free'] ?? '',
+      );
+
+      return NoTransitionPage(
+        child: CheckoutSuccessPage(sessionId: sessionId, isFree: isFree),
+      );
     },
   );
 

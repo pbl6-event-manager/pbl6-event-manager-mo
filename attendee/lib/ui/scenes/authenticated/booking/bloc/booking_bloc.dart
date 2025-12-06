@@ -189,6 +189,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             discountedTotalPricing: Nullable(result.value),
             promoCodeFieldErrorLabel: const Nullable(null),
             isBookingSuccess: false,
+            voucherCode: Nullable(event.promoCode),
           ),
         );
       case Error<double>():
@@ -229,15 +230,36 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     if (state.isRegisterSubmitting || state.totalTicketCount == 0) {
       return;
     }
-    if (!state.areAllAttendeesReady) {
+    if (!state.areAllAttendeesReady || state.event == null) {
       return;
     }
-
     emit(state.copyWith(isRegisterSubmitting: true, isBookingSuccess: false));
 
-    await Future.delayed(const Duration(seconds: 2));
+    final Result<String> bookingResult = await _repository.placeOrder(
+      eventId: state.event!.id,
+      tickets: state.attendeeInfoMap.values.toList(),
+      totalPrice: state.currentTotalPricing,
+      discountedTotalPrice: state.payableTotalPricing,
+      voucherCode: state.voucherCode,
+    );
 
-    emit(state.copyWith(isRegisterSubmitting: false, isBookingSuccess: true));
+    switch (bookingResult) {
+      case Ok<String>():
+        emit(
+          state.copyWith(isRegisterSubmitting: false, isBookingSuccess: true),
+        );
+
+        event.onUrlReturned(bookingResult.value);
+
+      case Error<String>():
+        emit(
+          state.copyWith(
+            isRegisterSubmitting: false,
+            isBookingSuccess: false,
+            errorMessage: bookingResult.error.toString(),
+          ),
+        );
+    }
   }
 
   void _onPromoCodeCleared(
@@ -250,6 +272,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         isPromoCodeSubmitting: false,
         discountedTotalPricing: const Nullable(null),
         isBookingSuccess: false,
+        voucherCode: Nullable(null),
       ),
     );
   }
@@ -268,8 +291,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       updatedMap.remove(event.slotKey);
     } else {
       updatedMap[event.slotKey] = TicketAttendeeInfo(
-        name: trimmedName,
+        ticketId: event.ticketId,
+        fullName: trimmedName,
         email: trimmedEmail,
+        price: event.price,
       );
     }
 

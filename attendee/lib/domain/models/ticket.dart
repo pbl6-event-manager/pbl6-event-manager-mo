@@ -17,7 +17,7 @@ class Ticket {
     required this.eventId,
     required this.name,
     required this.type,
-    required this.priceString,
+    required this.priceLabel,
     required this.quantity,
     required this.soldQuantity,
     this.description,
@@ -32,7 +32,7 @@ class Ticket {
   @JsonKey(unknownEnumValue: TicketType.paid)
   final TicketType type;
   @JsonKey(name: 'price')
-  final String priceString;
+  final String priceLabel;
   final int quantity;
   final int soldQuantity;
   final String? description;
@@ -43,10 +43,9 @@ class Ticket {
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 
   int get remainingQuantity => quantity - soldQuantity;
+  double get price => double.parse(priceLabel);
 
   bool get isSoldOut => remainingQuantity <= 0;
-
-  double get price => double.tryParse(priceString) ?? 0;
 
   bool get isSaleActive {
     final DateTime now = DateTime.now();
@@ -61,7 +60,8 @@ class Ticket {
     eventId: 1,
     name: 'General Admission',
     type: TicketType.paid,
-    priceString: '49.99',
+    priceLabel: '49.99',
+
     quantity: 10,
     soldQuantity: 5,
     description: 'Standard access to the event venue.',

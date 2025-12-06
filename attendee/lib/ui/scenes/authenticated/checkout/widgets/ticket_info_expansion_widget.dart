@@ -50,7 +50,7 @@ class _TicketInfoExpansionWidgetState extends State<TicketInfoExpansionWidget> {
   void _prefillFormFields() {
     final info = widget.attendeeInfo;
     if (info != null) {
-      _nameController.text = info.name;
+      _nameController.text = info.fullName;
       _emailController.text = info.email;
       _hasAllData = info.isComplete;
     }
@@ -72,8 +72,8 @@ class _TicketInfoExpansionWidgetState extends State<TicketInfoExpansionWidget> {
     if (info == null) {
       return;
     }
-    if (info.name != _nameController.text) {
-      _nameController.text = info.name;
+    if (info.fullName != _nameController.text) {
+      _nameController.text = info.fullName;
     }
     if (info.email != _emailController.text) {
       _emailController.text = info.email;

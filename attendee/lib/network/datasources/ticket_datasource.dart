@@ -16,4 +16,10 @@ abstract class TicketDatasource {
   Future<HttpResponse> validateVoucher({
     @Body() required Map<String, dynamic> data,
   });
+
+  @POST(ApiEndpointConstants.bookingTicket)
+  Future<HttpResponse> placeOrder({@Body() required Map<String, dynamic> data});
+
+  @GET(ApiEndpointConstants.orderValidation)
+  Future<void> validateOrder({@Path('id') required String sessionId});
 }
