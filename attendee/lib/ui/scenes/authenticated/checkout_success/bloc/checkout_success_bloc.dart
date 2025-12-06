@@ -43,7 +43,6 @@ class CheckoutSuccessBloc
     switch (voucherValidateResult) {
       case Ok<void>():
         emit(state.copyWith(status: ViewStatusEnum.success));
-        throw UnimplementedError();
       case Error<void>():
         emit(state.copyWith(status: ViewStatusEnum.failure));
     }
