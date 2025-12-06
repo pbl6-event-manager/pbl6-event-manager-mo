@@ -38,7 +38,7 @@ class SignInButton extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : Text(
-                "Sign in",
+                'Sign in',
                 style: context.textPalette.button.copyWith(
                   color: isEnabled
                       ? context.colorPalette.onPrimary
