@@ -1,4 +1,4 @@
-import 'package:organizer/utils/constants/helpers/result.dart';
+import 'package:organizer/utils/helpers/result.dart';
 
 abstract class AuthRepository {
   Future<Result<String>> signIn({

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
-import 'package:organizer/domain/auth_repository.dart';
+import 'package:organizer/domain/repositories/auth_repository.dart';
 import 'package:organizer/ui/common_widgets/common_text_field.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/bloc/sign_in_bloc.dart';
 import 'package:organizer/ui/scenes/unregistered/sign_in/widgets/error_banner.dart';
