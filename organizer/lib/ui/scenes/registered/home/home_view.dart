@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizer/domain/models/event.dart';
+import 'package:organizer/domain/models/order_attendee.dart';
+import 'package:organizer/domain/repositories/order_repository.dart';
 import 'package:organizer/ui/scenes/registered/home/bloc/home_bloc.dart';
 import 'package:organizer/ui/scenes/registered/home/home_navigator.dart';
 import 'package:organizer/ui/scenes/registered/home/widgets/home_app_bar_title.dart';
@@ -25,9 +27,10 @@ class HomePage extends StatelessWidget {
               HomeNavigatorImpl(goRouter: GoRouter.of(context)),
         ),
         BlocProvider<HomeBloc>(
-          create: (context) =>
-              HomeBloc(pref: GetIt.instance<SharedPreferences>())
-                ..add(const HomeLoaded()),
+          create: (context) => HomeBloc(
+            pref: GetIt.instance<SharedPreferences>(),
+            orderRepository: GetIt.instance<OrderRepository>(),
+          )..add(const HomeLoaded()),
         ),
       ],
       child: const HomeView(),
@@ -98,10 +101,10 @@ class HomeView extends StatelessWidget {
           body: SafeArea(
             child: HomeBody(
               state: state,
-              onTicketTapped: (ticketId) =>
-                  _onTicketTapped(navigator, ticketId: ticketId),
-              onCheckinTapped: (ticketId) =>
-                  _onCheckinButtonTapped(context, ticketId: ticketId),
+              onTicketTapped: (attendee) =>
+                  _onTicketTapped(navigator, attendee: attendee),
+
+              onRefresh: () async => _onRefreshed(bloc),
             ),
           ),
         );
@@ -113,11 +116,12 @@ class HomeView extends StatelessWidget {
     navigator.goToQRScan();
   }
 
-  void _onTicketTapped(HomeNavigator navigator, {required int ticketId}) {
-    navigator.goToTicketDetail(ticketId: ticketId);
+  void _onTicketTapped(
+    HomeNavigator navigator, {
+    required OrderAttendee attendee,
+  }) {
+    navigator.goToTicketDetail(attendee: attendee);
   }
-
-  void _onCheckinButtonTapped(BuildContext context, {required int ticketId}) {}
 
   void _onEventNameTapped(
     HomeNavigator navigator, {
@@ -128,5 +132,9 @@ class HomeView extends StatelessWidget {
 
   void _onEventIdReturned(HomeBloc bloc, {required Event event}) {
     bloc.add(HomeEventSelected(event: event));
+  }
+
+  void _onRefreshed(HomeBloc bloc) {
+    bloc.add(HomeLoaded());
   }
 }

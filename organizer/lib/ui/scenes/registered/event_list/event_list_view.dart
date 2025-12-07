@@ -86,7 +86,7 @@ Widget _buildEmptyState(BuildContext context) {
       const SizedBox(height: 16),
       Center(
         child: Text(
-          'No events available yet.',
+          AppStringConstant.eventList.emptyStateTitle,
           style: context.textPalette.titleMedium.copyWith(
             color: context.colorPalette.text,
           ),
@@ -95,7 +95,7 @@ Widget _buildEmptyState(BuildContext context) {
       const SizedBox(height: 8),
       Center(
         child: Text(
-          'Pull down to refresh once events are assigned.',
+          AppStringConstant.eventList.emptyStateDescription,
           style: context.textPalette.bodyMedium.copyWith(
             color: context.colorPalette.textPlaceholder,
           ),
@@ -131,7 +131,10 @@ Widget _buildErrorState(
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          FilledButton(onPressed: onRetry, child: const Text('Try again')),
+          FilledButton(
+            onPressed: onRetry,
+            child: Text(AppStringConstant.errorPage.tryAgain),
+          ),
         ],
       ),
     ),
@@ -161,7 +164,7 @@ Widget _buildEventList(BuildContext context, List<Event> events) {
       return ListTile(
         onTap: () => _onEventSelected(context, event),
         title: Text(
-          event.title ?? 'Untitled event',
+          event.title ?? AppStringConstant.eventList.untitledEventPlaceholder,
           style: context.textPalette.titleMedium.copyWith(
             color: context.colorPalette.text,
           ),
