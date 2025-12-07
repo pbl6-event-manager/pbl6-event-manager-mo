@@ -6,4 +6,5 @@ abstract class ApiEndpointConstants {
   static const String signIn = '/auth/login';
 
   static const String events = '/events/my-events';
+  static const String tickets = '/orders';
 }

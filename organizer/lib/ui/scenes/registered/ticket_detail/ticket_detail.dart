@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:organizer/domain/models/order_attendee.dart';
 import 'package:organizer/ui/common_widgets/check_in_button.dart';
 import 'package:organizer/ui/common_widgets/error_view.dart';
 import 'package:organizer/utils/constants/app_string_constant.dart';
 import 'package:organizer/utils/constants/ui_constant.dart';
 import 'package:organizer/utils/extensions/context_extension.dart';
-import 'package:organizer/utils/extensions/datetime_extension.dart';
 
 class TicketDetailPage extends StatelessWidget {
-  const TicketDetailPage({super.key, required this.ticketId});
+  const TicketDetailPage({super.key, required this.ticketId, this.attendee});
 
   final int? ticketId;
-  // TODO: Add ticket object here
+  final OrderAttendee? attendee;
 
   @override
   Widget build(BuildContext context) {
-    return ticketId != null ? const TicketDetailView() : ErrorPage();
+    return ticketId != null && attendee != null
+        ? TicketDetailView(attendee: attendee!)
+        : ErrorPage();
   }
 }
 
 class TicketDetailView extends StatelessWidget {
-  const TicketDetailView({super.key});
+  const TicketDetailView({super.key, required this.attendee});
+
+  final OrderAttendee attendee;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,6 @@ class TicketDetailView extends StatelessWidget {
     );
     return Scaffold(
       backgroundColor: context.colorPalette.surfaceContainer,
-      // TODO: Remove dummy data
       bottomNavigationBar: _buildBottomCheckinButton(
         context,
         isCheckedIn: false,
@@ -64,11 +67,12 @@ class TicketDetailView extends StatelessWidget {
                       style: largeSubtitle,
                     ),
                     SizedBox(height: 6),
-
-                    Text('Huy Tran', style: context.textPalette.displayLarge),
-
+                    Text(
+                      attendee.attendeeName ??
+                          AppStringConstant.ticket.unknownAttendeeLabel,
+                      style: context.textPalette.displayLarge,
+                    ),
                     SizedBox(height: 32),
-
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -76,27 +80,36 @@ class TicketDetailView extends StatelessWidget {
                           child: _buildDataEntry(
                             context,
                             title: AppStringConstant.ticket.orderNumberLabel,
-                            content: '12673i367826328',
+                            content: AppStringConstant.ticket.orderNumberValue(
+                              attendee.orderId,
+                            ),
                           ),
                         ),
                         Expanded(
                           child: _buildDataEntry(
                             context,
                             title: AppStringConstant.ticket.ticketTypeLabel,
-                            content: 'Ticket type',
+                            content:
+                                attendee.ticketName ??
+                                AppStringConstant.ticket.unknownTicketLabel,
                           ),
                         ),
                       ],
                     ),
-
                     SizedBox(height: 16),
-
                     _buildDataEntry(
                       context,
-                      title: AppStringConstant.ticket.checkedInLabel,
-                      content: DateTime.now().string,
+                      title: AppStringConstant.ticket.ticketNumberLabel,
+                      content: attendee.ticketId.toString(),
                     ),
-
+                    SizedBox(height: 16),
+                    _buildDataEntry(
+                      context,
+                      title: AppStringConstant.ticket.attendeeEmailLabel,
+                      content:
+                          attendee.email ??
+                          AppStringConstant.ticket.noEmailLabel,
+                    ),
                     SizedBox(height: 16),
                   ],
                 ),

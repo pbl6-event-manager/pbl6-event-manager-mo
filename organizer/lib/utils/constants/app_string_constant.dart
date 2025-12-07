@@ -80,15 +80,35 @@ final class TicketAppStrings {
   String get attendeeLabel => 'Attendee';
   String get orderNumberLabel => 'Order no.';
   String get ticketTypeLabel => 'Ticket type';
+  String get ticketNumberLabel => 'Ticket no.';
+  String get attendeeEmailLabel => 'Email';
+  String get unknownAttendeeLabel => 'Unknown attendee';
+  String get unknownTicketLabel => 'Unnamed ticket';
+  String get noEmailLabel => 'No email provided';
+  String get noEmailShortLabel => 'No email';
+  String orderBadgeLabel(int orderId) => 'Order #$orderId';
+  String orderNumberValue(int orderId) => '#$orderId';
+  String ticketSummaryLabel(String ticketName, int ticketId) =>
+      'Ticket: $ticketName (#$ticketId)';
 }
 
 final class HomeAppStrings {
   const HomeAppStrings._();
   String get scanQrFABLabel => 'Scan QR';
+  String get placeholderEventName => 'Select an event';
+  String get placeholderEventDate => 'Tap to choose an event';
+  String get emptyStateTitle => 'No event selected';
+  String get emptyStateDescription =>
+      'Tap the header above to choose an event and see attendees.';
+  String get noAttendeesLabel => 'No attendees yet';
 }
 
 final class EventListAppStrings {
   const EventListAppStrings._();
 
   String get appBarTitle => 'Select an event';
+  String get emptyStateTitle => 'No events available yet.';
+  String get emptyStateDescription =>
+      'Pull down to refresh once events are assigned.';
+  String get untitledEventPlaceholder => 'Untitled event';
 }

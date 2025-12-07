@@ -11,7 +11,7 @@ import 'package:organizer/ui/themes/text_palette.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
-  ServiceLocator.setupDependencies();
+  await ServiceLocator.setupDependencies();
 
   runApp(BlocProvider(create: (context) => AuthBloc(), child: const MyApp()));
 }

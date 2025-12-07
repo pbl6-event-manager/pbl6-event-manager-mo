@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
+import 'package:organizer/domain/models/order_attendee.dart';
 import 'package:organizer/ui/scenes/registered/event_list/event_list_view.dart';
 import 'package:organizer/ui/scenes/registered/home/home_view.dart';
 import 'package:organizer/ui/scenes/registered/qr_scan/qr_scan_view.dart';
@@ -60,7 +61,11 @@ final class AppRouter {
       final int? ticketId = int.tryParse(
         state.pathParameters['id']?.tryCast<String>() ?? '',
       );
-      return TicketDetailPage(ticketId: ticketId);
+      final OrderAttendee? attendee = state.extra?.tryCast<OrderAttendee>();
+      return TicketDetailPage(
+        ticketId: ticketId,
+        attendee: attendee,
+      );
     },
   );
 

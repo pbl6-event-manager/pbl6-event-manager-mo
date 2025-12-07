@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Event {
   final int id;
   final String? title;
@@ -37,4 +39,13 @@ class Event {
   });
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  Map<String, dynamic> get toJson => _$EventToJson(this);
+
+  String get toJsonString {
+    return jsonEncode(toJson);
+  }
+
+  factory Event.fromJsonString(String jsonString) =>
+      Event.fromJson(jsonDecode(jsonString));
 }
