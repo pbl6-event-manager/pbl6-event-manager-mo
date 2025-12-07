@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -160,20 +158,8 @@ Widget _buildEventList(BuildContext context, List<Event> events) {
         );
       }
 
-      final locationLabel = event.cityAndCountryLabel;
-      if (locationLabel.isNotEmpty) {
-        subtitleWidgets.add(
-          Text(
-            locationLabel,
-            style: context.textPalette.bodyMedium.copyWith(
-              color: context.colorPalette.textPlaceholder,
-            ),
-          ),
-        );
-      }
-
       return ListTile(
-        onTap: () => _onEventSelected(context, event.id),
+        onTap: () => _onEventSelected(context, event),
         title: Text(
           event.title ?? 'Untitled event',
           style: context.textPalette.titleMedium.copyWith(
@@ -185,7 +171,7 @@ Widget _buildEventList(BuildContext context, List<Event> events) {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [...subtitleWidgets],
+                children: subtitleWidgets,
               ),
         trailing: const Icon(Icons.chevron_right),
       );
@@ -193,6 +179,6 @@ Widget _buildEventList(BuildContext context, List<Event> events) {
   );
 }
 
-void _onEventSelected(BuildContext context, int id) {
-  context.pop(id);
+void _onEventSelected(BuildContext context, Event event) {
+  context.pop(event);
 }

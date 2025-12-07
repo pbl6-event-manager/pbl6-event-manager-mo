@@ -85,6 +85,11 @@ final class TicketAppStrings {
 final class HomeAppStrings {
   const HomeAppStrings._();
   String get scanQrFABLabel => 'Scan QR';
+  String get placeholderEventName => 'Select an event';
+  String get placeholderEventDate => 'Tap to choose an event';
+  String get emptyStateTitle => 'No event selected';
+  String get emptyStateDescription =>
+      'Tap the header above to choose an event and see attendees.';
 }
 
 final class EventListAppStrings {

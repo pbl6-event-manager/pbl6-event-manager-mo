@@ -9,13 +9,14 @@ import 'package:organizer/network/datasources/auth_datasource.dart';
 import 'package:organizer/network/datasources/event_datasource.dart';
 import 'package:organizer/network/repositories/auth_repository_network_impl.dart';
 import 'package:organizer/network/repositories/event_repository_implementation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Service locator setup for dependency injection
 class ServiceLocator {
   static final GetIt _getIt = GetIt.instance;
 
   /// Initialize all dependencies
-  static void setupDependencies() {
+  static Future<void> setupDependencies() async {
     // Register FlutterSecureStorage
     _getIt.registerLazySingleton<FlutterSecureStorage>(
       () => const FlutterSecureStorage(
@@ -24,6 +25,10 @@ class ServiceLocator {
           accessibility: KeychainAccessibility.first_unlock_this_device,
         ),
       ),
+    );
+
+    _getIt.registerSingletonAsync<SharedPreferences>(
+      () => SharedPreferences.getInstance(),
     );
 
     _getIt.registerLazySingleton<Dio>(
@@ -50,5 +55,7 @@ class ServiceLocator {
         eventDatasource: _getIt<EventDatasource>(),
       ),
     );
+
+    await _getIt.allReady();
   }
 }
