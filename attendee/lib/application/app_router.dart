@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/order.dart';
-import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/domain/models/user.dart';
 import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
@@ -118,7 +117,6 @@ final class AppRouter {
               ? state.extra as Order
               : null;
 
-          return TicketDetailPage(order: order);
           return TicketDetailPage(order: order);
         },
       ),
