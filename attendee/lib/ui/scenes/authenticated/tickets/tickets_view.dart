@@ -1,11 +1,11 @@
 import 'package:attendee/application/app_router.dart';
 import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/domain/repositories/order_repository.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/bloc/orders_cubit.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/tickets_navigator.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/widgets/highlight_ticket_item.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/widgets/ticket_item.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/widgets/ticket_list_appbar.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/bloc/orders_cubit.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/tickets_navigator.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/widgets/highlight_ticket_item.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/widgets/ticket_item.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/widgets/ticket_list_appbar.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:flutter/material.dart';

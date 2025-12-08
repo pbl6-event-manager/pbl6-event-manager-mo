@@ -1,5 +1,5 @@
 import 'package:attendee/ui/common_widgets/common_image_carousel.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/qr_page_indicator.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/qr_page_indicator.dart';
 import 'package:flutter/material.dart';
 
 class TicketQrSection extends StatelessWidget {

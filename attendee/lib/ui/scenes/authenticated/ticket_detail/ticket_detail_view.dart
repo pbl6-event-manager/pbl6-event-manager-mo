@@ -1,9 +1,9 @@
 import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/ui/common_widgets/common_ticket_header.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/enums/ticket_option.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/order_summary_widget.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_option_section.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/enums/ticket_option.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/order_summary_widget.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/ticket_option_section.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';

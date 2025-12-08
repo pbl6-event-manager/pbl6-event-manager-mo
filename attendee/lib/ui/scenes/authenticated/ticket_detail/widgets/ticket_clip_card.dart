@@ -1,8 +1,8 @@
 import 'package:attendee/domain/models/ticket_details.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_header.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_location_section.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_qr_section.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_schedule_section.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/ticket_header.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/ticket_location_section.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/ticket_qr_section.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/ticket_schedule_section.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';

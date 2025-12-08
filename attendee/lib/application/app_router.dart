@@ -17,8 +17,8 @@ import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_detail_view.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/tickets_view.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/ticket_detail_view.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/tickets_view.dart';
 import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart';
@@ -113,8 +113,9 @@ final class AppRouter {
         path: AppRouteEnum.ticketDetail.path,
         name: AppRouteEnum.ticketDetail.name,
         builder: (context, state) {
-          final Order? order =
-              state.extra is Order ? state.extra as Order : null;
+          final Order? order = state.extra is Order
+              ? state.extra as Order
+              : null;
 
           return TicketDetailPage(order: order);
         },
