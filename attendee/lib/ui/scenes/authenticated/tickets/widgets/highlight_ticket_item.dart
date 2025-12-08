@@ -1,6 +1,6 @@
-import 'package:attendee/domain/models/ticket_details.dart';
-import 'package:attendee/ui/common_widgets/common_image_widget.dart';
+import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/ui/common_widgets/common_ticket_header.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
@@ -10,12 +10,12 @@ class HighlightTicketItem extends StatelessWidget {
   const HighlightTicketItem({
     super.key,
     required this.context,
-    required this.detail,
+    required this.order,
     required this.onTicketTapped,
   });
 
   final BuildContext context;
-  final TicketDetail detail;
+  final Order order;
   final VoidCallback onTicketTapped;
 
   @override
@@ -56,38 +56,38 @@ class HighlightTicketItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              detail.startDateTime.dateStringWithoutYear,
+                              order.createdAt.dateStringWithoutYear,
                               style: context.textPalette.labelLarge,
                             ),
-                            Text(detail.startDateTime.timeString),
+                            Text(order.createdAt.timeString),
                           ],
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              detail.qrCodeImageUrl.length.toString(),
+                              order.orderDetails.length.toString(),
                               style: context.textPalette.bodyLarge,
                             ),
                             const SizedBox(width: 4),
-                            const Icon(Icons.qr_code),
+                            const Icon(Icons.confirmation_number_outlined),
                           ],
                         ),
                       ],
                     ),
                     SizedBox(height: 16),
                     Text(
-                      detail.eventName,
+                      AppStringConstants.orders.orderNumber(order.id),
                       style: context.textPalette.displaySmall,
                     ),
-                    Text(detail.location),
+                    Text(
+                      AppStringConstants.orders.status(
+                        order.status.name.toUpperCase(),
+                      ),
+                      style: context.textPalette.bodyLarge,
+                    ),
+                    Text(AppStringConstants.orders.total(order.totalAmount)),
                   ],
-                ),
-                SizedBox(height: 16),
-                CommonImageWidget(
-                  aspectRatio: 16 / 9,
-                  cornerRadius: UIConstants.cornerRadiusBase,
-                  imageUrl: detail.eventImageUrl ?? '',
                 ),
                 SizedBox(height: 16),
               ],

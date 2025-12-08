@@ -31,7 +31,7 @@ abstract class ApiEndpointConstants {
 
   // BOOKING TICKET
   static const String bookingTicket = '/orders';
-  static const String orderValidation = '/orders/status/{id}';
+  static const String orderValidation = '/orders/retrieve/{id}';
 
   // External APIs
   static const String locationBaseUrl = 'https://countriesnow.space/api/v0.1';
@@ -39,6 +39,9 @@ abstract class ApiEndpointConstants {
   static const String locationCountryList = '/countries';
   // CATEGORIES
   static const String categories = '/categories';
+
+  // ORDERS
+  static const String myOrder = '/orders/my-orders';
 
   // VIETMAP
   static String vietMapTileStyle =
