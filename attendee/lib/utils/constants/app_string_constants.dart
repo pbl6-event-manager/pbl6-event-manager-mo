@@ -21,6 +21,7 @@ abstract class AppStringConstants {
   static CheckoutAppStrings get checkout => CheckoutAppStrings._();
   static CheckoutSuccessAppStrings get checkoutSuccess =>
       CheckoutSuccessAppStrings._();
+  static OrdersAppStrings get orders => OrdersAppStrings._();
   static TicketAppStrings get ticket => TicketAppStrings._();
 }
 
@@ -286,6 +287,27 @@ final class CheckoutSuccessAppStrings {
   String get subtitle => 'See you there!';
   String get viewTicketButtonLabel => 'View your ticket';
   String get returnHomeButtonLabel => 'Return home';
+}
+
+final class OrdersAppStrings {
+  const OrdersAppStrings._();
+
+  String get failedToLoadOrders => 'Failed to load orders';
+  String get noOrdersFound => 'No orders found';
+  String get ticketsTitle => 'Tickets';
+
+  String orderNumber(int id) => 'Order #$id';
+  String status(String status) => 'Status: $status';
+  String total(String total) => 'Total: $total';
+  String subtotal(String subtotal) => 'Subtotal: $subtotal';
+  String voucher(String voucherCode) => 'Voucher: $voucherCode';
+  String eventId(int id) => 'Event ID: $id';
+  String ticketsCount(int count) => 'Tickets: $count';
+  String created(String date) => 'Created: $date';
+  String updated(String date) => 'Updated: $date';
+  String name(String name) => 'Name: $name';
+  String email(String email) => 'Email: $email';
+  String ticketId(int id) => 'Ticket ID: $id';
 }
 
 final class TicketAppStrings {

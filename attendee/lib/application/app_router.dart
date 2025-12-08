@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/models/event.dart';
-import 'package:attendee/domain/models/ticket_details.dart';
+import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/domain/models/user.dart';
 import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
@@ -113,11 +113,10 @@ final class AppRouter {
         path: AppRouteEnum.ticketDetail.path,
         name: AppRouteEnum.ticketDetail.name,
         builder: (context, state) {
-          final TicketDetail? detail = state.extra is TicketDetail
-              ? state.extra as TicketDetail
-              : null;
+          final Order? order =
+              state.extra is Order ? state.extra as Order : null;
 
-          return TicketDetailPage(ticketDetail: detail);
+          return TicketDetailPage(order: order);
         },
       ),
     ],

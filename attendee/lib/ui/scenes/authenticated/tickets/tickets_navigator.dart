@@ -1,10 +1,10 @@
 import 'package:attendee/application/base_navigator.dart';
-import 'package:attendee/domain/models/ticket_details.dart';
+import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/utils/enums/app_route_enum.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class TicketsNavigator extends BaseNavigator {
-  void goToTicketDetail(TicketDetail detail);
+  void goToTicketDetail(Order order);
 }
 
 final class TicketsNavigatorImplementation implements TicketsNavigator {
@@ -14,7 +14,7 @@ final class TicketsNavigatorImplementation implements TicketsNavigator {
   const TicketsNavigatorImplementation({required this.goRouter});
 
   @override
-  void goToTicketDetail(TicketDetail detail) {
-    goRouter.pushNamed(AppRouteEnum.ticketDetail.name, extra: detail);
+  void goToTicketDetail(Order order) {
+    goRouter.pushNamed(AppRouteEnum.ticketDetail.name, extra: order);
   }
 }
