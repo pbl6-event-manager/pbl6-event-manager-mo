@@ -1,5 +1,5 @@
 import 'package:attendee/domain/models/ticket_details.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/widgets/ticket_date_column.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/widgets/ticket_date_column.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';

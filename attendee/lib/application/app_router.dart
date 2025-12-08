@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/models/event.dart';
-import 'package:attendee/domain/models/ticket_details.dart';
+import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/domain/models/user.dart';
 import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
@@ -17,8 +17,8 @@ import 'package:attendee/ui/scenes/authenticated/event_detail/event_detail_view.
 import 'package:attendee/ui/scenes/authenticated/home/home_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_filter/home_filter_view.dart';
 import 'package:attendee/ui/scenes/authenticated/home_search/home_search_view.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/ticket_detail_view.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket_list/tickets_view.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/ticket_detail_view.dart';
+import 'package:attendee/ui/scenes/authenticated/tickets/tickets_view.dart';
 import 'package:attendee/ui/scenes/unregistered/email_initial/email_initial_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/sign_in_view.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_up/sign_up_view.dart';
@@ -113,11 +113,11 @@ final class AppRouter {
         path: AppRouteEnum.ticketDetail.path,
         name: AppRouteEnum.ticketDetail.name,
         builder: (context, state) {
-          final TicketDetail? detail = state.extra is TicketDetail
-              ? state.extra as TicketDetail
+          final Order? order = state.extra is Order
+              ? state.extra as Order
               : null;
 
-          return TicketDetailPage(ticketDetail: detail);
+          return TicketDetailPage(order: order);
         },
       ),
     ],

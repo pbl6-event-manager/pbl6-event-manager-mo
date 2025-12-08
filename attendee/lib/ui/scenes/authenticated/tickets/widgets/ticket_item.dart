@@ -1,6 +1,6 @@
-import 'package:attendee/domain/models/ticket_details.dart';
-import 'package:attendee/ui/common_widgets/common_image_widget.dart';
+import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/ui/common_widgets/common_ticket_header.dart';
+import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
@@ -10,12 +10,12 @@ class TicketItem extends StatelessWidget {
   const TicketItem({
     super.key,
     required this.context,
-    required this.detail,
+    required this.order,
     required this.onTicketTapped,
   });
 
   final BuildContext context;
-  final TicketDetail detail;
+  final Order order;
   final VoidCallback onTicketTapped;
 
   @override
@@ -55,48 +55,43 @@ class TicketItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          detail.startDateTime.dateStringWithoutYear,
+                          order.createdAt.dateStringWithoutYear,
                           style: context.textPalette.labelLarge,
                         ),
-                        Text(detail.startDateTime.timeString),
+                        Text(order.createdAt.timeString),
                       ],
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          detail.qrCodeImageUrl.length.toString(),
+                          order.orderDetails.length.toString(),
                           style: context.textPalette.bodyLarge,
                         ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.qr_code),
+                        const Icon(Icons.confirmation_number_outlined),
                       ],
                     ),
                   ],
                 ),
                 SizedBox(height: 8),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 90,
-                      child: CommonImageWidget(
-                        aspectRatio: 1,
-                        imageUrl: detail.eventImageUrl ?? '',
-                      ),
+                    Text(
+                      AppStringConstants.orders.orderNumber(order.id),
+                      style: context.textPalette.labelLarge,
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            detail.eventName,
-                            style: context.textPalette.labelLarge,
-                          ),
-                          Text(detail.location),
-                        ],
-                      ),
+                    Text(
+                      AppStringConstants.orders
+                          .status(order.status.name.toUpperCase()),
                     ),
+                    Text(AppStringConstants.orders.total(order.totalAmount)),
+                    if (order.appliedVoucherCode != null)
+                      Text(
+                        AppStringConstants.orders
+                            .voucher(order.appliedVoucherCode!),
+                      ),
                   ],
                 ),
               ],

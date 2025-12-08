@@ -1,5 +1,5 @@
 import 'package:attendee/ui/common_widgets/option_list.dart';
-import 'package:attendee/ui/scenes/authenticated/ticket/enums/ticket_option.dart';
+import 'package:attendee/ui/scenes/authenticated/ticket_detail/enums/ticket_option.dart';
 import 'package:flutter/material.dart';
 
 class TicketOptionSection extends StatelessWidget {

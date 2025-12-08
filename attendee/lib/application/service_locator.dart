@@ -3,6 +3,7 @@ import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/repositories/auth_repository.dart';
 import 'package:attendee/domain/repositories/category_repository.dart';
 import 'package:attendee/domain/repositories/event_repository.dart';
+import 'package:attendee/domain/repositories/order_repository.dart';
 import 'package:attendee/domain/repositories/organizer_repository.dart';
 import 'package:attendee/domain/repositories/ticket_repository.dart';
 import 'package:attendee/domain/repositories/user_repository.dart';
@@ -13,6 +14,7 @@ import 'package:attendee/network/config/dio_config.dart';
 import 'package:attendee/network/datasources/auth_datasource.dart';
 import 'package:attendee/network/datasources/category_datasource.dart';
 import 'package:attendee/network/datasources/event_datasource.dart';
+import 'package:attendee/network/datasources/order_datasource.dart';
 import 'package:attendee/network/datasources/organizer_datasource.dart';
 import 'package:attendee/network/datasources/ticket_datasource.dart';
 import 'package:attendee/network/datasources/user_datasource.dart';
@@ -23,6 +25,7 @@ import 'package:attendee/network/repositories/location_repository_implementation
 import 'package:attendee/network/constants/api_endpoint_constants.dart';
 import 'package:attendee/network/repositories/category_repository_implementation.dart';
 import 'package:attendee/network/repositories/event_repository_implementation.dart';
+import 'package:attendee/network/repositories/order_repository_implementation.dart';
 import 'package:attendee/network/repositories/organizer_repository_implementation.dart';
 import 'package:attendee/network/repositories/ticket_repository_implementation.dart';
 import 'package:attendee/network/repositories/user_repository_implementation.dart';
@@ -96,6 +99,10 @@ class ServiceLocator {
       () => TicketDatasource(_getIt<Dio>()),
     );
 
+    _getIt.registerLazySingleton<OrderDatasource>(
+      () => OrderDatasource(_getIt<Dio>()),
+    );
+
     // Repositories
     _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImplementation(
@@ -135,6 +142,11 @@ class ServiceLocator {
       () => TicketRepositoryImplementation(
         datasource: _getIt<TicketDatasource>(),
       ),
+    );
+
+    _getIt.registerLazySingleton<OrderRepository>(
+      () =>
+          OrderRepositoryImplementation(datasource: _getIt<OrderDatasource>()),
     );
 
     // Usecases
