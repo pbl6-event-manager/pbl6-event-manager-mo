@@ -13,7 +13,9 @@ class TicketDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return attendee != null ? TicketDetailView(attendee: attendee!) : ErrorPage();
+    return attendee != null
+        ? TicketDetailView(attendee: attendee!)
+        : ErrorPage();
   }
 }
 
@@ -29,11 +31,13 @@ class TicketDetailView extends StatelessWidget {
     );
     return Scaffold(
       backgroundColor: context.colorPalette.surfaceContainer,
-      bottomNavigationBar: _buildBottomCheckinButton(
-        context,
-        isCheckedIn: attendee.isCheckedIn,
-        onCheckinTapped: () {},
-      ),
+      bottomNavigationBar: attendee.isCheckedIn != null
+          ? _buildBottomCheckinButton(
+              context,
+              isCheckedIn: attendee.isCheckedIn!,
+              onCheckinTapped: () {},
+            )
+          : null,
       body: RefreshIndicator(
         onRefresh: _onRefreshed,
         child: CustomScrollView(
@@ -83,7 +87,7 @@ class TicketDetailView extends StatelessWidget {
                           child: _buildDataEntry(
                             context,
                             title: 'Ticket price',
-                            content: attendee.ticketPrice,
+                            content: attendee.ticketPrice ?? '',
                           ),
                         ),
                       ],

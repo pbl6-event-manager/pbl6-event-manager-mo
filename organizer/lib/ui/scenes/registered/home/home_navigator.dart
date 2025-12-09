@@ -6,7 +6,7 @@ import 'package:organizer/utils/extensions/object_extension.dart';
 import 'package:organizer/utils/helpers/base_navigator.dart';
 
 abstract class HomeNavigator extends BaseNavigator {
-  void goToQRScan();
+  Future<bool?> goToQRScan();
   void goToTicketDetail({required Attendee attendee});
   Future<void> goToEventList({
     required void Function(Event event) onEventReturned,
@@ -20,16 +20,13 @@ final class HomeNavigatorImpl implements HomeNavigator {
   const HomeNavigatorImpl({required this.goRouter});
 
   @override
-  void goToQRScan() {
-    goRouter.pushNamed(AppRouterDestination.scanQr.name);
+  Future<bool?> goToQRScan() {
+    return goRouter.pushNamed<bool>(AppRouterDestination.scanQr.name);
   }
 
   @override
   void goToTicketDetail({required Attendee attendee}) {
-    goRouter.pushNamed(
-      AppRouterDestination.ticketDetail.name,
-      extra: attendee,
-    );
+    goRouter.pushNamed(AppRouterDestination.ticketDetail.name, extra: attendee);
   }
 
   @override

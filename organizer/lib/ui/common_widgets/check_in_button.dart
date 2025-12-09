@@ -37,7 +37,7 @@ class CheckInButton extends StatelessWidget {
       child: Text(
         isReserved
             ? AppStringConstant.ticket.checkedInLabel
-            : AppStringConstant.ticket.checkInLabel,
+            : AppStringConstant.ticket.notCheckedIn,
       ),
     );
   }

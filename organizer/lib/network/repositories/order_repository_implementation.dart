@@ -41,6 +41,7 @@ final class OrderRepositoryImplementation implements OrderRepository {
     }
   }
 
+  @override
   Future<Result<List<Attendee>>> getAttendees({required int eventId}) async {
     try {
       final response = await _orderDatasource.getAttendees(

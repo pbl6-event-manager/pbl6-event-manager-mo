@@ -74,7 +74,7 @@ final class ErrorPageAppStrings {
 final class TicketAppStrings {
   const TicketAppStrings._();
 
-  String get checkInLabel => 'Check in';
+  String get notCheckedIn => 'Not checked in';
   String get checkedInLabel => 'Checked in';
   String get attendeeDetailsTitle => 'Attendee Details';
   String get attendeeLabel => 'Attendee';
