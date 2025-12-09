@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/domain/models/event.dart';
 import 'package:organizer/domain/models/order_attendee.dart';
 import 'package:organizer/domain/repositories/order_repository.dart';
@@ -45,7 +46,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           state.copyWith(
             status: ViewStatus.success,
             event: const Nullable(null),
-            attendees: const Nullable(<OrderAttendee>[]),
+            orders: const Nullable(<OrderAttendee>[]),
             errorMessage: const Nullable(null),
           ),
         );
@@ -59,7 +60,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         state.copyWith(
           status: ViewStatus.failure,
           event: const Nullable(null),
-          attendees: const Nullable(<OrderAttendee>[]),
+          orders: const Nullable(<OrderAttendee>[]),
           errorMessage: Nullable(error.toString()),
         ),
       );
@@ -74,19 +75,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       state.copyWith(
         status: ViewStatus.loading,
         event: Nullable(event),
-        attendees: const Nullable(<OrderAttendee>[]),
+        attendee: [],
         errorMessage: const Nullable(null),
       ),
     );
 
-    final result = await _orderRepository.getOrderAttendees(eventId: event.id);
+    final result = await _orderRepository.getAttendees(eventId: event.id);
 
     switch (result) {
       case Ok(value: final attendees):
         emit(
           state.copyWith(
             status: ViewStatus.success,
-            attendees: Nullable(attendees),
+            attendee: attendees,
             errorMessage: const Nullable(null),
           ),
         );
@@ -94,7 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(
           state.copyWith(
             status: ViewStatus.failure,
-            attendees: const Nullable(<OrderAttendee>[]),
+            attendee: [],
             errorMessage: Nullable(error.toString()),
           ),
         );

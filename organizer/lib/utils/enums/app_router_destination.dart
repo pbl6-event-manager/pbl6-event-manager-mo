@@ -9,9 +9,8 @@ enum AppRouterDestination {
   eventList(path: 'eventList'),
 
   /// Parameters:
-  /// - Id: ticket ID, path parameter
   /// - Extra: Optional ticket object
-  ticketDetail(path: '/ticket/:id');
+  ticketDetail(path: '/ticket');
 
   final String path;
 

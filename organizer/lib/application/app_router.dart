@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
-import 'package:organizer/domain/models/order_attendee.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/ui/scenes/registered/event_list/event_list_view.dart';
 import 'package:organizer/ui/scenes/registered/home/home_view.dart';
 import 'package:organizer/ui/scenes/registered/qr_scan/qr_scan_view.dart';
@@ -55,19 +55,13 @@ final class AppRouter {
   );
 
   GoRoute get _ticketDetailRoute => GoRoute(
-    path: AppRouterDestination.ticketDetail.path,
-    name: AppRouterDestination.ticketDetail.name,
-    builder: (context, state) {
-      final int? ticketId = int.tryParse(
-        state.pathParameters['id']?.tryCast<String>() ?? '',
+        path: AppRouterDestination.ticketDetail.path,
+        name: AppRouterDestination.ticketDetail.name,
+        builder: (context, state) {
+          final Attendee? attendee = state.extra?.tryCast<Attendee>();
+          return TicketDetailPage(attendee: attendee);
+        },
       );
-      final OrderAttendee? attendee = state.extra?.tryCast<OrderAttendee>();
-      return TicketDetailPage(
-        ticketId: ticketId,
-        attendee: attendee,
-      );
-    },
-  );
 
   GoRoute get _qrScanRoute => GoRoute(
     path: AppRouterDestination.scanQr.path,

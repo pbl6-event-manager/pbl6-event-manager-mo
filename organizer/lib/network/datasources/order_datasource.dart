@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/network/constants/api_endpoint_constants.dart';
 import 'package:organizer/network/dtos/response/order_response_dto.dart';
 import 'package:retrofit/retrofit.dart';
@@ -14,4 +15,7 @@ abstract class OrderDatasource {
     @Query('eventId') required int eventId,
     @Query('searchTime') String searchTime = 'THIS_YEAR',
   });
+
+  @GET(ApiEndpointConstants.attendees)
+  Future<List<Attendee>> getAttendees({@Path() required String id});
 }

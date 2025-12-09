@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/domain/models/event.dart';
-import 'package:organizer/domain/models/order_attendee.dart';
 import 'package:organizer/domain/repositories/order_repository.dart';
 import 'package:organizer/ui/scenes/registered/home/bloc/home_bloc.dart';
 import 'package:organizer/ui/scenes/registered/home/home_navigator.dart';
@@ -103,7 +103,6 @@ class HomeView extends StatelessWidget {
               state: state,
               onTicketTapped: (attendee) =>
                   _onTicketTapped(navigator, attendee: attendee),
-
               onRefresh: () async => _onRefreshed(bloc),
             ),
           ),
@@ -116,10 +115,7 @@ class HomeView extends StatelessWidget {
     navigator.goToQRScan();
   }
 
-  void _onTicketTapped(
-    HomeNavigator navigator, {
-    required OrderAttendee attendee,
-  }) {
+  void _onTicketTapped(HomeNavigator navigator, {required Attendee attendee}) {
     navigator.goToTicketDetail(attendee: attendee);
   }
 

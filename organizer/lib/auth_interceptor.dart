@@ -43,6 +43,11 @@ class AuthInterceptor extends Interceptor {
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode;
 
+    if (statusCode != null && statusCode == 401) {
+      onUnauthenticated();
+      return;
+    }
+
     if (statusCode != null && statusCode >= 500 && statusCode < 600) {
       // Get current retry count from request options
       final retryCount =
