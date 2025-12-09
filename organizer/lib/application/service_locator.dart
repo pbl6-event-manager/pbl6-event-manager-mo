@@ -30,6 +30,11 @@ class ServiceLocator {
       ),
     );
 
+    _getIt.registerLazySingleton<AuthBloc>(
+      () => AuthBloc(),
+      dispose: (bloc) => bloc.close(),
+    );
+
     _getIt.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance(),
     );

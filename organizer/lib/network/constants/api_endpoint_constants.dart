@@ -7,4 +7,5 @@ abstract class ApiEndpointConstants {
 
   static const String events = '/events/my-events';
   static const String tickets = '/orders';
+  static const String attendees = '/orders/attendees/{id}';
 }

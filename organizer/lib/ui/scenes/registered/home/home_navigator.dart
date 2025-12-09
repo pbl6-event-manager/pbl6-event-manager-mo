@@ -1,13 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'package:organizer/domain/models/event.dart';
-import 'package:organizer/domain/models/order_attendee.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/utils/enums/app_router_destination.dart';
 import 'package:organizer/utils/extensions/object_extension.dart';
 import 'package:organizer/utils/helpers/base_navigator.dart';
 
 abstract class HomeNavigator extends BaseNavigator {
   void goToQRScan();
-  void goToTicketDetail({required OrderAttendee attendee});
+  void goToTicketDetail({required Attendee attendee});
   Future<void> goToEventList({
     required void Function(Event event) onEventReturned,
   });
@@ -25,10 +25,9 @@ final class HomeNavigatorImpl implements HomeNavigator {
   }
 
   @override
-  void goToTicketDetail({required OrderAttendee attendee}) {
+  void goToTicketDetail({required Attendee attendee}) {
     goRouter.pushNamed(
       AppRouterDestination.ticketDetail.name,
-      pathParameters: {'id': attendee.ticketId.toString()},
       extra: attendee,
     );
   }

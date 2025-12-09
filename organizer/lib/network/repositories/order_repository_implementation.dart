@@ -1,3 +1,4 @@
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/domain/models/order_attendee.dart';
 import 'package:organizer/domain/repositories/order_repository.dart';
 import 'package:organizer/network/datasources/order_datasource.dart';
@@ -35,6 +36,18 @@ final class OrderRepositoryImplementation implements OrderRepository {
           .toList();
 
       return Result.ok(attendees);
+    } catch (error) {
+      return Result.error(error);
+    }
+  }
+
+  Future<Result<List<Attendee>>> getAttendees({required int eventId}) async {
+    try {
+      final response = await _orderDatasource.getAttendees(
+        id: eventId.toString(),
+      );
+
+      return Result.ok(response);
     } catch (error) {
       return Result.error(error);
     }

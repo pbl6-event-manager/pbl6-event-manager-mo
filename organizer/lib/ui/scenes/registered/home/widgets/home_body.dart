@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:organizer/domain/models/order_attendee.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/ui/scenes/registered/home/bloc/home_bloc.dart';
 import 'package:organizer/ui/scenes/registered/home/widgets/home_attendee_tile.dart';
 import 'package:organizer/ui/scenes/registered/home/widgets/home_empty_state.dart';
@@ -10,7 +10,7 @@ import 'package:organizer/utils/extensions/context_extension.dart';
 
 class HomeBody extends StatelessWidget {
   final HomeState state;
-  final ValueChanged<OrderAttendee> onTicketTapped;
+  final ValueChanged<Attendee> onTicketTapped;
   final Future<void> Function()? onRefresh;
 
   const HomeBody({
@@ -34,7 +34,7 @@ class HomeBody extends StatelessWidget {
       return const HomeEmptyState();
     }
 
-    if (state.attendees.isEmpty) {
+    if (state.attendee.isEmpty) {
       return Center(
         child: Text(
           AppStringConstant.home.noAttendeesLabel,
@@ -49,19 +49,15 @@ class HomeBody extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         separatorBuilder: (context, index) =>
             Divider(color: context.colorPalette.divider, height: 0),
-        itemCount: state.attendees.length,
+        itemCount: state.attendee.length,
         itemBuilder: (context, index) {
-          final attendee = state.attendees[index];
+          final attendee = state.attendee[index];
           return HomeAttendeeTile(
-            orderId: attendee.orderId,
-            ticketId: attendee.ticketId,
-            attendeeName:
-                attendee.attendeeName ??
-                AppStringConstant.ticket.unknownAttendeeLabel,
-            ticketName:
-                attendee.ticketName ??
-                AppStringConstant.ticket.unknownTicketLabel,
-            email: attendee.email ?? AppStringConstant.ticket.noEmailShortLabel,
+            attendeeName: attendee.fullName,
+            ticketName: attendee.ticketName,
+            ticketPrice: attendee.ticketPrice,
+            email: attendee.email,
+            isCheckedIn: attendee.isCheckedIn,
             onTap: () => onTicketTapped(attendee),
           );
         },

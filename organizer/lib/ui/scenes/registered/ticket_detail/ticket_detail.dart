@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:organizer/domain/models/order_attendee.dart';
+import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/ui/common_widgets/check_in_button.dart';
 import 'package:organizer/ui/common_widgets/error_view.dart';
 import 'package:organizer/utils/constants/app_string_constant.dart';
@@ -7,23 +7,20 @@ import 'package:organizer/utils/constants/ui_constant.dart';
 import 'package:organizer/utils/extensions/context_extension.dart';
 
 class TicketDetailPage extends StatelessWidget {
-  const TicketDetailPage({super.key, required this.ticketId, this.attendee});
+  const TicketDetailPage({super.key, this.attendee});
 
-  final int? ticketId;
-  final OrderAttendee? attendee;
+  final Attendee? attendee;
 
   @override
   Widget build(BuildContext context) {
-    return ticketId != null && attendee != null
-        ? TicketDetailView(attendee: attendee!)
-        : ErrorPage();
+    return attendee != null ? TicketDetailView(attendee: attendee!) : ErrorPage();
   }
 }
 
 class TicketDetailView extends StatelessWidget {
   const TicketDetailView({super.key, required this.attendee});
 
-  final OrderAttendee attendee;
+  final Attendee attendee;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class TicketDetailView extends StatelessWidget {
       backgroundColor: context.colorPalette.surfaceContainer,
       bottomNavigationBar: _buildBottomCheckinButton(
         context,
-        isCheckedIn: false,
+        isCheckedIn: attendee.isCheckedIn,
         onCheckinTapped: () {},
       ),
       body: RefreshIndicator(
@@ -68,8 +65,7 @@ class TicketDetailView extends StatelessWidget {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      attendee.attendeeName ??
-                          AppStringConstant.ticket.unknownAttendeeLabel,
+                      attendee.fullName,
                       style: context.textPalette.displayLarge,
                     ),
                     SizedBox(height: 32),
@@ -79,19 +75,15 @@ class TicketDetailView extends StatelessWidget {
                         Expanded(
                           child: _buildDataEntry(
                             context,
-                            title: AppStringConstant.ticket.orderNumberLabel,
-                            content: AppStringConstant.ticket.orderNumberValue(
-                              attendee.orderId,
-                            ),
+                            title: AppStringConstant.ticket.ticketTypeLabel,
+                            content: attendee.ticketName,
                           ),
                         ),
                         Expanded(
                           child: _buildDataEntry(
                             context,
-                            title: AppStringConstant.ticket.ticketTypeLabel,
-                            content:
-                                attendee.ticketName ??
-                                AppStringConstant.ticket.unknownTicketLabel,
+                            title: 'Ticket price',
+                            content: attendee.ticketPrice,
                           ),
                         ),
                       ],
@@ -99,16 +91,8 @@ class TicketDetailView extends StatelessWidget {
                     SizedBox(height: 16),
                     _buildDataEntry(
                       context,
-                      title: AppStringConstant.ticket.ticketNumberLabel,
-                      content: attendee.ticketId.toString(),
-                    ),
-                    SizedBox(height: 16),
-                    _buildDataEntry(
-                      context,
                       title: AppStringConstant.ticket.attendeeEmailLabel,
-                      content:
-                          attendee.email ??
-                          AppStringConstant.ticket.noEmailLabel,
+                      content: attendee.email,
                     ),
                     SizedBox(height: 16),
                   ],
