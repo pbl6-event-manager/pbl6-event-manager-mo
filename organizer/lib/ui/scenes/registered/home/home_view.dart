@@ -81,7 +81,7 @@ class HomeView extends StatelessWidget {
               ),
               onPressed: selectedEvent == null
                   ? null
-                  : () => _goToScanQr(navigator),
+                  : () => _goToScanQr(navigator, bloc),
               backgroundColor: selectedEvent == null
                   ? context.colorPalette.disabled
                   : context.colorPalette.branding,
@@ -111,8 +111,12 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  void _goToScanQr(HomeNavigator navigator) {
-    navigator.goToQRScan();
+  Future<void> _goToScanQr(HomeNavigator navigator, HomeBloc bloc) async {
+    final bool shouldRefresh = await navigator.goToQRScan() ?? false;
+
+    if (shouldRefresh) {
+      _onRefreshed(bloc);
+    }
   }
 
   void _onTicketTapped(HomeNavigator navigator, {required Attendee attendee}) {

@@ -7,16 +7,16 @@ class Attendee {
   final String fullName;
   final String email;
   @JsonKey(name: 'isCheckin')
-  final bool isCheckedIn;
+  final bool? isCheckedIn;
   final String ticketName;
-  final String ticketPrice;
+  final String? ticketPrice;
 
   const Attendee({
     required this.fullName,
     required this.email,
     required this.isCheckedIn,
     required this.ticketName,
-    required this.ticketPrice,
+    this.ticketPrice,
   });
 
   factory Attendee.fromJson(Map<String, dynamic> json) =>

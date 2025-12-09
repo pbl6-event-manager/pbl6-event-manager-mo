@@ -55,7 +55,7 @@ class HomeBody extends StatelessWidget {
           return HomeAttendeeTile(
             attendeeName: attendee.fullName,
             ticketName: attendee.ticketName,
-            ticketPrice: attendee.ticketPrice,
+            ticketPrice: attendee.ticketPrice ?? '',
             email: attendee.email,
             isCheckedIn: attendee.isCheckedIn,
             onTap: () => onTicketTapped(attendee),

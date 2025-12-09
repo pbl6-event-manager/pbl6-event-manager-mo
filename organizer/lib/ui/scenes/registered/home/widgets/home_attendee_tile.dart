@@ -7,7 +7,7 @@ class HomeAttendeeTile extends StatelessWidget {
   final String ticketName;
   final String ticketPrice;
   final String email;
-  final bool isCheckedIn;
+  final bool? isCheckedIn;
   final VoidCallback onTap;
 
   const HomeAttendeeTile({
@@ -25,10 +25,12 @@ class HomeAttendeeTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      trailing: SizedBox(
-        width: 100,
-        child: CheckInButton(isReserved: isCheckedIn, onTapped: () {}),
-      ),
+      trailing: isCheckedIn != null
+          ? SizedBox(
+              width: 120,
+              child: CheckInButton(isReserved: isCheckedIn!, onTapped: () {}),
+            )
+          : null,
       title: Text(attendeeName, style: context.textPalette.headlineLarge),
       subtitle: Text(email, style: context.textPalette.bodyLarge),
     );
