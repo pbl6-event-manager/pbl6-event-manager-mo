@@ -60,7 +60,7 @@ class HomeView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            leading: SizedBox(width: 48),
+            leading: SizedBox(width: 28),
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout),

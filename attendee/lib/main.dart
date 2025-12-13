@@ -16,7 +16,7 @@ void main() async {
   widgetsBinding.deferFirstFrame();
 
   // Initialize service locator
-  ServiceLocator.setupDependencies();
+  await ServiceLocator.setupDependencies();
   await dotenv.load(fileName: '.env');
 
   // Continue updating UI
