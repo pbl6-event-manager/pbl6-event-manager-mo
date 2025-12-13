@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/network/datasources/check_in_datasource.dart';
 import 'package:organizer/domain/repositories/check_in_repository.dart';
@@ -13,6 +14,9 @@ class CheckInRepositoryImplementation implements CheckInRepository {
     try {
       return Result.ok(await _datasource.checkIn(checkInCode: checkInCode));
     } catch (error) {
+      if (error is DioException && error.response?.statusCode == 404) {
+        return Result.error(Exception('Invalid QR code'));
+      }
       return Result.error(error);
     }
   }
