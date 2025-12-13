@@ -42,7 +42,7 @@ class _SignInViewState extends State<SignInView> {
   late final TextEditingController _passwordController;
 
   bool _isSubmitEnabled = false;
-  bool _isSecured = false;
+  bool _isSecured = true;
 
   @override
   void initState() {
@@ -64,7 +64,6 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 46),

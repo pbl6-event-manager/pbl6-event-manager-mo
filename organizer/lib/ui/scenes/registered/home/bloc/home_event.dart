@@ -19,3 +19,7 @@ class HomeEventSelected extends HomeEvent {
   @override
   List<Object?> get props => [event];
 }
+
+class HomeLogoutRequested extends HomeEvent {
+  const HomeLogoutRequested();
+}

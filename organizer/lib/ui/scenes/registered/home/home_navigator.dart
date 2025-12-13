@@ -11,6 +11,7 @@ abstract class HomeNavigator extends BaseNavigator {
   Future<void> goToEventList({
     required void Function(Event event) onEventReturned,
   });
+  void goToAuth();
 }
 
 final class HomeNavigatorImpl implements HomeNavigator {
@@ -42,5 +43,10 @@ final class HomeNavigatorImpl implements HomeNavigator {
     if (event != null) {
       onEventReturned(event);
     }
+  }
+
+  @override
+  void goToAuth() {
+    goRouter.go(AppRouterDestination.auth.path);
   }
 }

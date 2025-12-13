@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/application/bloc/auth_bloc.dart';
 import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/domain/models/event.dart';
 import 'package:organizer/domain/models/order_attendee.dart';
@@ -16,15 +19,19 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final SharedPreferences _prefs;
   final OrderRepository _orderRepository;
+  final AuthBloc _authBloc;
 
   HomeBloc({
     required SharedPreferences pref,
     required OrderRepository orderRepository,
+    required AuthBloc authBloc,
   }) : _prefs = pref,
        _orderRepository = orderRepository,
+       _authBloc = authBloc,
        super(HomeState.init()) {
     on<HomeLoaded>(_onHomeLoaded);
     on<HomeEventSelected>(_onEventSelected);
+    on<HomeLogoutRequested>(_onLogoutRequested);
   }
 
   Future<void> _onEventSelected(
@@ -33,6 +40,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     _prefs.setString(SharedPrefConstant.eventId, event.event.toJsonString);
     await _fetchAttendees(event: event.event, emit: emit);
+
+    log(_prefs.getString(SharedPrefConstant.eventId).toString());
   }
 
   Future<void> _onHomeLoaded(HomeLoaded event, Emitter<HomeState> emit) async {
@@ -100,5 +109,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ),
         );
     }
+  }
+
+  Future<void> _onLogoutRequested(
+    HomeLogoutRequested event,
+    Emitter<HomeState> emit,
+  ) async {
+    await _prefs.remove(SharedPrefConstant.eventId);
+    _authBloc.add(const AuthTokenRemoved());
   }
 }

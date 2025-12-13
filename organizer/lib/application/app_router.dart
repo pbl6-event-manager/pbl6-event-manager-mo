@@ -55,13 +55,13 @@ final class AppRouter {
   );
 
   GoRoute get _ticketDetailRoute => GoRoute(
-        path: AppRouterDestination.ticketDetail.path,
-        name: AppRouterDestination.ticketDetail.name,
-        builder: (context, state) {
-          final Attendee? attendee = state.extra?.tryCast<Attendee>();
-          return TicketDetailPage(attendee: attendee);
-        },
-      );
+    path: AppRouterDestination.ticketDetail.path,
+    name: AppRouterDestination.ticketDetail.name,
+    builder: (context, state) {
+      final Attendee? attendee = state.extra?.tryCast<Attendee>();
+      return TicketDetailPage(attendee: attendee);
+    },
+  );
 
   GoRoute get _qrScanRoute => GoRoute(
     path: AppRouterDestination.scanQr.path,
@@ -104,9 +104,9 @@ final class AppRouter {
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
-    _subscription = stream.asBroadcastStream().listen(
-      (dynamic _) => notifyListeners(),
-    );
+    _subscription = stream.asBroadcastStream().listen((dynamic _) {
+      notifyListeners();
+    });
   }
 
   late final StreamSubscription<dynamic> _subscription;
