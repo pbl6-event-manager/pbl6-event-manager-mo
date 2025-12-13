@@ -55,7 +55,8 @@ final class AppRouter {
     path: AppRouteEnum.auth.path,
     name: AppRouteEnum.auth.name,
     routes: [_signInRoute, _signUpRoute],
-    builder: (context, state) => EmailInitialPage(),
+    pageBuilder: (context, state) =>
+        NoTransitionPage(child: EmailInitialPage()),
   );
 
   GoRoute get _signInRoute => GoRoute(
@@ -81,8 +82,9 @@ final class AppRouter {
   /// Bottom navigation routes
   StatefulShellRoute get _bottomNavigationRoute =>
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            BottomNavigationPage(navigationShell: navigationShell),
+        pageBuilder: (context, state, navigationShell) => NoTransitionPage(
+          child: BottomNavigationPage(navigationShell: navigationShell),
+        ),
 
         branches: [_homeBranch, _ticketBranch, _accountBranch],
       );

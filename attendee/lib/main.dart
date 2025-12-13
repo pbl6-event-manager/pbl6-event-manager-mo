@@ -10,10 +10,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 
 void main() async {
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Delay first frame to load auth status
+  widgetsBinding.deferFirstFrame();
+
   // Initialize service locator
   ServiceLocator.setupDependencies();
   await dotenv.load(fileName: '.env');
 
+  // Continue updating UI
+  widgetsBinding.allowFirstFrame();
   runApp(const MyApp());
 }
 
