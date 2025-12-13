@@ -298,12 +298,10 @@ final class OrdersAppStrings {
   String orderNumber(int id) => 'Order #$id';
   String status(String status) => 'Status: $status';
   String total(String total) => 'Total: $total';
-  String subtotal(String subtotal) => 'Subtotal: $subtotal';
   String voucher(String voucherCode) => 'Voucher: $voucherCode';
   String eventId(int id) => 'Event ID: $id';
   String ticketsCount(int count) => 'Tickets: $count';
   String created(String date) => 'Created: $date';
-  String updated(String date) => 'Updated: $date';
   String name(String name) => 'Name: $name';
   String email(String email) => 'Email: $email';
   String ticketId(int id) => 'Ticket ID: $id';

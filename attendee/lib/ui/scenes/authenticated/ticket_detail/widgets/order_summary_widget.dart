@@ -21,23 +21,32 @@ class OrderSummaryWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            AppStringConstants.orders.orderNumber(order.id),
-            style: Theme.of(context).textTheme.headlineSmall,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  AppStringConstants.orders.orderNumber(order.id),
+                  style: context.textPalette.displaySmall,
+                ),
+              ),
+
+              Expanded(
+                child: Text(
+                  AppStringConstants.orders.eventId(order.eventId),
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           Text(
             AppStringConstants.orders.status(order.status.name.toUpperCase()),
           ),
           Text(AppStringConstants.orders.created(order.createdAt.dateString)),
-          Text(AppStringConstants.orders.updated(order.updatedAt.dateString)),
-          Text(AppStringConstants.orders.total(order.totalAmount)),
-          Text(
-            AppStringConstants.orders.subtotal(order.totalAmountBeforeVoucher),
-          ),
+
+          Text(AppStringConstants.orders.total(('\$${order.totalAmount}'))),
           if (order.appliedVoucherCode != null)
             Text(AppStringConstants.orders.voucher(order.appliedVoucherCode!)),
-          Text(AppStringConstants.orders.eventId(order.eventId)),
           Text(
             AppStringConstants.orders.ticketsCount(order.orderDetails.length),
           ),

@@ -8,6 +8,8 @@ extension DoubleExtension on double {
     return toStringAsFixed(toInt() == this ? 0 : 2);
   }
 
+  String get withCurrency => '\$$parseString()';
+
   String formatPriceLabel() {
     if (this == 0) {
       return 'Free';

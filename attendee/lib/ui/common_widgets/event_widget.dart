@@ -3,6 +3,7 @@ import 'package:attendee/ui/common_widgets/common_event_tag.dart';
 import 'package:attendee/ui/common_widgets/common_image_carousel.dart';
 import 'package:attendee/ui/common_widgets/common_image_widget.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
 
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
@@ -69,6 +70,7 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(UIConstants.cornerRadiusBase),
       onTap: onTapped,
       child: _isCompact
           ? _buildCompactEventItem(context)
