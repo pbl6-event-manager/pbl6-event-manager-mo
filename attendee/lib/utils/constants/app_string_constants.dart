@@ -220,7 +220,6 @@ final class EventDetailAppStrings {
 
   // Payment
   String get getTicketButton => 'Get ticket';
-  String get pricingLabel => 'Pricing';
 }
 
 final class BookingAppStrings {

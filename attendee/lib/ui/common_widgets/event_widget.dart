@@ -134,7 +134,7 @@ class EventWidget extends StatelessWidget {
     final priceLabel = switch (startingPrice) {
       null => '',
       0 => AppStringConstants.event.freePricing,
-      double value => value.parseString().withCurrency,
+      double value => value.formatPriceLabel(),
     };
 
     return Text(priceLabel, style: context.textPalette.labelLarge);

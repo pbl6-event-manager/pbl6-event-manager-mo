@@ -7,4 +7,12 @@ extension DoubleExtension on double {
   String parseString() {
     return toStringAsFixed(toInt() == this ? 0 : 2);
   }
+
+  String formatPriceLabel() {
+    if (this == 0) {
+      return 'Free';
+    }
+
+    return 'From \$${parseString()}';
+  }
 }
