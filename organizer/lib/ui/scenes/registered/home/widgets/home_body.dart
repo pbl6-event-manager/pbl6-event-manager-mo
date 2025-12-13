@@ -46,6 +46,7 @@ class HomeBody extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: onRefresh ?? () async {},
       child: ListView.separated(
+        padding: EdgeInsets.only(bottom: 80),
         physics: const AlwaysScrollableScrollPhysics(),
         separatorBuilder: (context, index) =>
             Divider(color: context.colorPalette.divider, height: 0),

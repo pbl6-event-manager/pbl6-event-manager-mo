@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:organizer/application/bloc/auth_bloc.dart';
 import 'package:organizer/domain/models/attendee.dart';
 import 'package:organizer/domain/models/event.dart';
 import 'package:organizer/domain/repositories/order_repository.dart';
@@ -30,6 +31,7 @@ class HomePage extends StatelessWidget {
           create: (context) => HomeBloc(
             pref: GetIt.instance<SharedPreferences>(),
             orderRepository: GetIt.instance<OrderRepository>(),
+            authBloc: context.read<AuthBloc>(),
           )..add(const HomeLoaded()),
         ),
       ],
@@ -58,6 +60,14 @@ class HomeView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            leading: SizedBox(width: 28),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () => _onLogoutPressed(context, navigator),
+              ),
+            ],
+
             backgroundColor: context.colorPalette.secondary,
             title: HomeAppBarTitle(
               eventName: eventName,
@@ -136,5 +146,17 @@ class HomeView extends StatelessWidget {
 
   void _onRefreshed(HomeBloc bloc) {
     bloc.add(HomeLoaded());
+  }
+
+  Future<void> _onLogoutPressed(
+    BuildContext context,
+    HomeNavigator navigator,
+  ) async {
+    final HomeBloc homeBloc = context.read<HomeBloc>();
+
+    homeBloc.add(const HomeLogoutRequested());
+    if (context.mounted) {
+      navigator.goToAuth();
+    }
   }
 }

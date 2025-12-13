@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:organizer/application/app_router.dart';
 import 'package:organizer/application/bloc/auth_bloc.dart';
 import 'package:organizer/domain/repositories/auth_repository.dart';
 import 'package:organizer/domain/repositories/check_in_repository.dart';
@@ -33,13 +34,17 @@ class ServiceLocator {
       ),
     );
 
-    _getIt.registerLazySingleton<AuthBloc>(
-      () => AuthBloc(),
-      dispose: (bloc) => bloc.close(),
-    );
+    _getIt.registerSingletonAsync<AuthBloc>(() async {
+      final bloc = AuthBloc();
 
-    _getIt.registerSingletonAsync<SharedPreferences>(
-      () => SharedPreferences.getInstance(),
+      await bloc.initialized;
+
+      return bloc;
+    }, dispose: (bloc) => bloc.close());
+
+    _getIt.registerSingletonWithDependencies<AppRouter>(
+      () => AppRouter(_getIt<AuthBloc>()),
+      dependsOn: [AuthBloc],
     );
 
     _getIt.registerLazySingleton<Dio>(
@@ -48,6 +53,10 @@ class ServiceLocator {
             _getIt<AuthBloc>().add(const AuthTokenRemoved()),
         secureStorage: _getIt<FlutterSecureStorage>(),
       ),
+    );
+
+    _getIt.registerSingletonAsync<SharedPreferences>(
+      () => SharedPreferences.getInstance(),
     );
 
     // Register data sources

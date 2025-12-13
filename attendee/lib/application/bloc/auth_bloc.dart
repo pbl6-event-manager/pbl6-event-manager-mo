@@ -26,6 +26,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     add(const AuthStatusRequested());
   }
 
+  final Completer<void> _initCompleter = Completer<void>();
+
+  Future<void> get initialized => _initCompleter.future;
+
   /// Handle authentication status check
   Future<void> _onAuthStatusRequested(
     AuthStatusRequested event,
@@ -44,6 +48,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       // If there's an error reading from secure storage, assume unauthenticated
       emit(const AuthState.unauthenticated());
+    } finally {
+      _completeInitialLoad();
     }
   }
 
@@ -90,6 +96,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       // Even if there's an error deleting, emit unauthenticated state
       emit(const AuthState.unauthenticated());
+    }
+  }
+
+  void _completeInitialLoad() {
+    if (!_initCompleter.isCompleted) {
+      _initCompleter.complete();
     }
   }
 }

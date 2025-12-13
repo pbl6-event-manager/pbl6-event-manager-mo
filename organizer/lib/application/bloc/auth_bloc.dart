@@ -14,6 +14,10 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FlutterSecureStorage _secureStorage =
       GetIt.instance<FlutterSecureStorage>();
+  final Completer<void> _initializedCompleter = Completer<void>();
+
+  /// Completes when the first auth status check finishes.
+  Future<void> get initialized => _initializedCompleter.future;
 
   AuthBloc() : super(const AuthState.unauthenticated()) {
     on<AuthStatusRequested>(_onAuthStatusRequested);
@@ -42,6 +46,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       // If there's an error reading from secure storage, assume unauthenticated
       emit(const AuthState.unauthenticated());
+    } finally {
+      _completeInitializationOnce();
     }
   }
 
@@ -73,6 +79,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       // Even if there's an error deleting, emit unauthenticated state
       emit(const AuthState.unauthenticated());
+    }
+  }
+
+  void _completeInitializationOnce() {
+    if (!_initializedCompleter.isCompleted) {
+      _initializedCompleter.complete();
     }
   }
 }

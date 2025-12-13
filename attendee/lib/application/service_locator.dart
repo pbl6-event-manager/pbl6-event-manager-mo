@@ -39,7 +39,7 @@ class ServiceLocator {
   static final GetIt _getIt = GetIt.instance;
 
   /// Initialize all dependencies
-  static void setupDependencies() async {
+  static Future<void> setupDependencies() async {
     // Register FlutterSecureStorage
     _getIt.registerLazySingleton<FlutterSecureStorage>(
       () => const FlutterSecureStorage(
@@ -50,10 +50,11 @@ class ServiceLocator {
       ),
     );
 
-    _getIt.registerSingleton<AuthBloc>(
-      AuthBloc(),
-      dispose: (bloc) => bloc.close(),
-    );
+    _getIt.registerSingletonAsync<AuthBloc>(() async {
+      final bloc = AuthBloc();
+      await bloc.initialized;
+      return bloc;
+    }, dispose: (bloc) => bloc.close());
 
     _getIt.registerLazySingleton<Dio>(
       () => DioConfig.getConfiguredDio(
@@ -64,8 +65,9 @@ class ServiceLocator {
       ),
     );
 
-    _getIt.registerLazySingleton<AppRouter>(
+    _getIt.registerSingletonWithDependencies<AppRouter>(
       () => AppRouter(_getIt<AuthBloc>()),
+      dependsOn: [AuthBloc],
     );
 
     // Datasources
@@ -166,5 +168,7 @@ class ServiceLocator {
         userRepository: _getIt<UserRepository>(),
       ),
     );
+
+    await _getIt.allReady();
   }
 }
