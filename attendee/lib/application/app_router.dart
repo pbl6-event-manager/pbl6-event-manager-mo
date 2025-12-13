@@ -4,7 +4,7 @@ import 'package:attendee/application/bloc/auth_bloc.dart';
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/order.dart';
 import 'package:attendee/domain/models/user.dart';
-import 'package:attendee/ui/common_widgets/pages/bottom_up_page.dart';
+import 'package:attendee/ui/common_widgets/transition_page/bottom_up_transition_page.dart';
 import 'package:attendee/ui/scenes/authenticated/account/account_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting/account_setting_view.dart';
 import 'package:attendee/ui/scenes/authenticated/account_setting_password/account_setting_password_view.dart';
@@ -166,7 +166,7 @@ final class AppRouter {
     name: AppRouteEnum.eventBooking.name,
     pageBuilder: (context, state) {
       final Event? event = state.extra is Event ? state.extra as Event : null;
-      return BottomUpPage(destination: BookingPage(event: event));
+      return BottomUpTransitionPage(destination: BookingPage(event: event));
     },
   );
 
