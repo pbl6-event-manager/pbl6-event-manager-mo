@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:attendee/domain/models/organizer.dart';
+import 'package:attendee/domain/models/ticket.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event.g.dart';
@@ -20,12 +23,12 @@ class Event {
   final String? bannerImagePath;
   final double? latitude;
   final double? longitude;
+  final List<Ticket>? tickets;
 
   const Event({
     required this.id,
     this.title,
     this.summary,
-
     this.startTime,
     this.endTime,
     this.address,
@@ -38,11 +41,36 @@ class Event {
     this.bannerImagePath,
     this.latitude,
     this.longitude,
+    this.tickets,
   });
 
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
-
   int? get organizerId => organizer?.id;
+
+  /// If there are only 10% of the total tickets available for sale
+  bool get areFewTicketsLeft {
+    final totals = tickets?.fold<({int total, int remaining})>(
+      (total: 0, remaining: 0),
+      (previousValue, element) {
+        return (
+          total: previousValue.total + element.quantity,
+          remaining: previousValue.remaining + element.remainingQuantity,
+        );
+      },
+    );
+    if (totals == null || totals.total == 0) return false;
+
+    return totals.remaining / totals.total <= 0.1;
+  }
+
+  double? get staringPrice {
+    if (tickets == null) {
+      return null;
+    }
+
+    return tickets!.map<double>((ticket) => ticket.price).toList().reduce(min);
+  }
+
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
   ({double lat, double long})? get coordiates =>
       latitude != null && longitude != null

@@ -49,8 +49,9 @@ class ServiceLocator {
         ),
       ),
     );
-    _getIt.registerLazySingleton<AuthBloc>(
-      () => AuthBloc(),
+
+    _getIt.registerSingleton<AuthBloc>(
+      AuthBloc(),
       dispose: (bloc) => bloc.close(),
     );
 

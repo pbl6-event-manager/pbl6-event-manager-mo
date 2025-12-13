@@ -14,6 +14,7 @@ import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/utils/extensions/double_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -99,15 +100,19 @@ class _EventDetailViewState extends State<EventDetailView> {
       },
       builder: (context, state) {
         return Scaffold(
-          // TODO: Get pricing string here
-          bottomNavigationBar: EventDetailBottomBar(
-            primaryButtonLabel: AppStringConstants.eventDetail.getTicketButton,
-            isHidden:
-                state.status == ViewStatusEnum.loading ||
-                state.status == ViewStatusEnum.initial,
-            onPrimaryButtonTapped: () => _onGetTicketTapped(navigator, state),
-            dateTimeString: state.event?.startTime?.shortString,
-            pricingString: AppStringConstants.eventDetail.pricingLabel,
+          bottomNavigationBar: SafeArea(
+            child: EventDetailBottomBar(
+              primaryButtonLabel:
+                  AppStringConstants.eventDetail.getTicketButton,
+              isHidden:
+                  state.status == ViewStatusEnum.loading ||
+                  state.status == ViewStatusEnum.initial,
+              onPrimaryButtonTapped: () => _onGetTicketTapped(navigator, state),
+              dateTimeString: state.event?.startTime?.shortString,
+              pricingString: state.event?.staringPrice != null
+                  ? state.event!.staringPrice!.formatPriceLabel()
+                  : '',
+            ),
           ),
           appBar: AppBar(
             actions: [

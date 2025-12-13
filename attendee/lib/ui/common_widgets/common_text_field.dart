@@ -111,9 +111,9 @@ class CommonTextField extends StatelessWidget {
             enabled: isEnabled,
             onEditingComplete: () {
               if (onCompleted != null) {
-                onCompleted!();
+                onCompleted?.call();
               } else {
-                focusNode?.unfocus();
+                FocusScope.of(context).unfocus();
               }
             },
             keyboardType: keyboardType,
@@ -121,7 +121,7 @@ class CommonTextField extends StatelessWidget {
               if (onCompleted != null) {
                 onCompleted!();
               } else {
-                focusNode?.unfocus();
+                FocusScope.of(context).unfocus();
               }
             },
             controller: controller,

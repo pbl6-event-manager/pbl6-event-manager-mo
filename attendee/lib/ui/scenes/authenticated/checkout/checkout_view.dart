@@ -206,7 +206,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                 hintText: AppStringConstants.booking.promoCodePlaceholder,
                 errorText: state.promoCodeFieldErrorLabel,
                 isEnabled: !state.isPromoCodeSubmitting,
-                onCompleted: () => _onApplyTapped(bloc),
+                onCompleted: () {
+                  _onApplyTapped(bloc);
+                },
                 trailingIcon: !_hasPromoCodeText || state.isPromoCodeSubmitting
                     ? null
                     : Icon(

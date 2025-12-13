@@ -54,7 +54,7 @@ class AuthInterceptor extends Interceptor {
     final statusCode = err.response?.statusCode;
 
     if (statusCode != null && statusCode == 401) {
-      // Try to refresh token firs
+      // Try to refresh token first
       final String? refreshToken = await securedStorage.read(
         key: StorageKeysConstants.refreshTokenKey,
       );
@@ -87,8 +87,9 @@ class AuthInterceptor extends Interceptor {
         }
       }
 
-      // If refresh token is null or refresh failed, sign out
+      // If refresh token is null or refresh failed, sign out and propagate
       onUnauthenticated();
+      handler.next(err);
       return;
     }
 

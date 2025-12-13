@@ -3,9 +3,11 @@ import 'package:attendee/ui/common_widgets/common_event_tag.dart';
 import 'package:attendee/ui/common_widgets/common_image_carousel.dart';
 import 'package:attendee/ui/common_widgets/common_image_widget.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/constants/ui_constants.dart';
 
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/utils/extensions/double_extension.dart';
 import 'package:attendee/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,7 @@ class EventWidget extends StatelessWidget {
     this.isLoading = false,
     required this.event,
     required this.onTapped,
+    this.onSharePressed,
   }) : _isCompact = false;
 
   const EventWidget.compact({
@@ -27,6 +30,7 @@ class EventWidget extends StatelessWidget {
     this.isLoading = false,
     required this.event,
     required this.onTapped,
+    this.onSharePressed,
   }) : _isCompact = true;
 
   final VoidCallback? onTapped;
@@ -34,6 +38,7 @@ class EventWidget extends StatelessWidget {
   final bool _isCompact;
   final bool isLoading;
   final Event event;
+  final VoidCallback? onSharePressed;
 
   String get title =>
       isLoading ? 'Loading Event Title Here' : (event.title ?? '');
@@ -43,8 +48,7 @@ class EventWidget extends StatelessWidget {
   String get location =>
       isLoading ? 'Loading location here' : (event.city ?? event.address ?? '');
 
-  bool get isFree => false;
-  int get pricing => 90;
+  double? get startingPrice => event.staringPrice;
 
   List<String> get imageUrls {
     if (event.bannerImagePath != null && event.bannerImagePath!.isNotEmpty) {
@@ -53,10 +57,10 @@ class EventWidget extends StatelessWidget {
     return [];
   }
 
+  // TODO: Add favorite feature
   bool get isFavorite => false;
-  bool get isFewTicketLeft => true;
 
-  VoidCallback? get onSharePressed => () {};
+  bool get isFewTicketLeft => event.areFewTicketsLeft;
 
   String get dateTimeAndLocation =>
       startTime.shortenDateTimeStringWithDot.withDot(location);
@@ -66,6 +70,7 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(UIConstants.cornerRadiusBase),
       onTap: onTapped,
       child: _isCompact
           ? _buildCompactEventItem(context)
@@ -128,10 +133,13 @@ class EventWidget extends StatelessWidget {
   }
 
   Widget _buildPricingLabel(BuildContext context) {
-    return Text(
-      isFree ? AppStringConstants.event.freePricing : pricing.toString(),
-      style: context.textPalette.labelLarge,
-    );
+    final priceLabel = switch (startingPrice) {
+      null => '',
+      0 => AppStringConstants.event.freePricing,
+      double value => value.formatPriceLabel(),
+    };
+
+    return Text(priceLabel, style: context.textPalette.labelLarge);
   }
 
   Widget _buildTimeAndLocationLabel(BuildContext context) {

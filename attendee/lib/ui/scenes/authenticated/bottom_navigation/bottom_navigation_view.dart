@@ -28,12 +28,14 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.navigationShell,
-      bottomNavigationBar: _buildBottomNavigationBar(
-        context,
-        onDestinationPressed: (index) {
-          widget.navigationShell.goBranch(index);
-        },
-        selectedIndex: widget.navigationShell.currentIndex,
+      bottomNavigationBar: SafeArea(
+        child: _buildBottomNavigationBar(
+          context,
+          onDestinationPressed: (index) {
+            widget.navigationShell.goBranch(index);
+          },
+          selectedIndex: widget.navigationShell.currentIndex,
+        ),
       ),
     );
   }

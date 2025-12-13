@@ -1,5 +1,6 @@
 import 'package:attendee/network/constants/api_endpoint_constants.dart';
 import 'package:attendee/network/interceptors/auth_interceptor.dart';
+import 'package:attendee/network/interceptors/error_interceptor.dart';
 import 'package:attendee/network/interceptors/response_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,7 +14,14 @@ abstract class DioConfig {
     required String securedStorageAccessTokenKey,
     required void Function() onUnauthenticated,
   }) {
-    final Dio dio = Dio(BaseOptions(baseUrl: ApiEndpointConstants.baseUrl));
+    final Dio dio = Dio(
+      BaseOptions(
+        baseUrl: ApiEndpointConstants.baseUrl,
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 20),
+        sendTimeout: const Duration(seconds: 20),
+      ),
+    );
 
     // Use a separate dio to retry
     final Dio retryDio = Dio(dio.options);
@@ -25,6 +33,7 @@ abstract class DioConfig {
 
         dio: retryDio,
       ),
+      const ErrorInterceptor(),
       ResponseInterceptor(),
       LogInterceptor(requestBody: true, responseHeader: false),
     ]);
