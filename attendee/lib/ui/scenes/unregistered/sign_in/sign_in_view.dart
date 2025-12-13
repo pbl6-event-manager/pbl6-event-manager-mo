@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-// TODO: Handle when password is incorrect
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key, required this.email});
   final String email;
@@ -28,7 +27,6 @@ class SignInPage extends StatelessWidget {
         email: email,
       ),
 
-      // TODO: Call API to get image here
       child: SignInView(email: email, imageUrl: 'null'),
     );
   }

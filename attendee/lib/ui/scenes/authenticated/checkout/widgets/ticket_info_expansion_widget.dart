@@ -122,8 +122,8 @@ class _TicketInfoExpansionWidgetState extends State<TicketInfoExpansionWidget> {
               ? AppStringConstants.checkout.attendeeNameRequiredError
               : null,
         ),
-        SizedBox(height: 16),
 
+        SizedBox(height: 16),
         CommonTextField(
           hintText: AppStringConstants.textFields.emailPlaceholder,
           keyboardType: TextInputType.emailAddress,

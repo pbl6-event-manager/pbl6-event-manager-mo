@@ -19,6 +19,10 @@
 ///   }
 /// }
 /// ```
+library;
+
+import 'package:dio/dio.dart';
+
 sealed class Result<T> {
   const Result();
 
@@ -26,7 +30,9 @@ sealed class Result<T> {
   const factory Result.ok(T value) = Ok._;
 
   /// Creates an error [Result], completed with the specified [error].
-  factory Result.error(Object error) = Error._;
+  factory Result.error(Object error) {
+    return Error._(_normalizeError(error));
+  }
 }
 
 /// A successful [Result] with a returned [value].
@@ -49,4 +55,34 @@ final class Error<T> extends Result<T> {
 
   @override
   String toString() => 'Result<$T>.error($error)';
+}
+
+Object _normalizeError(Object error) {
+  if (error is DioException) {
+    final int? statusCode = error.response?.statusCode;
+
+    if (statusCode != null && statusCode >= 400 && statusCode < 500) {
+      final String message =
+          _extractErrorMessage(error.response?.data) ??
+          error.message ??
+          'Request failed with status $statusCode';
+
+      return Exception(message);
+    }
+  }
+
+  return error;
+}
+
+String? _extractErrorMessage(dynamic data) {
+  if (data is Map<String, dynamic>) {
+    final dynamic message = data['message'] ?? data['error'];
+    if (message is String && message.isNotEmpty) {
+      return message;
+    }
+  } else if (data is String && data.isNotEmpty) {
+    return data;
+  }
+
+  return null;
 }
