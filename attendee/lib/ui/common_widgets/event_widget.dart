@@ -48,7 +48,7 @@ class EventWidget extends StatelessWidget {
   String get location =>
       isLoading ? 'Loading location here' : (event.city ?? event.address ?? '');
 
-  double? get startingPrice => event.staringPrice;
+  double? get startingPrice => event.startingPrice;
 
   List<String> get imageUrls {
     if (event.bannerImagePath != null && event.bannerImagePath!.isNotEmpty) {

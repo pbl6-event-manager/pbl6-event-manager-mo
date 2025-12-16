@@ -62,12 +62,11 @@ class Event {
     return totals.remaining / totals.total <= 0.1;
   }
 
-  double? get staringPrice {
-    if (tickets == null) {
-      return null;
-    }
+  double? get startingPrice {
+    final prices = tickets?.map((ticket) => ticket.price).toList();
+    if (prices == null || prices.isEmpty) return null;
 
-    return tickets!.map<double>((ticket) => ticket.price).toList().reduce(min);
+    return prices.reduce(min);
   }
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

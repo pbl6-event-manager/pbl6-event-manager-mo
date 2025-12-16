@@ -109,8 +109,8 @@ class _EventDetailViewState extends State<EventDetailView> {
                   state.status == ViewStatusEnum.initial,
               onPrimaryButtonTapped: () => _onGetTicketTapped(navigator, state),
               dateTimeString: state.event?.startTime?.shortString,
-              pricingString: state.event?.staringPrice != null
-                  ? state.event!.staringPrice!.formatPriceLabel()
+              pricingString: state.event?.startingPrice != null
+                  ? state.event!.startingPrice!.formatPriceLabel()
                   : '',
             ),
           ),
