@@ -82,7 +82,7 @@ class AuthInterceptor extends Interceptor {
             return handler.resolve(response);
           } on DioException catch (_) {
             onUnauthenticated();
-            return;
+            return handler.next(err);
           }
         }
       }

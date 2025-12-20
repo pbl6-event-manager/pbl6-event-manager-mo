@@ -3,12 +3,14 @@ import 'package:attendee/domain/repositories/auth_repository.dart';
 import 'package:attendee/ui/common_widgets/common_button_with_loading.dart';
 import 'package:attendee/ui/common_widgets/common_text_field.dart';
 import 'package:attendee/ui/common_widgets/circular_avatar.dart';
+import 'package:attendee/ui/managers/ui_message_manager.dart';
 import 'package:attendee/ui/common_widgets/tappable_text_with_underline.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_bloc.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_event.dart';
 import 'package:attendee/ui/scenes/unregistered/sign_in/bloc/sign_in_state.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
+import 'package:attendee/utils/enums/view_status_enum.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,51 +66,64 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     final SignInBloc bloc = context.read<SignInBloc>();
-    return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: UIConstants.horizontalPadding,
-          right: UIConstants.horizontalPadding,
-          bottom: 16,
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: [
-                    CircularAvatar(url: widget.imageUrl),
-                    SizedBox(height: 12),
-                    Text(widget.email, style: context.textPalette.labelLarge),
-                    SizedBox(height: 12),
-                    TappableTextWithUnderline(
-                      label: AppStringConstants.signIn.changeLabel,
-                      onTapped: () {},
-                    ),
-                    SizedBox(height: 36),
-                    _buildTextField(bloc),
-                    SizedBox(height: 18),
-                    Align(
-                      alignment: AlignmentGeometry.centerLeft,
-                      child: TappableTextWithUnderline(
-                        label: AppStringConstants.signIn.forgotPasswordLabel,
+    return BlocListener<SignInBloc, SignInState>(
+      listenWhen: (previous, current) =>
+          previous.status != current.status &&
+          current.status == ViewStatusEnum.failure,
+      listener: (context, state) {
+        UiMessageManager.showErrorSnackBar(
+          context: context,
+          message:
+              state.errorMessage ??
+              AppStringConstants.genericErrors.tryAgainMessage,
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: UIConstants.horizontalPadding,
+            right: UIConstants.horizontalPadding,
+            bottom: 16,
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    children: [
+                      CircularAvatar(url: widget.imageUrl),
+                      SizedBox(height: 12),
+                      Text(widget.email, style: context.textPalette.labelLarge),
+                      SizedBox(height: 12),
+                      TappableTextWithUnderline(
+                        label: AppStringConstants.signIn.changeLabel,
                         onTapped: () {},
-                        style: context.textPalette.bodyLarge.copyWith(
-                          fontSize: 15,
+                      ),
+                      SizedBox(height: 36),
+                      _buildTextField(bloc),
+                      SizedBox(height: 18),
+                      Align(
+                        alignment: AlignmentGeometry.centerLeft,
+                        child: TappableTextWithUnderline(
+                          label: AppStringConstants.signIn.forgotPasswordLabel,
+                          onTapped: () {},
+                          style: context.textPalette.bodyLarge.copyWith(
+                            fontSize: 15,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [_buildButton(bloc)],
-            ),
-          ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [_buildButton(bloc)],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -45,7 +45,7 @@ class AuthInterceptor extends Interceptor {
 
     if (statusCode != null && statusCode == 401) {
       onUnauthenticated();
-      return;
+      return handler.next(err);
     }
 
     if (statusCode != null && statusCode >= 500 && statusCode < 600) {
