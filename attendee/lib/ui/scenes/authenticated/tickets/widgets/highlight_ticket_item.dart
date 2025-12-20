@@ -4,6 +4,7 @@ import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class HighlightTicketItem extends StatelessWidget {
@@ -86,7 +87,11 @@ class HighlightTicketItem extends StatelessWidget {
                       ),
                       style: context.textPalette.bodyLarge,
                     ),
-                    Text(AppStringConstants.orders.total(order.totalAmount)),
+                    Text(
+                      AppStringConstants.orders.total(
+                        order.totalAmount.withCurrency,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 16),
