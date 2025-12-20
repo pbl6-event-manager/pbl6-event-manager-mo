@@ -4,6 +4,7 @@ import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/constants/ui_constants.dart';
 import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:attendee/utils/extensions/date_time_extension.dart';
+import 'package:attendee/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class TicketItem extends StatelessWidget {
@@ -83,14 +84,20 @@ class TicketItem extends StatelessWidget {
                       style: context.textPalette.labelLarge,
                     ),
                     Text(
-                      AppStringConstants.orders
-                          .status(order.status.name.toUpperCase()),
+                      AppStringConstants.orders.status(
+                        order.status.name.toUpperCase(),
+                      ),
                     ),
-                    Text(AppStringConstants.orders.total(order.totalAmount)),
+                    Text(
+                      AppStringConstants.orders.total(
+                        order.totalAmount.withCurrency,
+                      ),
+                    ),
                     if (order.appliedVoucherCode != null)
                       Text(
-                        AppStringConstants.orders
-                            .voucher(order.appliedVoucherCode!),
+                        AppStringConstants.orders.voucher(
+                          order.appliedVoucherCode!,
+                        ),
                       ),
                   ],
                 ),

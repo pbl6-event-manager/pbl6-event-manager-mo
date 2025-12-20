@@ -120,6 +120,11 @@ class _CheckoutViewState extends State<CheckoutView> {
         final BookingBloc bloc = context.read<BookingBloc>();
         final bool hasDiscount = state.currentDiscountPercentage > 0;
         final double payableTotal = state.payableTotalPricing;
+        final bool hasPaidTickets = state.tickets.any(
+          (ticket) =>
+              ticket.type == TicketType.paid &&
+              state.currentQuantityForTicket(id: ticket.id) > 0,
+        );
         final String pricingLabel = hasDiscount
             ? AppStringConstants.checkout.discountedPricingLabel(
                 payableAmount: payableTotal,
@@ -177,71 +182,74 @@ class _CheckoutViewState extends State<CheckoutView> {
                     ),
                   ),
                 ),
-              const SizedBox(height: 32),
-
-              Text(
-                AppStringConstants.checkout.paymentMethodSectionTitle,
-                style: context.textPalette.headlineLarge,
-              ),
-              RadioListTile(
-                enabled: true,
-                onChanged: (value) {},
-                selected: true,
-                contentPadding: EdgeInsets.all(0),
-                value: true,
-                groupValue: true,
-                title: Text(
-                  AppStringConstants.checkout.stripePaymentLabel,
-                  style: context.textPalette.bodyMedium,
+              if (hasPaidTickets) ...[
+                const SizedBox(height: 32),
+                Text(
+                  AppStringConstants.checkout.paymentMethodSectionTitle,
+                  style: context.textPalette.headlineLarge,
                 ),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                AppStringConstants.checkout.promoCodeSectionTitle,
-                style: context.textPalette.headlineLarge,
-              ),
-              const SizedBox(height: 12),
-              CommonTextField(
-                controller: _promoCodeController,
-                hintText: AppStringConstants.booking.promoCodePlaceholder,
-                errorText: state.promoCodeFieldErrorLabel,
-                isEnabled: !state.isPromoCodeSubmitting,
-                onCompleted: () {
-                  _onApplyTapped(bloc);
-                },
-                trailingIcon: !_hasPromoCodeText || state.isPromoCodeSubmitting
-                    ? null
-                    : Icon(
-                        Icons.close,
-                        color: context.colorPalette.textPlaceholder,
-                      ),
-                onTrailingTapped: state.isPromoCodeSubmitting
-                    ? null
-                    : () => _onClearTapped(bloc),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: CommonButtonWithLoading(
-                      label: AppStringConstants.booking.applyButton,
-                      isEnabled: _hasPromoCodeText,
-                      isLoading: state.isPromoCodeSubmitting,
-                      onPressed: () => _onApplyTapped(bloc),
-                    ),
+                RadioListTile(
+                  enabled: true,
+                  onChanged: (value) {},
+                  selected: true,
+                  contentPadding: EdgeInsets.all(0),
+                  value: true,
+                  groupValue: true,
+                  title: Text(
+                    AppStringConstants.checkout.stripePaymentLabel,
+                    style: context.textPalette.bodyMedium,
                   ),
-                  const SizedBox(width: 12),
-                  OutlinedButton(
-                    onPressed: _hasPromoCodeText && !state.isPromoCodeSubmitting
-                        ? () => _onClearTapped(bloc)
-                        : null,
-                    child: Text(AppStringConstants.checkout.clearButtonLabel),
-                  ),
-                ],
-              ),
-              if (hasDiscount) ...[
+                ),
                 const SizedBox(height: 24),
-                _buildDiscountBanner(context, state),
+                Text(
+                  AppStringConstants.checkout.promoCodeSectionTitle,
+                  style: context.textPalette.headlineLarge,
+                ),
+                const SizedBox(height: 12),
+                CommonTextField(
+                  controller: _promoCodeController,
+                  hintText: AppStringConstants.booking.promoCodePlaceholder,
+                  errorText: state.promoCodeFieldErrorLabel,
+                  isEnabled: !state.isPromoCodeSubmitting,
+                  onCompleted: () {
+                    _onApplyTapped(bloc);
+                  },
+                  trailingIcon:
+                      !_hasPromoCodeText || state.isPromoCodeSubmitting
+                      ? null
+                      : Icon(
+                          Icons.close,
+                          color: context.colorPalette.textPlaceholder,
+                        ),
+                  onTrailingTapped: state.isPromoCodeSubmitting
+                      ? null
+                      : () => _onClearTapped(bloc),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonButtonWithLoading(
+                        label: AppStringConstants.booking.applyButton,
+                        isEnabled: _hasPromoCodeText,
+                        isLoading: state.isPromoCodeSubmitting,
+                        onPressed: () => _onApplyTapped(bloc),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton(
+                      onPressed:
+                          _hasPromoCodeText && !state.isPromoCodeSubmitting
+                          ? () => _onClearTapped(bloc)
+                          : null,
+                      child: Text(AppStringConstants.checkout.clearButtonLabel),
+                    ),
+                  ],
+                ),
+                if (hasDiscount) ...[
+                  const SizedBox(height: 24),
+                  _buildDiscountBanner(context, state),
+                ],
               ],
             ],
           ),
