@@ -80,10 +80,16 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         emit(state.copyWith(status: ViewStatusEnum.success));
 
       case Error<({String accessToken, String refreshToken})>():
+        final String serverMessage = dataToken.error
+            .toString()
+            .replaceFirst(RegExp(r'^Exception:\s*'), '')
+            .trim();
         emit(
           state.copyWith(
             status: ViewStatusEnum.failure,
-            errorMessage: AppStringConstants.genericErrors.tryAgainMessage,
+            errorMessage: serverMessage.isNotEmpty
+                ? serverMessage
+                : AppStringConstants.genericErrors.tryAgainMessage,
           ),
         );
     }
