@@ -128,6 +128,7 @@ final class HomeAppStrings {
 
   String get personalizedEvents => 'Events for you';
   String get highlighedEvents => 'Highlighted events';
+  String get searchResults => 'Search results';
 }
 
 final class HomeSearchAppStrings {

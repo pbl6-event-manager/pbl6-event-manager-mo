@@ -1,7 +1,6 @@
 import 'package:attendee/application/app_router.dart';
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/repositories/event_repository.dart';
-import 'package:attendee/domain/repositories/organizer_repository.dart';
 import 'package:attendee/domain/usecases/copy_string_to_clipboard_usecase.dart';
 import 'package:attendee/ui/common_widgets/common_image_widget.dart';
 import 'package:attendee/ui/common_widgets/error_page.dart';
@@ -38,7 +37,6 @@ class EventDetailPage extends StatelessWidget {
               BlocProvider(
                 create: (context) => EventDetailBloc(
                   eventRepository: GetIt.instance<EventRepository>(),
-                  organizerRepository: GetIt.instance<OrganizerRepository>(),
                   copyStringToClipboardUsecase:
                       GetIt.instance<CopyStringToClipboardUsecase>(),
                 )..add(EventDetailLoad(eventId: eventId!, event: event)),

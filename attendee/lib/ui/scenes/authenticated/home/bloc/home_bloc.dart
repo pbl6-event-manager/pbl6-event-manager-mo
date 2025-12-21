@@ -135,6 +135,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         status: ViewStatusEnum.loading,
         currentSearchQuery: Nullable(null),
         currentLocation: null,
+        isUsingCurrentLocation: false,
       ),
     );
 

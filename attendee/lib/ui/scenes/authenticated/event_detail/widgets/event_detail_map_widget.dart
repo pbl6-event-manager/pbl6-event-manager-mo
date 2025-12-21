@@ -64,7 +64,7 @@ class _EventDetailMapWidgetState extends State<EventDetailMapWidget> {
   Widget _buildMap() {
     return VietmapGL(
       styleString: ApiEndpointConstants.vietMapTileStyle,
-      dragEnabled: false,
+
       doubleClickZoomEnabled: false,
 
       scrollGesturesEnabled: false,
@@ -75,7 +75,7 @@ class _EventDetailMapWidgetState extends State<EventDetailMapWidget> {
       trackCameraPosition: true,
       initialCameraPosition: CameraPosition(
         target: LatLng(widget.coordinates.lat, widget.coordinates.long),
-        zoom: 15,
+        zoom: 13,
       ),
       onMapCreated: (controller) {
         if (!mounted) return;

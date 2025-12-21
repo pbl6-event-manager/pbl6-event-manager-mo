@@ -1,7 +1,6 @@
 import 'package:attendee/domain/models/event.dart';
 import 'package:attendee/domain/models/organizer.dart';
 import 'package:attendee/domain/repositories/event_repository.dart';
-import 'package:attendee/domain/repositories/organizer_repository.dart';
 import 'package:attendee/domain/usecases/copy_string_to_clipboard_usecase.dart';
 import 'package:attendee/utils/constants/app_string_constants.dart';
 import 'package:attendee/utils/enums/view_status_enum.dart';
@@ -16,17 +15,16 @@ part 'event_detail_state.dart';
 
 class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
   final EventRepository _eventRepository;
-  final OrganizerRepository _organizerRepository;
+
   final CopyStringToClipboardUsecase _copyStringToClipboardUsecase;
 
   int? eventId;
 
   EventDetailBloc({
     required EventRepository eventRepository,
-    required OrganizerRepository organizerRepository,
     required CopyStringToClipboardUsecase copyStringToClipboardUsecase,
   }) : _eventRepository = eventRepository,
-       _organizerRepository = organizerRepository,
+
        _copyStringToClipboardUsecase = copyStringToClipboardUsecase,
 
        super(EventDetailState.inital()) {
@@ -58,7 +56,14 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
           .getEventById(id: idToLoad);
       switch (fullEventResponse) {
         case Ok<Event>():
-          emit(state.copyWith(event: Nullable(fullEventResponse.value)));
+          emit(
+            state.copyWith(
+              event: Nullable(fullEventResponse.value),
+              organizer: fullEventResponse.value.organizer != null
+                  ? AsyncValue.data(fullEventResponse.value.organizer!)
+                  : null,
+            ),
+          );
         case Error<Event>():
           emit(
             state.copyWith(
@@ -69,7 +74,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
           );
       }
 
-      await Future.wait([_fetchOrganizer(emit), _fetchSuggestedEvents(emit)]);
+      await Future.wait([_fetchSuggestedEvents(emit)]);
 
       // Otherwise, load event through ID
     } else {
@@ -85,10 +90,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
               event: Nullable(eventResponse.value),
             ),
           );
-          await Future.wait([
-            _fetchOrganizer(emit),
-            _fetchSuggestedEvents(emit),
-          ]);
+          await Future.wait([_fetchSuggestedEvents(emit)]);
         case Error<Event>():
           emit(
             state.copyWith(
@@ -132,7 +134,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
             event: Nullable(eventResponse.value),
           ),
         );
-        await Future.wait([_fetchOrganizer(emit), _fetchSuggestedEvents(emit)]);
+        await Future.wait([_fetchSuggestedEvents(emit)]);
       case Error<Event>():
         emit(
           state.copyWith(
@@ -171,43 +173,6 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
     Emitter<EventDetailState> emit,
   ) {
     emit(state.copyWith(uiMessage: const Nullable(null)));
-  }
-
-  Future<void> _fetchOrganizer(Emitter<EventDetailState> emit) async {
-    final organizerId = state.event?.organizerId;
-    if (organizerId == null) {
-      emit(
-        state.copyWith(
-          errorMessage: Nullable(
-            AppStringConstants.genericErrors.tryAgainMessage,
-          ),
-          organizer: AsyncValue.error(
-            AppStringConstants.genericErrors.tryAgainMessage,
-          ),
-        ),
-      );
-      return;
-    }
-
-    // Set loading state
-    emit(state.copyWith(organizer: AsyncValue.loading()));
-
-    final Result<Organizer> organizerResult = await _organizerRepository
-        .getOrganizerById(organizerId: organizerId);
-
-    switch (organizerResult) {
-      case Ok<Organizer>():
-        emit(state.copyWith(organizer: AsyncValue.data(organizerResult.value)));
-      case Error<Organizer>():
-        emit(
-          state.copyWith(
-            errorMessage: Nullable(
-              AppStringConstants.genericErrors.tryAgainMessage,
-            ),
-            organizer: AsyncValue.error(organizerResult.error.toString()),
-          ),
-        );
-    }
   }
 
   Future<void> _fetchSuggestedEvents(Emitter<EventDetailState> emit) async {
