@@ -81,6 +81,14 @@ class Event {
     country,
   ].where((string) => string != null && string.isNotEmpty).join(', ');
 
+  String? get overview {
+    if (summary == null) {
+      return null;
+    }
+
+    return summary!.replaceAll('|||DESCRIPTION|||', '\n');
+  }
+
   static Event dummyEvent = Event(
     id: 1,
     title: 'Sample Event',

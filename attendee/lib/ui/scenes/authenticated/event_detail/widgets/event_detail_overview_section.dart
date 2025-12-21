@@ -4,16 +4,13 @@ import 'package:attendee/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailOverviewSection extends StatelessWidget {
-  const EventDetailOverviewSection({
-    super.key,
-    required this.state,
-  });
+  const EventDetailOverviewSection({super.key, required this.state});
 
   final EventDetailState state;
 
   @override
   Widget build(BuildContext context) {
-    if (state.event?.summary == null || state.event!.summary!.isEmpty) {
+    if (state.event?.overview == null || state.event!.overview!.isEmpty) {
       return SizedBox.shrink();
     }
 
@@ -25,10 +22,9 @@ class EventDetailOverviewSection extends StatelessWidget {
           style: context.textPalette.headlineLarge,
         ),
         SizedBox(height: 8),
-        Text(state.event!.summary!, style: context.textPalette.bodyLarge),
+        Text(state.event!.overview!, style: context.textPalette.bodyLarge),
         Divider(height: 32),
       ],
     );
   }
 }
-
