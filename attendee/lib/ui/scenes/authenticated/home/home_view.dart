@@ -78,19 +78,19 @@ class HomeView extends StatelessWidget {
             ),
             sliver: SliverMainAxisGroup(
               slivers: [
-                if (!state.isSearching)
-                  ..._buildListSectionWithTitle(
-                    context,
-                    title: AppStringConstants.home.personalizedEvents,
-                    contentWidget: HomeEventSection.compact(
-                      onTapped: (event) =>
-                          _onEventTapped(context, event: event),
-                      isLoading: isLoading,
-                      events: (state.events.length > 3)
-                          ? state.events.sublist(0, 3)
-                          : state.events,
-                    ),
+                ..._buildListSectionWithTitle(
+                  context,
+                  title: state.isSearching
+                      ? AppStringConstants.home.searchResults
+                      : AppStringConstants.home.personalizedEvents,
+                  contentWidget: HomeEventSection.compact(
+                    onTapped: (event) => _onEventTapped(context, event: event),
+                    isLoading: isLoading,
+                    events: (state.events.length > 3)
+                        ? state.events.sublist(0, 3)
+                        : state.events,
                   ),
+                ),
 
                 if (state.events.length > 3)
                   ..._buildListSectionWithTitle(
@@ -128,6 +128,10 @@ class HomeView extends StatelessWidget {
         currentEventSearchQuery: state.currentSearchQuery,
         currentLocation: state.currentLocation,
         onFilterTapped: () => _onFilterTapped(context),
+        showBackButton:
+            state.currentSearchQuery != null ||
+            state.currentLocation != null ||
+            state.isUsingCurrentLocation,
       ),
 
       toolbarHeight: 100,

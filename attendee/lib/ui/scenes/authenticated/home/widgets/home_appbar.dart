@@ -13,6 +13,7 @@ class HomeAppbar extends StatelessWidget {
 
     required this.currentLocation,
     required this.currentEventSearchQuery,
+    required this.showBackButton,
   });
 
   final VoidCallback? onFilterTapped;
@@ -23,8 +24,7 @@ class HomeAppbar extends StatelessWidget {
 
   final String? currentLocation;
   final String? currentEventSearchQuery;
-
-  bool get hasSearchQuery => currentEventSearchQuery != null;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +56,16 @@ class HomeAppbar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // If contains search query => back button
-          // Else => show search button
+          // Show back button when either keyword, location, or GPS search is active
           IconButton(
             padding: EdgeInsets.zero,
             visualDensity: VisualDensity(
               horizontal: VisualDensity.minimumDensity,
               vertical: VisualDensity.minimumDensity,
             ),
-            onPressed: hasSearchQuery ? onEventSearchCleared : onSearchTapped,
+            onPressed: showBackButton ? onEventSearchCleared : onSearchTapped,
             icon: Icon(
-              hasSearchQuery ? Icons.arrow_back : Icons.search,
+              showBackButton ? Icons.arrow_back : Icons.search,
               size: 28,
             ),
           ),
@@ -79,7 +78,7 @@ class HomeAppbar extends StatelessWidget {
                 Text(
                   currentEventSearchQuery ??
                       AppStringConstants.home.searchAppBarLabel,
-                  style: hasSearchQuery
+                  style: showBackButton
                       ? context.textPalette.labelLarge
                       : context.textPalette.subtitleLarge,
                 ),
@@ -88,7 +87,7 @@ class HomeAppbar extends StatelessWidget {
                   Text(
                     AppStringConstants.home.searchAppBarTitle(currentLocation!),
 
-                    style: hasSearchQuery
+                    style: showBackButton
                         ? context.textPalette.subtitleLarge
                         : context.textPalette.labelLarge,
                   ),

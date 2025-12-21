@@ -34,8 +34,8 @@ final class TicketRepositoryImplementation implements TicketRepository {
       final Map<String, dynamic> data = {
         'code': voucherCode,
         'orderAmount': currentTotalPricing,
-        'eventId': eventId.toString(),
-        'userId': userId.toString(),
+        'eventId': eventId,
+        'userId': userId,
       };
       final rawResponse = await _datasource.validateVoucher(data: data);
 
