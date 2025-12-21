@@ -57,7 +57,7 @@ class QrScanCubit extends Cubit<QrScanState> {
           state.copyWith(
             status: ViewStatus.failure,
             attendee: null,
-            errorMessage: result.error.message,
+            errorMessage: result.toString(),
           ),
         );
     }
