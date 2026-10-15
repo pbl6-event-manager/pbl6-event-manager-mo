@@ -22,14 +22,18 @@ PBL6 Event Manager is a mobile event platform built with Flutter. The project in
 
 ### Attendee app
 
-![Attendee login flow](https://github.com/user-attachments/assets/49776026-50d3-4c19-9271-16d23b094e01)
-![Attendee home event list](https://github.com/user-attachments/assets/1eb44238-20b9-4e3c-a504-728486f54365)
-![Attendee event detail](https://github.com/user-attachments/assets/6369e427-6387-4062-af60-9d8655bdba7b)
-![Attendee booking navigation](https://github.com/user-attachments/assets/c1c01160-ced7-4f24-9948-b41d2431aa95)
+| Screen | Preview |
+| --- | --- |
+| Login flow | ![Attendee login flow](https://github.com/user-attachments/assets/49776026-50d3-4c19-9271-16d23b094e01) |
+| Home event list | ![Attendee home event list](https://github.com/user-attachments/assets/1eb44238-20b9-4e3c-a504-728486f54365) |
+| Event detail | ![Attendee event detail](https://github.com/user-attachments/assets/6369e427-6387-4062-af60-9d8655bdba7b) |
+| Booking navigation | ![Attendee booking navigation](https://github.com/user-attachments/assets/c1c01160-ced7-4f24-9948-b41d2431aa95) |
 
 ### Organizer app
 
-![Organizer login](https://github.com/user-attachments/assets/348a2f39-9753-4dee-b7ae-9fc8ff41ab25)
-![Organizer home](https://github.com/user-attachments/assets/72845bd7-44c0-4c6f-9910-c6007508233f)
-![Organizer ticket detail](https://github.com/user-attachments/assets/e96993fc-2741-4522-9eaf-2aea169dee3b)
-![Organizer event picker](https://github.com/user-attachments/assets/6e4f4a4d-e01f-4ea0-a42f-6a73e0a99341)
+| Screen | Preview |
+| --- | --- |
+| Login | ![Organizer login](https://github.com/user-attachments/assets/348a2f39-9753-4dee-b7ae-9fc8ff41ab25) |
+| Home | ![Organizer home](https://github.com/user-attachments/assets/72845bd7-44c0-4c6f-9910-c6007508233f) |
+| Ticket detail | ![Organizer ticket detail](https://github.com/user-attachments/assets/e96993fc-2741-4522-9eaf-2aea169dee3b) |
+| Event picker | ![Organizer event picker](https://github.com/user-attachments/assets/6e4f4a4d-e01f-4ea0-a42f-6a73e0a99341) |
